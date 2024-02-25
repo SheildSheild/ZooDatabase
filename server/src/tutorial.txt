@@ -1,0 +1,14 @@
+lesson:
+server.on('getZooInfo',(req,res)=>{
+
+});
+this is how you make an api function
+so if in the frontend I do fetch('www.zoo.com/getZooInfo');
+the api function gets called.
+
+if you want to call the api function in the server call
+server.emit('getZooInfo',req,res)
+idk what req and res need to have exactly yet.
+
+
+check out node http tutorials

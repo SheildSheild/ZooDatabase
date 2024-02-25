@@ -1,0 +1,15 @@
+to make a new page just make a new folder inside components
+and make your file and an index.js like in src/components/customerLogin
+then go to src/index.js and add a route
+like this
+import ZooCustomer from './components/zooCustomer'
+const router = createBrowserRouter([
+  {
+    path: "/",
+    element: <div>Hello world!</div>,
+  },
+  {
+    path: '/zooCustomer',
+    element: <ZooCustomer/>
+  }
+]);
