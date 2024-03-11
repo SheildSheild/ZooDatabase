@@ -5,13 +5,27 @@ import {
   RouterProvider,
 } from "react-router-dom";
 import './index.css';
-import reportWebVitals from './reportWebVitals';
+
+import DisplayTable from './components/displayTable';
+
+const x={
+  animal:'donkey',
+  weight:'100kg',
+  stature: '89in',
+  name: 'grunk',
+  healthRecords:'empty'
+};
+const data=Array(10).fill(x);
 
 const router = createBrowserRouter([
   {
     path: "/",
     element: <div>Hello world!</div>,
   },
+  {
+    path:'/table',
+    element: <DisplayTable data={data}/>
+  }
 ]);
 
 const root = ReactDOM.createRoot(document.getElementById('root'));
@@ -20,8 +34,3 @@ root.render(
     <RouterProvider router={router} />
   </React.StrictMode>
 );
-
-// If you want to start measuring performance in your app, pass a function
-// to log results (for example: reportWebVitals(console.log))
-// or send to an analytics endpoint. Learn more: https://bit.ly/CRA-vitals
-reportWebVitals();
