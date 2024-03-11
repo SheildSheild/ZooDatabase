@@ -9,6 +9,9 @@ import {
 import CustomerHome from './components/customerHome';
 import CustomerSignUp from './components/customerSignUp';
 import Homepage from './components/homepage';
+import ViewData from './components/viewData';
+
+
 
 const router = createBrowserRouter([
   {
@@ -16,17 +19,22 @@ const router = createBrowserRouter([
     element: <Homepage/>,
   },
   {
-    path: "/customerHome",
+    path: "ZooDatabase/client/src/components/customerHome",
     element: <CustomerHome/>,
   },
   {
-    path: "/customerSignUp",
+    path: "ZooDatabase/client/src/components/customerSignUp",
     element: <CustomerSignUp/>,
   },
   {
     path: "/homepage",
     element: <Homepage/>,
   },
+  {
+    path: "ZooDatabase/client/src/components/viewData",
+    element: <ViewData/>
+  }
+
 
 ]);
 
