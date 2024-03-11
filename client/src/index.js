@@ -4,6 +4,11 @@ import {
   createBrowserRouter,
   RouterProvider,
 } from "react-router-dom";
+
+
+import CustomerHome from './components/customerHome';
+import CustomerSignUp from './components/customerSignUp';
+import Homepage from './components/homepage';
 import './index.css';
 
 import DisplayTable from './components/displayTable';
@@ -20,13 +25,27 @@ const data=Array(10).fill(x);
 const router = createBrowserRouter([
   {
     path: "/",
-    element: <div>Hello world!</div>,
+    element: <Homepage/>,
+  },
+  {
+    path: "/customerHome",
+    element: <CustomerHome/>,
+  },
+  {
+    path: "/customerSignUp",
+    element: <CustomerSignUp/>,
+  },
+  {
+    path: "/homepage",
+    element: <Homepage/>,
   },
   {
     path:'/table',
     element: <DisplayTable data={data}/>
   }
 ]);
+
+
 
 const root = ReactDOM.createRoot(document.getElementById('root'));
 root.render(
