@@ -9,9 +9,6 @@ import {
 import CustomerHome from './components/customerHome';
 import CustomerSignUp from './components/customerSignUp';
 import Homepage from './components/homepage';
-import ViewData from './components/viewData';
-
-
 
 const router = createBrowserRouter([
   {
@@ -30,11 +27,6 @@ const router = createBrowserRouter([
     path: "/homepage",
     element: <Homepage/>,
   },
-  {
-    path: "ZooDatabase/client/src/components/viewData",
-    element: <ViewData/>
-  }
-
 
 ]);
 
@@ -46,7 +38,3 @@ root.render(
     <RouterProvider router={router} />
   </React.StrictMode>
 );
-
-// If you want to start measuring performance in your app, pass a function
-// to log results (for example: reportWebVitals(console.log))
-// or send to an analytics endpoint. Learn more: https://bit.ly/CRA-vitals
