@@ -16,11 +16,11 @@ const router = createBrowserRouter([
     element: <Homepage/>,
   },
   {
-    path: "ZooDatabase/client/src/components/customerHome",
+    path: "/customerHome",
     element: <CustomerHome/>,
   },
   {
-    path: "ZooDatabase/client/src/components/customerSignUp",
+    path: "/customerSignUp",
     element: <CustomerSignUp/>,
   },
   {

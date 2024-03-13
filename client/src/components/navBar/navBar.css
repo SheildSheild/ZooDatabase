@@ -4,7 +4,7 @@
   margin: 0;
   padding: 0;
   overflow: hidden;
-  background-color: #333;
+  background-color: transparent;
   position: fixed;
   top: 0;
   width: 100%;
@@ -24,7 +24,7 @@
 }
 
 .nav-link .nav-a:hover {
-  background-color: #111;
+  background-color: red;
 }
 
 .nav-link:last-child {

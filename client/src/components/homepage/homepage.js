@@ -2,13 +2,13 @@ import './homepage.css';
 import Navbar from '../navBar/navBar';
 
 export default function Homepage(){
-    const links = ["homepage", "ZooDatabase/client/src/components/customerHome"];
+    const links = ["homepage", "customerHome", "customerSignUp"];
     return     <>
     <Navbar links={links}/>
     <h1><center><strong>Weclome to the <em>Cougar Zoo</em> Database!</strong></center></h1>
     <h2><center><img src="ZooDatabase\client\public" alt="cougar at our Zoo"></img></center></h2>
-    <h4><a href="ZooDatabase\client\src\components\customerHome"><center><button>Returning Customer</button></center></a></h4>
-    <h4><center><a>Don't have a account yet?</a> <a href="ZooDatabase\client\src\components\customerSignUp">Click Here To Sign Up...</a></center></h4>
+    <h4><a href="\customerHome"><center><button>Returning Customer</button></center></a></h4>
+    <h4><center><a>Don't have a account yet?</a> <a href="\customerSignUp">Click Here To Sign Up...</a></center></h4>
     </>
     
 }

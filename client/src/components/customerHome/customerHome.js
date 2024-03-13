@@ -1,6 +1,14 @@
 import "./customerHome.css"
+import Navbar from '../navBar/navBar';
+
+
 export default function CustomerHome(){
-    return     <center>
+    const links = ["homepage", "customerHome", "customerSignUp"];
+
+    return     (
+    <>
+    <Navbar links={links} />
+    <center>
     <div><h1><strong>Customer Sign In</strong></h1></div>
     <div>
     <form>
@@ -16,4 +24,6 @@ export default function CustomerHome(){
     </form>
     </div>
     </center> 
+    </>
+    )
 }
