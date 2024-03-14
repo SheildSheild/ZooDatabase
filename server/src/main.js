@@ -427,8 +427,8 @@ const server = http.createServer((req, res) => {
                 });
             } else if (method === 'POST') {
                 req.on('end', () => {
-                    const { Zone_ID, Name, Status, Size } = parse(body); // Assuming these are the fields you have
-                    const sql = 'INSERT INTO ZONES (Zone_ID, Name, Status, Size) VALUES (?, ?, ?, ?)'; // Adjust based on actual schema
+                    const { Zone_ID, Name, Status, Size } = parse(body);  
+                    const sql = 'INSERT INTO ZONES (Zone_ID, Name, Status, Size) VALUES (?, ?, ?, ?)';  
                     const values = [Zone_ID, Name, Status, Size];
         
                     db.query(sql, values, (err, result) => {
@@ -492,8 +492,8 @@ const server = http.createServer((req, res) => {
         }
         else if (method === 'POST') {
             req.on('end', () => {
-                const { Employee_ID, Supervisor_ID, Job_ID, Shop_ID, Habitat_ID, Restaurant_ID, Fname, Lname, SSN, Gender, Email, Address, Birth_Date, Start_Date } = parse(body); // Assuming these are the fields you have
-                const sql = 'INSERT INTO EMPLOYEES (Employee_ID, Supervisor_ID, Job_ID, Shop_ID, Habitat_ID, Restaurant_ID, Fname, Lname, SSN, Gender, Email, Address, Birth_Date, Start_Date) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)'; // Adjust based on actual schema
+                const { Employee_ID, Supervisor_ID, Job_ID, Shop_ID, Habitat_ID, Restaurant_ID, Fname, Lname, SSN, Gender, Email, Address, Birth_Date, Start_Date } = parse(body);  
+                const sql = 'INSERT INTO EMPLOYEES (Employee_ID, Supervisor_ID, Job_ID, Shop_ID, Habitat_ID, Restaurant_ID, Fname, Lname, SSN, Gender, Email, Address, Birth_Date, Start_Date) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)';  
                 const values = [Employee_ID, Supervisor_ID, Job_ID, Shop_ID, Habitat_ID, Restaurant_ID, Fname, Lname, SSN, Gender, Email, Address, Birth_Date, Start_Date];
     
                 db.query(sql, values, (err, result) => {
@@ -557,8 +557,8 @@ const server = http.createServer((req, res) => {
         }
         else if (method === 'POST') {
             req.on('end', () => {
-                const { Schedule_ID, Type_ID, Zone_ID, Employee_ID, Restaurant_ID, Habitat_ID, Shop_ID, Start_Time, End_Time, Date } = parse(body); // Assuming these are the fields you have
-                const sql = 'INSERT INTO SCHEDULES (Schedule_ID, Type_ID, Zone_ID, Employee_ID, Restaurant_ID, Habitat_ID, Shop_ID, Start_Time, End_Time, Date) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?)'; // Adjust based on actual schema
+                const { Schedule_ID, Type_ID, Zone_ID, Employee_ID, Restaurant_ID, Habitat_ID, Shop_ID, Start_Time, End_Time, Date } = parse(body);  
+                const sql = 'INSERT INTO SCHEDULES (Schedule_ID, Type_ID, Zone_ID, Employee_ID, Restaurant_ID, Habitat_ID, Shop_ID, Start_Time, End_Time, Date) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?)';  
                 const values = [Schedule_ID, Type_ID, Zone_ID, Employee_ID, Restaurant_ID, Habitat_ID, Shop_ID, Start_Time, End_Time, Date];
     
                 db.query(sql, values, (err, result) => {
@@ -622,8 +622,8 @@ const server = http.createServer((req, res) => {
         }
         else if (method === 'POST') {
             req.on('end', () => {
-                const { Type_ID, Name } = parse(body); // Assuming these are the fields you have
-                const sql = 'INSERT INTO SCHEDULE_TYPES (Type_ID, Name) VALUES (?, ?)'; // Adjust based on actual schema
+                const { Type_ID, Name } = parse(body);  
+                const sql = 'INSERT INTO SCHEDULE_TYPES (Type_ID, Name) VALUES (?, ?)';  
                 const values = [Type_ID, Name];
     
                 db.query(sql, values, (err, result) => {
@@ -687,8 +687,8 @@ const server = http.createServer((req, res) => {
         }
         else if (method === 'POST') {
             req.on('end', () => {
-                const { Parent_ID, Child_ID, Date_Created } = parse(body); // Assuming these are the fields you have
-                const sql = 'INSERT INTO Has_Offsprings (Parent_ID, Child_ID, Date_Created) VALUES (?, ?, ?)'; // Adjust based on actual schema
+                const { Parent_ID, Child_ID, Date_Created } = parse(body);  
+                const sql = 'INSERT INTO Has_Offsprings (Parent_ID, Child_ID, Date_Created) VALUES (?, ?, ?)';  
                 const values = [Parent_ID, Child_ID, Date_Created];
     
                 db.query(sql, values, (err, result) => {
@@ -727,8 +727,8 @@ const server = http.createServer((req, res) => {
         }
         else if (method === 'POST') {
             req.on('end', () => {
-                const { Item_ID, Name, Stock, Price } = parse(body); // Assuming these are the fields you have
-                const sql = 'INSERT INTO ITEMS (Item_ID, Name, Stock, Price) VALUES (?, ?, ?, ?)'; // Adjust based on actual schema
+                const { Item_ID, Name, Stock, Price } = parse(body);  
+                const sql = 'INSERT INTO ITEMS (Item_ID, Name, Stock, Price) VALUES (?, ?, ?, ?)';  
                 const values = [Item_ID, Name, Stock, Price];
     
                 db.query(sql, values, (err, result) => {
@@ -792,8 +792,8 @@ const server = http.createServer((req, res) => {
         }
         else if (method === 'POST') {
             req.on('end', () => {
-                const { Job_ID, Name, Base_Pay, Description } = parse(body); // Assuming these are the fields you have
-                const sql = 'INSERT INTO JOBS (Job_ID, Name, Base_Pay, Description) VALUES (?, ?, ?, ?)'; // Adjust based on actual schema
+                const { Job_ID, Name, Base_Pay, Description } = parse(body);  
+                const sql = 'INSERT INTO JOBS (Job_ID, Name, Base_Pay, Description) VALUES (?, ?, ?, ?)';  
                 const values = [Job_ID, Name, Base_Pay, Description];
     
                 db.query(sql, values, (err, result) => {
@@ -856,8 +856,8 @@ const server = http.createServer((req, res) => {
         }
         else if (method === 'POST') {
             req.on('end', () => {
-                const { Lost_Item_ID, Customer_ID, Description, Status } = parse(body); // Assuming these are the fields you have
-                const sql = 'INSERT INTO LOST_ITEMS (Lost_Item_ID, Customer_ID, Description, Status) VALUES (?, ?, ?, ?)'; // Adjust based on actual schema
+                const { Lost_Item_ID, Customer_ID, Description, Status } = parse(body);  
+                const sql = 'INSERT INTO LOST_ITEMS (Lost_Item_ID, Customer_ID, Description, Status) VALUES (?, ?, ?, ?)';  
                 const values = [Lost_Item_ID, Customer_ID, Description, Status];
     
                 db.query(sql, values, (err, result) => {
@@ -920,8 +920,8 @@ const server = http.createServer((req, res) => {
         }
         else if (method === 'POST') {
             req.on('end', () => {
-                const { Menu_ID, Name, Price, Restaurant_ID } = parse(body); // Assuming these are the fields you have
-                const sql = 'INSERT INTO Menus (Menu_ID, Name, Price, Restaurant_ID) VALUES (?, ?, ?, ?)'; // Adjust based on actual schema
+                const { Menu_ID, Name, Price, Restaurant_ID } = parse(body);  
+                const sql = 'INSERT INTO Menus (Menu_ID, Name, Price, Restaurant_ID) VALUES (?, ?, ?, ?)';  
                 const values = [Menu_ID, Name, Price, Restaurant_ID];
     
                 db.query(sql, values, (err, result) => {
@@ -967,7 +967,8 @@ const server = http.createServer((req, res) => {
                 });
             }
         }
-    }  else if (path === '/api/purchases') {
+    } 
+     if (path === '/api/purchases') {
         if (method === 'GET') {
             // Fetch all schedules
             db.query('SELECT * FROM Purchases', (err, results) => {
@@ -984,8 +985,8 @@ const server = http.createServer((req, res) => {
         }
         else if (method === 'POST') {
             req.on('end', () => {
-                const { Item_ID, Shop_ID, Customer_ID, Quantity, Date } = parse(body); // Assuming these are the fields you have
-                const sql = 'INSERT INTO Purchases (Item_ID, Shop_ID, Customer_ID, Quantity, Date) VALUES (?, ?, ?, ?, ?)'; // Adjust based on actual schema
+                const { Item_ID, Shop_ID, Customer_ID, Quantity, Date } = parse(body);  
+                const sql = 'INSERT INTO Purchases (Item_ID, Shop_ID, Customer_ID, Quantity, Date) VALUES (?, ?, ?, ?, ?)';  
                 const values = [Item_ID, Shop_ID, Customer_ID, Quantity, Date];
     
                 db.query(sql, values, (err, result) => {
@@ -1031,7 +1032,8 @@ const server = http.createServer((req, res) => {
                 });
             }
         }
-    } else if (path === '/api/restaurants') {
+    }
+     if (path === '/api/restaurants') {
         if (method === 'GET') {
             // Fetch all schedules
             db.query('SELECT * FROM RESTAURANTS', (err, results) => {
@@ -1048,8 +1050,8 @@ const server = http.createServer((req, res) => {
         }
         else if (method === 'POST') {
             req.on('end', () => {
-                const { Restaurant_ID, Zone_ID, Name, Status } = parse(body); // Assuming these are the fields you have
-                const sql = 'INSERT INTO RESTAURANTS (Restaurant_ID, Zone_ID, Name, Status) VALUES (?, ?, ?, ?)'; // Adjust based on actual schema
+                const { Restaurant_ID, Zone_ID, Name, Status } = parse(body);  
+                const sql = 'INSERT INTO RESTAURANTS (Restaurant_ID, Zone_ID, Name, Status) VALUES (?, ?, ?, ?)';  
                 const values = [Restaurant_ID, Zone_ID, Name, Status];
     
                 db.query(sql, values, (err, result) => {
@@ -1112,8 +1114,8 @@ const server = http.createServer((req, res) => {
         }
         else if (method === 'POST') {
             req.on('end', () => {
-                const { Customer_ID, Menu_ID, Quantity, Order_date } = parse(body); // Assuming these are the fields you have
-                const sql = 'INSERT INTO Restaurant_Orders (Customer_ID, Menu_ID, Quantity, Order_date) VALUES (?, ?, ?, ?)'; // Adjust based on actual schema
+                const { Customer_ID, Menu_ID, Quantity, Order_date } = parse(body);  
+                const sql = 'INSERT INTO Restaurant_Orders (Customer_ID, Menu_ID, Quantity, Order_date) VALUES (?, ?, ?, ?)';  
                 const values = [Customer_ID, Menu_ID, Quantity, Order_date];
     
                 db.query(sql, values, (err, result) => {
@@ -1151,8 +1153,8 @@ const server = http.createServer((req, res) => {
         }
         else if (method === 'POST') {
             req.on('end', () => {
-                const { Shop_ID, Status, Name } = parse(body); // Assuming these are the fields you have
-                const sql = 'INSERT INTO SHOPS (Shop_ID, Status, Name) VALUES (?, ?, ?)'; // Adjust based on actual schema
+                const { Shop_ID, Status, Name } = parse(body);  
+                const sql = 'INSERT INTO SHOPS (Shop_ID, Status, Name) VALUES (?, ?, ?)';  
                 const values = [Shop_ID, Status, Name];
     
                 db.query(sql, values, (err, result) => {
@@ -1215,8 +1217,8 @@ const server = http.createServer((req, res) => {
         }
         else if (method === 'POST') {
             req.on('end', () => {
-                const { Ticket_ID, Date_Issued, Price, Customer_ID } = parse(body); // Assuming these are the fields you have
-                const sql = 'INSERT INTO TICKETS (Ticket_ID, Date_Issued, Price, Customer_ID) VALUES (?, ?, ?, ?)'; // Adjust based on actual schema
+                const { Ticket_ID, Date_Issued, Price, Customer_ID } = parse(body);  
+                const sql = 'INSERT INTO TICKETS (Ticket_ID, Date_Issued, Price, Customer_ID) VALUES (?, ?, ?, ?)';  
                 const values = [Ticket_ID, Date_Issued, Price, Customer_ID];
     
                 db.query(sql, values, (err, result) => {
