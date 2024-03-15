@@ -2,7 +2,7 @@ import './customerSignUp.css';
 import Navbar from '../navBar/navBar';
 
 export default function CustomerSignUp(){
-    const links = ["homepage", "customerHome", "customerSignUp"];
+    const links = ["homepage", "customerHome", "customerSignUp", "animalPage", "aboutUsPage"];
     return     (
     <>
     <Navbar links={links} />
