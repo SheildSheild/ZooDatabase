@@ -1,0 +1,23 @@
+body {
+  background-color: black;
+  font-family: Arial, Helvetica, sans-serif;
+  color: white;
+}
+header {
+  color: white;
+}
+em {
+  color: red;
+}
+h3 {
+  color: white;
+}
+button {
+  background-color: white;
+  border: ridge;
+  border-style: ridge;
+}
+img {
+  width: 400px;
+  height: auto;
+}
