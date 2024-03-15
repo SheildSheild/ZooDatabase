@@ -5,6 +5,7 @@ export default function AboutUsPage() {
     const links = ["homepage", "customerHome", "customerSignUp", "animalPage", "aboutUsPage"];
     return ( <>
         <Navbar links={links} />
+        <br></br>
         <div>
         <center><h1>About Us</h1></center>
         <h3>Mission Statement:</h3>

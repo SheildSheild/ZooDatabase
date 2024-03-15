@@ -8,6 +8,7 @@ export default function CustomerHome(){
     return     (
     <>
     <Navbar links={links} />
+    <br></br>
     <center>
     <div><h1><strong>Customer Sign In</strong></h1></div>
     <div>

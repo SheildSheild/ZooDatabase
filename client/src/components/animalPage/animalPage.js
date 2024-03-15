@@ -37,6 +37,7 @@ export default function AnimalPage() {
   const links = ["homepage", "customerHome", "customerSignUp", "animalPage", "aboutUsPage"];
     return (
       <><Navbar links={links} />
+      <br></br>
       <div className="animal-container">
         {dummyAnimals.map(animal => (
           <div key={animal.id} className="animal">

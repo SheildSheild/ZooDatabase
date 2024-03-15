@@ -6,6 +6,7 @@ export default function CustomerSignUp(){
     return     (
     <>
     <Navbar links={links} />
+    <br></br>
     <center>
             <h1><strong>Customer Sign Up</strong></h1>
             <form>
