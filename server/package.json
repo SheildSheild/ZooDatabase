@@ -4,11 +4,17 @@
   "description": "",
   "main": "main.js",
   "scripts": {
+    "actualtest": "jest",
     "test": "nodemon src/main.js"
   },
   "author": "",
   "license": "MIT",
   "dependencies": {
+    "mysql": "^2.18.1",
     "nodemon": "^3.1.0"
+  },
+  "devDependencies": {
+    "jest": "^29.7.0",
+    "supertest": "^6.3.4"
   }
 }
