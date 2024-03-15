@@ -24,6 +24,6 @@ export default function AboutUsPage() {
         <h3>Our Animals:</h3>
         <h4>Discover the majestic Amur leopard, one of the world's most endangered big cats, through our database. Learn about their habitat, diet, and the conservation efforts that are helping to save them from the brink of extinction.</h4>
         <h3>Contact Information:</h3>
-        <h4>Have questions or want to get involved? Contact us at info@[zoodatabase].com or follow us on social media to stay updated on our latest projects and events.</h4>
+        <h4>Have questions or want to get involved? Contact us at https://github.com/SheildSheild/ZooDatabase or follow us on social media to stay updated on our latest projects and events.</h4>
         </div>
         )};
