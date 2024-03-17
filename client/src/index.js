@@ -10,6 +10,7 @@ import CustomerHome from './components/customerHome';
 import CustomerSignUp from './components/customerSignUp';
 import Homepage from './components/homepage';
 import AnimalPage from './components/animalPage';
+import TicketsPage from './components/ticketsPage';
 import AboutUsPage from './components/aboutUsPage';
 
 const router = createBrowserRouter([
@@ -32,6 +33,10 @@ const router = createBrowserRouter([
   {
     path :"/animalPage",
     element: <AnimalPage/>,
+  },
+  {
+    path:"/ticketsPage",
+    element: <TicketsPage/>,
   },
   {
     path :"/aboutUsPage",
