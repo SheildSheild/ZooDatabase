@@ -2,7 +2,7 @@ import './homepage.css';
 import Navbar from '../navBar/navBar';
 
 export default function Homepage(){
-    const links = ["homepage", "customerHome", "customerSignUp", "animalPage", "ticketsPage", "aboutUsPage"];
+    const links = ["homepage", "customerHome", "customerSignUp", "animalPage", "ticketsPage", "dataEntry", "aboutUsPage"];
     return     <>
     <Navbar links={links}/>
     <br></br>
@@ -12,6 +12,7 @@ export default function Homepage(){
     <h4><center><a>Don't have a account yet?</a> <a href="\customerSignUp">Click Here To Sign Up...</a></center></h4>
     <a href="\animalPage"></a>
     <a href="\ticketsPage"></a>
+    <a href="\dataEntry"></a>
     <a href="\aboutUsPage"></a>
     </>
     

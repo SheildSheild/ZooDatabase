@@ -11,6 +11,7 @@ import CustomerSignUp from './components/customerSignUp';
 import Homepage from './components/homepage';
 import AnimalPage from './components/animalPage';
 import TicketsPage from './components/ticketsPage';
+import DataEntry from './components/dataEntry';
 import AboutUsPage from './components/aboutUsPage';
 
 const router = createBrowserRouter([
@@ -37,6 +38,10 @@ const router = createBrowserRouter([
   {
     path:"/ticketsPage",
     element: <TicketsPage/>,
+  },
+  {
+    path:"/dataEntry",
+    element: <DataEntry/>,
   },
   {
     path :"/aboutUsPage",
