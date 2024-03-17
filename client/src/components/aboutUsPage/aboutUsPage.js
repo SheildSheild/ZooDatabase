@@ -1,7 +1,11 @@
 import './aboutUsPage.css';
+import Navbar from '../navBar/navBar';
 
 export default function AboutUsPage() {
-    return (
+    const links = ["homepage", "customerHome", "customerSignUp", "animalPage", "aboutUsPage"];
+    return ( <>
+        <Navbar links={links} />
+        <br></br>
         <div>
         <center><h1>About Us</h1></center>
         <h3>Mission Statement:</h3>
@@ -26,4 +30,5 @@ export default function AboutUsPage() {
         <h3>Contact Information:</h3>
         <h4>Have questions or want to get involved? Contact us at https://github.com/SheildSheild/ZooDatabase or follow us on social media to stay updated on our latest projects and events.</h4>
         </div>
+        </>
         )};

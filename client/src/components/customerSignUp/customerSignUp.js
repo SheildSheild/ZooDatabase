@@ -2,10 +2,11 @@ import './customerSignUp.css';
 import Navbar from '../navBar/navBar';
 
 export default function CustomerSignUp(){
-    const links = ["homepage", "customerHome", "customerSignUp"];
+    const links = ["homepage", "customerHome", "customerSignUp", "animalPage", "aboutUsPage"];
     return     (
     <>
     <Navbar links={links} />
+    <br></br>
     <center>
             <h1><strong>Customer Sign Up</strong></h1>
             <form>

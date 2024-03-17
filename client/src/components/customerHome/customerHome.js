@@ -3,11 +3,12 @@ import Navbar from '../navBar/navBar';
 
 
 export default function CustomerHome(){
-    const links = ["homepage", "customerHome", "customerSignUp"];
+    const links = ["homepage", "customerHome", "customerSignUp", "animalPage", "aboutUsPage"];
 
     return     (
     <>
     <Navbar links={links} />
+    <br></br>
     <center>
     <div><h1><strong>Customer Sign In</strong></h1></div>
     <div>
