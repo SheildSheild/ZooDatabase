@@ -23,11 +23,9 @@ function api(req,res,query,body,name,db) {
     db.query(`SELECT * FROM ${NAME}`, (err, results) => {
       if (err) {
         res.statusCode = 500;
-        res.setHeader('Content-Type', 'application/json');
         res.end(JSON.stringify({ message: `Error fetching ${Name}`, error: err.toString() }));
       } else {
         res.statusCode = 200;
-        res.setHeader('Content-Type', 'application/json');
         res.end(JSON.stringify(results));
       }
     });
@@ -38,11 +36,9 @@ function api(req,res,query,body,name,db) {
       db.query(sql, values, (err, result) => {
         if (err) {
           res.statusCode = 500;
-          res.setHeader('Content-Type', 'application/json');
           res.end(JSON.stringify({ message: `Error adding ${Name}`, error: err.toString() }));
         } else {
           res.statusCode = 201;
-          res.setHeader('Content-Type', 'application/json');
           res.end(JSON.stringify({ message: `${Name} added successfully`, Id: result.insertId }));
         }
       });
@@ -52,7 +48,6 @@ function api(req,res,query,body,name,db) {
 
     if (!ID) {
       res.statusCode = 400; // Bad Request
-      res.setHeader('Content-Type', 'application/json');
       res.end(JSON.stringify({ message: Name+' ID is required' }));
     } else {
       const sql = `DELETE FROM ${NAME} WHERE ${Name}_ID = `;
@@ -61,16 +56,13 @@ function api(req,res,query,body,name,db) {
       db.query(sql, values, (err, result) => {
         if (err) {
           res.statusCode = 500;
-          res.setHeader('Content-Type', 'application/json');
           res.end(JSON.stringify({ message: `Error deleting ${Name}`, error: err.toString() }));
         } else if (result.affectedRows === 0) {
           // No rows affected means no zone was found with that ID
           res.statusCode = 404;
-          res.setHeader('Content-Type', 'application/json');
           res.end(JSON.stringify({ message: `${Name} not found` }));
         } else {
           res.statusCode = 200;
-          res.setHeader('Content-Type', 'application/json');
           res.end(JSON.stringify({ message: `${Name} deleted successfully` }));
         }
       });

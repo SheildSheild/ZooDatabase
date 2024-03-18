@@ -28,27 +28,50 @@ const server = http.createServer((req, res) => {
     const path = reqUrl.pathname;
     const query = reqUrl.query;
 
+    //cors
+    res.appendHeader("Access-Control-Allow-Methods", "*");
+    res.appendHeader("Access-Control-Allow-Origin", "*");
+    res.appendHeader("Access-Control-Allow-Headers", "*");
+
     // Parsing body data
     const body = [];
     req.on('data', chunk => {
         body.push(chunk.toString());
     });
 
-    const failure=()=>{
+    let name=null;
+    if(path.substring(0,5)==='/api/'){
+        const _name=path.substring(5);
+        if(routes.has(_name))
+            name=_name;
+    }
+
+    if(req.method=='POST'||req.method=='GET'||req.method=='DELETE'){
+        if(name){
+            res.setHeader('Content-Type', 'application/json');
+            api(req,res,query,body,name,db);
+            return;
+        }
         res.statusCode = 404;
         res.setHeader('Content-Type', 'application/json');
         res.end(JSON.stringify({ message: 'Route not found' }));
-    };
-
-    if(path.substring(0,5)==='/api/'){
-        const name=path.substring(5)
-        if(routes.has(name))
-            api(req,res,query,body,name,db);
-        else
-            failure();
     }
-    else
-        failure();
+    else if(method=='OPTIONS'){
+        res.statusCode=204;
+        res.end();
+    }
+    else if(method=='HEAD'){
+        if(name)
+            res.setHeader('Content-Type', 'application/json');
+        else
+            res.statusCode=404;
+        res.end();
+    }
+    else{
+        res.statusCode=404;
+        res.setHeader('Content-Type', 'application/json');
+        res.end(JSON.stringify({ message: 'METHOD not supported' }));
+    }
 });
 
 server.listen(port, hostname, () => {
