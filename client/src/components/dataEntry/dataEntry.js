@@ -105,7 +105,7 @@ function EmployeeDataEntry() {
   
     return (
         <form onSubmit={handleSubmit}>
-        <h2>Enter Employee Data</h2>
+        <h2><strong>Enter Employee Data</strong></h2>
         <label>
             Employee id:
             <input type="number" name="employeeID" value={employeeData.id} required onChange={handleChange} />
@@ -158,20 +158,54 @@ function EmployeeDataEntry() {
     );
   }
 
-//   function MedicalRecordEntry() {
-//     const [medicalRecord, setMedicalRecord] = useState({
-//       primaryDoctor: '',
-//       medicalRecordId: '',
-//       dateOfExamination: '',
-//     });
+  function MedicalRecordEntry() {
+    const [medicalRecord, setMedicalRecord] = useState({
+      primaryDoctor: '',
+      id: '',
+      dateOfExamination: '',
+      description: '',
+    });
+
+    const handleChange = (e) => {
+      setMedicalRecord({ ...medicalRecord, [e.target.name]: e.target.value });
+    };
+  
+    const handleSubmit = (e) => {
+      e.preventDefault();
+      console.log(medicalRecord);
+    };
   
   
-//     return (
-//       <form onSubmit={handleSubmit}>
-//         <h2>Enter Medical Record</h2>
-//       </form>
-//     );
-//   }
+    return (
+      <form onSubmit={handleSubmit}>
+        <h2><strong>Enter Medical Record</strong></h2>
+        <label>
+          Medical Record ID:
+          <input type="number" name="medicalRecordId" value={medicalRecord.id} required onChange={handleChange} />
+        </label>
+        <br />
+        <br />
+        <label>
+          Primary Doctor:
+          <input type="text" name="primaryDoctor" value={medicalRecord.primaryDoctor} required onChange={handleChange} />
+        </label>
+        <br />
+        <br />
+        <label>
+          Date of Examination:
+          <input type="date" name="examinationDate" value={medicalRecord.dateOfExamination} required onChange={handleChange} />
+        </label>
+        <br />
+        <br />
+        <lable>
+          Description:
+          <input type="text" name="description" value={medicalRecord.description} onChange={handleChange} />
+        </lable>
+        <br />
+        <br />
+      </form>
+    );
+  }
 
 
   function DataEntryPage() {
@@ -198,7 +232,7 @@ function EmployeeDataEntry() {
   
         {selectedDataType === 'animals' && <AnimalDataEntry />}
         {selectedDataType === 'employees' && <EmployeeDataEntry />}
-        {/* {selectedDataType === 'medicalRecords' && <MedicalRecordEntry />} */}
+        {selectedDataType === 'medicalRecords' && <MedicalRecordEntry />}
       </div>
     );
   }
