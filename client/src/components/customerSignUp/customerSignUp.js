@@ -5,6 +5,7 @@ import { useNavigate } from "react-router-dom";
 import uuid from 'react-uuid';
 import axios from 'axios';
 import { response } from 'express';
+import { postData } from '../../communication';
 
 export default function CustomerSignUp(){
     const links = ["homepage", "customerHome", "customerSignUp", "animalPage", "aboutUsPage"];
@@ -23,7 +24,10 @@ export default function CustomerSignUp(){
 
             }
             else {
-                
+                axios.post('/customerSignUp', {
+                    
+                }
+                )
             }
         })
 
@@ -36,13 +40,18 @@ export default function CustomerSignUp(){
     <br></br>
     <center>
             <h1><strong>Customer Sign Up</strong></h1>
-            <form>
-                <label for="first_name">First Name: </label>
-                <input type="text" id="first_name" name="first_name" required />
-                <br />
-                <br />
-                <label for="last_name">Last Name: </label>
-                <input type="text" id="last_name" name="last_name" required />
+            <form onSubmit={(ev)=>{
+                ev.preventDefault();
+                const form=ev.target;
+                console.log(form);
+                postData('/register',{
+                    username:form.Email.value,
+                    password:form.Password.value,
+                    name:form.name.value
+                }).then(val=>console.log(val))
+            }}>
+                <label for="name">Name: </label>
+                <input type="text" id="name" name="name" required />
                 <br />
                 <br />
                 <label for="Email">Email: </label>

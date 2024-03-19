@@ -1,8 +1,8 @@
 import React from 'react';
 import ReactDOM from 'react-dom/client';
 import {
-  createBrowserRouter,
   RouterProvider,
+  createHashRouter
 } from "react-router-dom";
 
 
@@ -13,8 +13,9 @@ import AnimalPage from './components/animalPage';
 import TicketsPage from './components/ticketsPage';
 import DataEntry from './components/dataEntry';
 import AboutUsPage from './components/aboutUsPage';
+import EmployeeHome from './components/employeeHome';
 
-const router = createBrowserRouter([
+const router = createHashRouter([
   {
     path: "/",
     element: <Homepage/>,
@@ -47,9 +48,19 @@ const router = createBrowserRouter([
     path :"/aboutUsPage",
     element: <AboutUsPage/>,
   },
-
+  {
+    path:"/employeeHome",
+    element: <EmployeeHome/>
+  }
 ]);
+/*
+more pages we need:
+report page
+employee schedule page
+animal schedule page
+every instance for display table
 
+*/
 
 
 const root = ReactDOM.createRoot(document.getElementById('root'));

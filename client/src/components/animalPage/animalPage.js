@@ -3,11 +3,7 @@ import Navbar from '../navBar/navBar';
 import React, { useState } from 'react';
 
 
-const dummyAnimals = [
-{ Animal_ID: 1, Habitat_ID: 10, Zone_ID: 14, Habitat_Name: 'Savannah', Name: 'Laura', Weight: 300.05, Height: 83.06, Birth_Date: '2019-03-30', Species: 'Panthera leo' },
-{ Animal_ID: 2, Habitat_ID: 11, Zone_ID: 15, Habitat_Name: 'Jungle', Name: 'Tikes', Weight: 403.08, Height: 90.57, Birth_Date: '2018-04-02', Species: 'Panthera tigris' },
-{ Animal_ID: 3, Habitat_ID: 12, Zone_ID: 16, Habitat_Name: 'Grasslands', Name: 'Braum', Weight: 320.09, Height: 67.08, Birth_Date: '2020-01-19', Species: 'Lycaon pictus' },
-{ Animal_ID: 4, Habitat_ID: 13, Zone_ID: 17, Habitat_Name: 'Forest', Name: 'Chaser', Weight: 509.08, Height: 78.46, Birth_Date: '2018-07-24', Species: 'Puma concolor' }, ]
+const dummyAnimals = require('./dummyAnimals');
 
 export default function AnimalPage() {
   const [selectedZone, setSelectedZone] = useState('All');
@@ -40,8 +36,8 @@ export default function AnimalPage() {
   const links = ["homepage", "customerHome", "customerSignUp", "animalPage", "aboutUsPage"];
     return (
       <><Navbar links={links} />
-      <br></br>
-      <br></br>
+      <br/><br/>
+      <br/><br/>
       <div className="dropdown-container">
         <label htmlFor="zone-dropdown">Select Zone:</label>
         <select id="zone-dropdown" onChange={handleZoneChange}>

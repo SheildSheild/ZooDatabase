@@ -4,8 +4,8 @@ const mysql = require('mysql');
 const {api}=require('./api');
 const {routes}=require('./routes');
 
-const hostname = '127.0.0.1';
-const port = 3300;
+const hostname = '0.0.0.0';
+const port = 3301;
 
 // MySQL connection setup
 const db = mysql.createConnection({
@@ -27,6 +27,11 @@ const server = http.createServer((req, res) => {
     const reqUrl = url.parse(req.url, true);
     const path = reqUrl.pathname;
     const query = reqUrl.query;
+    console.log(req.method,path);
+    //cors
+    res.appendHeader("Access-Control-Allow-Methods", "*");
+    res.appendHeader("Access-Control-Allow-Origin", "*");
+    res.appendHeader("Access-Control-Allow-Headers", "*");
 
     // Parsing body data
     const body = [];
@@ -34,21 +39,39 @@ const server = http.createServer((req, res) => {
         body.push(chunk.toString());
     });
 
-    const failure=()=>{
+    let name=null;
+    if(path.substring(0,5)==='/api/'){
+        const _name=path.substring(5);
+        if(routes.has(_name))
+            name=_name;
+    }
+
+    if(req.method=='POST'||req.method=='GET'||req.method=='DELETE'){
+        if(name){
+            res.setHeader('Content-Type', 'application/json');
+            api(req,res,query,body,name,db);
+            return;
+        }
         res.statusCode = 404;
         res.setHeader('Content-Type', 'application/json');
         res.end(JSON.stringify({ message: 'Route not found' }));
-    };
-
-    if(path.substring(0,5)==='/api/'){
-        const name=path.substring(5)
-        if(routes.has(name))
-            api(req,res,query,body,name,db);
-        else
-            failure();
     }
-    else
-        failure();
+    else if(req.method=='OPTIONS'){
+        res.statusCode=200;
+        res.end();
+    }
+    else if(req.method=='HEAD'){
+        if(name)
+            res.setHeader('Content-Type', 'application/json');
+        else
+            res.statusCode=404;
+        res.end();
+    }
+    else{
+        res.statusCode=404;
+        res.setHeader('Content-Type', 'application/json');
+        res.end(JSON.stringify({ message: 'METHOD not supported' }));
+    }
 });
 
 server.listen(port, hostname, () => {
