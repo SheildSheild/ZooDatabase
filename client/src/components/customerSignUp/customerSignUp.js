@@ -1,8 +1,35 @@
 import './customerSignUp.css';
 import Navbar from '../navBar/navBar';
+import React, { useState } from 'react';
+import { useNavigate } from "react-router-dom";
+import uuid from 'react-uuid';
+import axios from 'axios';
+import { response } from 'express';
 
 export default function CustomerSignUp(){
     const links = ["homepage", "customerHome", "customerSignUp", "animalPage", "aboutUsPage"];
+    let Val = 3;
+    const [Name, setName] = useState("");
+    const [Address, setAddress] = useState("");
+    const [Phone, setPhone] = useState("");
+    const [Email, setEmail] = useState("");
+    const [username, setUsername] = useState("");
+    const created_at = new Date().getTime();
+
+    const custSignUp = aync () => {
+        axios.post('/customercheck', {username: username
+        }).then((response) => {
+            if (response.data.message === "Error! User already exists.") {
+
+            }
+            else {
+                
+            }
+        })
+
+    };
+
+
     return     (
     <>
     <Navbar links={links} />
