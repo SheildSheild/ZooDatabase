@@ -1,5 +1,6 @@
 import React, { useState } from 'react';
 import './dataEntry.css';
+import { postData } from '../../communication';
 
 function DataEntryBanner() {
     return(
@@ -9,233 +10,145 @@ function DataEntryBanner() {
     );
 }
 
-function AnimalDataEntry() {
-  const [animalData, setAnimalData] = useState({
-    animalName: '',
-    habitat: '',
-    weight: '',
-    height: '',
-    species: '',
-    animalId: '',
-    birthDate: '',
-  });
+const map={
+  animal:{
+    Name: {type:"text",text:"Animal Name:"},
+    Habitat_ID: {type:"number",text:"Habitat ID:"},
+    Weight: {type:"number",text:"Weight:"},
+    Height: {type:"number",text:"Height:"},
+    Species: {type:"text",text:"Species:"},
+    Animal_ID: {type:"number",text:"Animal ID:"},
+    Birth_Date: {type:"date",text:"Birth Date:"},
+  },
+  employee:{
+    Fname: {type:"number",text:"Employee Name:"},
+    Lname: {type:"number",text:"Employee Name:"},
+    Employee_ID: {type:"number",text:"Employee ID:"},
+    Email: {type:"email",text:"Employee Email:"},
+    Start_Date: {type:"date",text:"Employee Start Date:"},
+    Birth_Date: {type:"date",text:"Employee Birth Date:"},
+    SSN: {type:"number",text:"Employee SSN:"},
+    Gender: {code:<>
+      <label>
+        Employee Gender:
+        <select name="gender" required>
+          <option value="">--Please choose an option--</option>
+          <option value="1">Male</option>
+          <option value="2">Female</option>
+          <option value="3">Other</option>
+          <option value="4">Prefer Not To Answer</option>
+        </select>
+      </label>
+      <br />
+      <br />
+    </>}
+  },
+  medical:{
+    Primary_Doctor_ID: {type:"number",text:"Primary Doctor:"},
+    Animal_Health_ID: {type:"number",text:"Medical Record ID:"},
+    Date_Of_Examination: {type:"date",text:"Date of Examination:"},
+    Description: {type:"text",text:"Description:"},
+  },
+  /*
+  add entry data like:
+  entry:{
+    Prop_1: {type:"",text:""},
+    Prop_2: {code:<>specia jsx</>}
+  }
+  */
+};
 
-  const handleChange = (e) => {
-    setAnimalData({ ...animalData, [e.target.name]: e.target.value });
+const mapEach=(name,func)=>{
+  const out=[];
+  for(let key in map[name]){
+    const data=map[name][key];
+    if(data.code)
+      out.push(data.code);
+    out.push(func(key,data.text,data.type));
+  }
+  return out;
+}
+
+function Entry({link,title,name}){
+  const handleSubmit = (ev)=>{
+    ev.preventDefault();
+    const form=ev.target;
+    const data={};
+    for(let prop in map[name])
+      data[prop]=form[prop].value;
+    
+    postData(link,data).then(val=>{
+      if(val)//success
+        form.reset();
+    })
   };
+  return (
+    <form onSubmit={handleSubmit}>
+      <h2><strong>{title}</strong></h2>
+      {mapEach(name,(val,text,type)=>{
+        return <>
+          <label>
+            {text}
+            <input type={type} name={val} required/>
+          </label>
+          <br />
+          <br />
+        </>
+      })}
+      <button type="submit">Submit</button>
+    </form>
+  );
+}
 
-  const handleSubmit = (e) => {
-    e.preventDefault();
-    console.log(animalData);
+function AnimalDataEntry() {
+  return <Entry link="/animals" title="Enter Animal Data" name="animal"/>
+}
+
+function EmployeeDataEntry() {
+    return <Entry link="/employees" title="Enter Employee Data" name="employee"/>
+}
+
+function MedicalRecordEntry() {
+  return <Entry link="/animal_health" title="Enter Medical Record" name="medical"/>
+}
+
+/*
+add function here like:
+function NewEntry() {
+  return <Entry link="/link" title="title" name="name"/>
+}
+*/
+
+function DataEntryPage() {
+  const [selectedDataType, setSelectedDataType] = useState('');
+
+  const handleSelectionChange = (e) => {
+    setSelectedDataType(e.target.value);
   };
 
   return (
     <div>
-        <form onSubmit={handleSubmit}>
-        <h2><strong>Enter Animal Data</strong></h2>
+      <DataEntryBanner />
+      <div className="data-selection">
         <label>
-            Animal Name:
-            <input type="text" name="animalName" value={animalData.animalName} onChange={handleChange} />
+          Select Data Type:
+          <select value={selectedDataType} onChange={handleSelectionChange}>
+            <option value="">--Please choose an option--</option>
+            <option value="animals">Animals</option>
+            <option value="employees">Employees</option>
+            <option value="medicalRecords">Medical Records</option>
+            {/* add option here */}
+          </select>
         </label>
-        <br />
-        <br />
-        <label>
-            Habitat:
-            <input type="text" name="habitat" value={animalData.habitat} onChange={handleChange} />
-        </label>
-        <br />
-        <br />
-        <label>
-            Weight:
-            <input type="text" name="weight" value={animalData.weight} onChange={handleChange} />
-        </label>
-        <br />
-        <br />
-        <label>
-            Height:
-            <input type="text" name="height" value={animalData.height} onChange={handleChange} />
-        </label>
-        <br />
-        <br />
-        <label>
-            Species:
-            <input type="text" name="species" value={animalData.species} onChange={handleChange} />
-        </label>
-        <br />
-        <br />
-        <label>
-            Animal ID:
-            <input type="text" name="animalId" value={animalData.animalId} onChange={handleChange} />
-        </label>
-        <br />
-        <br />
-        <label>
-            Birth Date:
-            <input type="date" name="birthDate" value={animalData.birthDate} onChange={handleChange} />
-        </label>
-        <br />
-        <br />
-        <button type="submit">Submit</button>
-        </form>
+      </div>
+
+      {selectedDataType === 'animals' && <AnimalDataEntry />}
+      {selectedDataType === 'employees' && <EmployeeDataEntry />}
+      {selectedDataType === 'medicalRecords' && <MedicalRecordEntry />}
+      {/* add componet here */}
     </div>
   );
 }
-
-function EmployeeDataEntry() {
-    const [employeeData, setEmployeeData] = useState({
-      Fname: '',
-      Lname: '',
-      id: '',
-      gender: '',
-      email: '',
-      address: '',
-      birthDate: '',
-      startDate: '',
-      ssn: '',
-    });
-  
-    const handleChange = (e) => {
-        setEmployeeData({ ...employeeData, [e.target.name]: e.target.value });
-      };
-    
-      const handleSubmit = (e) => {
-        e.preventDefault();
-        console.log(employeeData);
-      };
-  
-    return (
-        <form onSubmit={handleSubmit}>
-        <h2><strong>Enter Employee Data</strong></h2>
-        <label>
-            Employee id:
-            <input type="number" name="employeeID" value={employeeData.id} required onChange={handleChange} />
-        </label>
-        <br />
-        <br />
-        <label>
-            Employee First Name:
-            <input type="text" name="employeeFName" value={employeeData.FName} required onChange={handleChange} />
-        </label>
-        <br />
-        <br />
-        <label>
-            Employee Last Name:
-            <input type="text" name="employeeLName" value={employeeData.LName} required onChange={handleChange} />
-        </label>
-        <br />
-        <br />
-        <label>
-            Employee SSN:
-            <input type="number" name="employeeSSN" value={employeeData.ssn} required onChange={handleChange} />
-        </label>
-        <br />
-        <br />
-        <label>
-            Employee Email:
-            <input type="email" name="employeeEmail" value={employeeData.email} required onChange={handleChange} />
-        </label>
-        <br />
-        <br />
-        <label>
-            Employee Birth Date:
-            <input type="date" name="employeeBirthDate" value={employeeData.birthDate} onChange={handleChange} />
-        </label>
-        <br />
-        <br />
-        <label>
-            Employee Gender:
-            <select name="gender" value={employeeData.gender} required onChange={handleChange}>
-              <option value="">--Please choose an option--</option>
-              <option value="1">Male</option>
-              <option value="2">Female</option>
-              <option value="3">Other</option>
-              <option value="4">Prefer Not To Answer</option>
-            </select>
-        </label>
-        <br />
-        <br />
-      </form>
-    );
-  }
-
-  function MedicalRecordEntry() {
-    const [medicalRecord, setMedicalRecord] = useState({
-      primaryDoctor: '',
-      id: '',
-      dateOfExamination: '',
-      description: '',
-    });
-
-    const handleChange = (e) => {
-      setMedicalRecord({ ...medicalRecord, [e.target.name]: e.target.value });
-    };
-  
-    const handleSubmit = (e) => {
-      e.preventDefault();
-      console.log(medicalRecord);
-    };
-  
-  
-    return (
-      <form onSubmit={handleSubmit}>
-        <h2><strong>Enter Medical Record</strong></h2>
-        <label>
-          Medical Record ID:
-          <input type="number" name="medicalRecordId" value={medicalRecord.id} required onChange={handleChange} />
-        </label>
-        <br />
-        <br />
-        <label>
-          Primary Doctor:
-          <input type="text" name="primaryDoctor" value={medicalRecord.primaryDoctor} required onChange={handleChange} />
-        </label>
-        <br />
-        <br />
-        <label>
-          Date of Examination:
-          <input type="date" name="examinationDate" value={medicalRecord.dateOfExamination} required onChange={handleChange} />
-        </label>
-        <br />
-        <br />
-        <lable>
-          Description:
-          <input type="text" name="description" value={medicalRecord.description} onChange={handleChange} />
-        </lable>
-        <br />
-        <br />
-      </form>
-    );
-  }
-
-
-  function DataEntryPage() {
-    const [selectedDataType, setSelectedDataType] = useState('');
-  
-    const handleSelectionChange = (e) => {
-      setSelectedDataType(e.target.value);
-    };
-  
-    return (
-      <div>
-        <DataEntryBanner />
-        <div className="data-selection">
-          <label>
-            Select Data Type:
-            <select value={selectedDataType} onChange={handleSelectionChange}>
-              <option value="">--Please choose an option--</option>
-              <option value="animals">Animals</option>
-              <option value="employees">Employees</option>
-              <option value="medicalRecords">Medical Records</option>
-            </select>
-          </label>
-        </div>
-  
-        {selectedDataType === 'animals' && <AnimalDataEntry />}
-        {selectedDataType === 'employees' && <EmployeeDataEntry />}
-        {selectedDataType === 'medicalRecords' && <MedicalRecordEntry />}
-      </div>
-    );
-  }
   
   
 export default DataEntryPage;

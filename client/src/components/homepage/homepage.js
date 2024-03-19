@@ -4,7 +4,7 @@ import Navbar from '../navBar/navBar';
 import { Link } from 'react-router-dom';
 
 export default function Homepage(){
-    const links = ["homepage", "customerHome", "customerSignUp", "animalPage", "ticketsPage", "dataEntry", "aboutUsPage"];
+    const links = ["homepage", "customerHome", "customerSignUp", "animalPage", "ticketsPage", "dataEntry","employeeHome", "aboutUsPage"];
     return     <>
     <Navbar links={links}/>
     <br></br>

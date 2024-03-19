@@ -1,16 +1,21 @@
+const apiUrl='http://158.101.102.104:3301/api'
+
 function getData(url){
-  return fetch(url).then(res=>res.json());
+  return fetch(apiUrl+url).then(res=>res.json());
 }
 
 function postData(url,data){
-  return fetch(url,{
+  return fetch(apiUrl+url,{
     method:'POST',
     headers: {
       'Accept': 'application/json',
       'Content-Type': 'application/json'
     },
     body: JSON.stringify(data)
-  }).then(res=>res.json());
+  }).then(
+    res=>res.json(),
+    err=>console.log(err)
+  );
 }
 
 export {getData,postData}
