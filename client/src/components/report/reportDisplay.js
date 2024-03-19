@@ -8,6 +8,16 @@ import jsPDF from 'jspdf';
 
 const ReportDisplay = () => {
     const config =  {
+        responsive: true,
+        plugins: {
+            legend: {
+              position: 'top',
+            },
+            title: {
+              display: true,
+              text: 'Report',
+            },
+          },
         scales: {
             y: {
                 beginAtZero: true
@@ -22,10 +32,10 @@ const ReportDisplay = () => {
         }]
     };
     return  <> <h1 style={{margin: 60}}>Cougar  Zoo Revenue Report</h1>
-        <div style={{width: 500}}>
+        <div style={{width:500}} >
         <Line data={data} options= {config} />
         </div>
-
+{/* 
         <table>
         <tr>
             <th>Month</th>
@@ -40,7 +50,7 @@ const ReportDisplay = () => {
         )
         )
     }
-    </table>
+    </table> */}
    
     </> 
     

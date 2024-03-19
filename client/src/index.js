@@ -14,7 +14,8 @@ import TicketsPage from './components/ticketsPage';
 import DataEntry from './components/dataEntry';
 import AboutUsPage from './components/aboutUsPage';
 import EmployeeHome from './components/employeeHome';
-import Report from './components/report/report';
+import Report from './components/report';
+
 const router = createHashRouter([
   {
     path: "/",
