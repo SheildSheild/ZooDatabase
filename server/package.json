@@ -4,7 +4,7 @@
   "description": "",
   "main": "main.js",
   "scripts": {
-    "actualtest": "jest",
+    "actualtest": "jest --detectOpenHandles",
     "test": "nodemon src/main.js"
   },
   "author": "",

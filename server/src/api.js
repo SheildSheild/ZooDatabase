@@ -1,7 +1,5 @@
-const { parse } = require('querystring');
-
-const parseSQL=body=>{
-  const data = parse(body.join(''));
+const parseSQL=(NAME,body)=>{
+  const data = JSON.parse(body.join(''));
   const dataNames=[];
   const dataValues=[];
   const questionMarks=[];
@@ -10,7 +8,7 @@ const parseSQL=body=>{
     dataValues.push(data[name]);
     questionMarks.push('?');
   }
-  const sql = `INSERT INTO {} ${dataNames} VALUES (${questionMarks})`;
+  const sql = `INSERT INTO ${NAME}(${dataNames}) VALUES (${questionMarks})`;
   return [sql,dataValues];
 }
 
@@ -31,10 +29,11 @@ function api(req,res,query,body,name,db) {
     });
   } else if (method === 'POST') {
     req.on('end', () => {
-      const [sql,values]=parseSQL(body);
+      const [sql,values]=parseSQL(NAME,body);
 
       db.query(sql, values, (err, result) => {
         if (err) {
+          console.log(err)
           res.statusCode = 500;
           res.end(JSON.stringify({ message: `Error adding ${Name}`, error: err.toString() }));
         } else {
@@ -44,17 +43,24 @@ function api(req,res,query,body,name,db) {
       });
     });
   } else if (method === 'DELETE') {
-    const ID = query[Name+'_ID'];
+    let ID = null;
+    let IDString=null;
+    for(let q in query)
+      if(q.substring(q.length-2).toUpperCase()=='ID'){
+        ID=query[q];
+        IDString=q;
+        break;
+      }
 
     if (!ID) {
       res.statusCode = 400; // Bad Request
       res.end(JSON.stringify({ message: Name+' ID is required' }));
     } else {
-      const sql = `DELETE FROM ${NAME} WHERE ${Name}_ID = `;
-      const values = [ID];
+      const sql = `DELETE FROM ${NAME} WHERE ${IDString} = ${ID}`;
 
-      db.query(sql, values, (err, result) => {
+      db.query(sql, (err, result) => {
         if (err) {
+          console.log(err)
           res.statusCode = 500;
           res.end(JSON.stringify({ message: `Error deleting ${Name}`, error: err.toString() }));
         } else if (result.affectedRows === 0) {
