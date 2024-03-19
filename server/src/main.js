@@ -4,8 +4,8 @@ const mysql = require('mysql');
 const {api}=require('./api');
 const {routes}=require('./routes');
 
-const hostname = '127.0.0.1';
-const port = 3300;
+const hostname = '0.0.0.0';
+const port = 3301;
 
 // MySQL connection setup
 const db = mysql.createConnection({
@@ -27,7 +27,7 @@ const server = http.createServer((req, res) => {
     const reqUrl = url.parse(req.url, true);
     const path = reqUrl.pathname;
     const query = reqUrl.query;
-
+    console.log(req.method,path);
     //cors
     res.appendHeader("Access-Control-Allow-Methods", "*");
     res.appendHeader("Access-Control-Allow-Origin", "*");
@@ -56,11 +56,11 @@ const server = http.createServer((req, res) => {
         res.setHeader('Content-Type', 'application/json');
         res.end(JSON.stringify({ message: 'Route not found' }));
     }
-    else if(method=='OPTIONS'){
-        res.statusCode=204;
+    else if(req.method=='OPTIONS'){
+        res.statusCode=200;
         res.end();
     }
-    else if(method=='HEAD'){
+    else if(req.method=='HEAD'){
         if(name)
             res.setHeader('Content-Type', 'application/json');
         else
