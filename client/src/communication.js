@@ -18,4 +18,32 @@ function postData(url,data){
   );
 }
 
-export {getData,postData}
+function deleteData(url,id) {
+  return fetch(apiUrl+url+'?id={id}', {
+    method: 'DELETE',
+    headers: {
+      'Accept': 'application/json',
+      'Content-Type': 'application/json'
+    },
+    
+  }).then(
+    res=>res.json(),
+    err=>console.log(err)
+  );
+}
+
+function updateData(url,id,data) {
+  return fetch(apiUrl+url+'?id=${id}', {
+    method: 'PUT',
+    headers: {
+      'Accept': 'application/json',
+      'Content-Type': 'application/json'
+    },
+    body: JSON.stringify(data)
+  }).then(
+    res=>res.json(),
+    err=>console.log(err)
+  );
+}
+
+export {getData,postData,deleteData,updateData}

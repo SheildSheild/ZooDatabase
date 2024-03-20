@@ -1,6 +1,6 @@
 import React, { useState } from 'react';
 import './dataEntry.css';
-import { postData } from '../../communication';
+import { postData,getData,updateData,deleteData } from '../../communication';
 
 function DataEntryBanner() {
     return(
@@ -8,6 +8,31 @@ function DataEntryBanner() {
             <h1>Admin Data Entry</h1>
         </div>
     );
+}
+
+function Table({ data }) {
+  if (!data || data.length === 0) {
+      return <div>No data available</div>;
+  }
+
+  const headers = Object.keys(data[0]);
+
+  return (
+      <table>
+          <thead>
+              <tr>
+                  {headers.map(header => <th key={header}>{header}</th>)}
+              </tr>
+          </thead>
+          <tbody>
+              {data.map((row, index) => (
+                  <tr key={index}>
+                      {headers.map(header => <td key={header}>{row[header]}</td>)}
+                  </tr>
+              ))}
+          </tbody>
+      </table>
+  );
 }
 
 const map={
@@ -49,6 +74,28 @@ const map={
     Date_Of_Examination: {type:"date",text:"Date of Examination:"},
     Description: {type:"text",text:"Description:"},
   },
+  zone:{
+    Zone_ID: {type:"number",text:"Zone ID:"},
+    Name: {type:"text", text:"Name:"},
+    Status: {type:"text", text:"Status:"},
+    Size: {type:"number", text:"Size:"},
+  },
+  habitat:{
+    Habitat_ID: {type:"number",text:"Habitat ID:"},
+    Zone_ID: {type:"number",text:"Zone ID:"},
+    Status: {type:"text",text:"Status:"},
+    Date_Opened: {type:"date",text:"Date Opened:"},
+    Capacity: {type:"number",text:"Capacity:"},
+  },
+  customer:{
+    Customer_ID: {type:"number",text:"Customer ID:"},
+    Name: {type:"text",text:"Name:"},
+    Address: {type:"text",text:"Address:"},
+    Phone: {type:"text",text:"Phone:"},
+    Email: {type:"text",text:"Email:"},
+    user_id: {type:"number",text:"User ID:"},
+  },
+
   /*
   add entry data like:
   entry:{
