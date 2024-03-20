@@ -3,7 +3,8 @@ import Navbar from '../navBar/navBar';
 import { postData } from "../../communication";
 
 
-export default function CustomerHome(){
+
+export default function Login({title,}){
     const links = ["homepage", "customerHome", "customerSignUp", "animalPage", "aboutUsPage"];
 
     return     (
@@ -11,7 +12,7 @@ export default function CustomerHome(){
     <Navbar links={links} />
     <br></br>
     <center>
-    <div><h1><strong>Customer Sign In</strong></h1></div>
+    <div><h1><strong>{title}</strong></h1></div>
     <div>
     <form onSubmit={(ev)=>{
         ev.preventDefault();
@@ -37,3 +38,7 @@ export default function CustomerHome(){
     </>
     )
 }
+
+// function CustomerLogin(){
+//     return <Login title={}/>
+// }
