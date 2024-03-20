@@ -1,63 +1,80 @@
-import {
-  Chart as ChartJS,
-  CategoryScale,
-  LinearScale,
-  PointElement,
-  LineElement,
-  Title,
-  Tooltip,
-  Legend,
-} from 'chart.js';
-import { Line } from 'react-chartjs-2';
 
-ChartJS.register(
-  CategoryScale,
-  LinearScale,
-  PointElement,
-  LineElement,
-  Title,
-  Tooltip,
-  Legend
-);
 
-function Chart({title,...props}){
-
-  const options = {
-    responsive: true,
-    plugins: {
-      legend: {
-        position: 'top',
-      },
-      title: {
-        display: true,
-        text: 'Report',
-      },
-    },
-  };
-
-  const labels = ['January', 'February', 'March', 'April', 'May', 'June', 'July'];
-
-  const data = {
-    labels,
-    datasets: [
-      {
-        label: 'Dataset 1',
-        data: labels.map(() => Math.random()*2000-1000),
-        borderColor: 'rgb(255, 99, 132)',
-        backgroundColor: 'rgba(255, 99, 132, 0.5)',
-      }
-    ],
-  };
-  return <Line options={options} data={data} {...props}/>
-}
-
+import Navbar from '../navBar/navBar';
+import React, { useRef } from 'react';
+import {Bar, Line} from 'react-chartjs-2';
+import {DummyData} from './reportdata';
+import {Chart as Chartjs} from 'chart.js/auto';
+import html2canvas from 'html2canvas';
+import jsPDF from 'jspdf';
+import ReportDisplay from './reportDisplay';
 function Report(){
-  return <div style={{height:"100%"}}>
-    <Chart height="20%"/>
-    <Chart height="30%"/>
-    This years report on customer volume and monetary gain.
-    {/* animal sickenesses, specific stores visited, volume of lost items, volume by location */}
-  </div>;
-}
+    const links = ["homepage", "customerHome", "customerSignUp", "animalPage", "aboutUsPage"];
+    const pdfRef = useRef();
+    const downloadPDF = () =>{
+            const input = pdfRef.current;
+            html2canvas(input).then((canvas)=>{
+                const imgData = canvas.toDataURL('image.png');
+                console.log(imgData);
+                const pdf = new jsPDF('p','mm','a4',true);
+                const pdfWidth = pdf.internal.pageSize.getWidth();
+                const pdfHeight = pdf.internal.pageSize.getHeight();
+                const imgWidth = canvas.width;
+                const imgHeight = canvas.height;
+               const ratio = Math.min(pdfWidth/imgWidth, pdfHeight/imgHeight);
+               const imgX = (pdfWidth-imgWidth * ratio)/2;
+               const imgY = 30
+               pdf.addImage(imgData, 'PNG',imgX,imgY,imgWidth*ratio, imgHeight*ratio );
+               pdf.save('report.pdf');
+        });
+    }
+
+
+  return <div>
+       <Navbar links={links} />
+       <div id = 'report' ref={pdfRef}>
+       <ReportDisplay/>
+       </div>
+       <button className='btn btn-primary' onClick={downloadPDF}>DOWNLOAD</button>
+
+    </div>
+};
 
 export default Report;
+
+ // const config =  {
+    //     scales: {
+    //         y: {
+    //             beginAtZero: true
+    //         }
+    //     }
+    //     }
+    
+    // const data = {
+    //     labels: DummyData.map((data)=>data.month) ,
+    //     datasets:[{
+    //         label: "Revenue",
+    //         data: DummyData.map((data)=> data.revenue)
+    //     }]
+    // };
+    // const downloadPDF = () =>{
+    //     const input = pdfRef.current;
+    //     html2canvas(input).then((canvas)=>{
+    //         const imgData = canvas.toDataURL('image.png');
+    //         const pdf = new jsPDF('p','mm','a4',true);
+    //         const pdfWidth = pdf.internal.pageSize.getWidth();
+    //         const pdfHeight = pdf.internal.pageSize.getHeight();
+    //         const imgWidth = canvas.width;
+    //         const imgHeight = canvas.height;
+    //         const ratio = Math.min(pdfWidth/imgWidth, pdfHeight/imgHeight);
+    //         const imgX = (pdfWidth-imgWidth * ratio)/2;
+    //         const imgY = 30
+    //         pdf.addImage(imgData, 'PNG', imgX, imgY, imgWidth*ratio, imgHeight*ratio);
+    //         pdf.save('report.pdf');
+    //     }
+
+
+    //     );
+    // };
+
+    

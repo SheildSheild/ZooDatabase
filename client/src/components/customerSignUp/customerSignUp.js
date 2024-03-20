@@ -1,14 +1,10 @@
 import './customerSignUp.css';
 import Navbar from '../navBar/navBar';
-import React, { useState } from 'react';
-import { Navigate, useNavigate } from "react-router-dom";
 import { postData } from '../../communication';
 
 export default function CustomerSignUp(){
     const links = ["homepage", "customerHome", "customerSignUp", "animalPage", "aboutUsPage"];
     
-
-
     return     (
     <>
     <Navbar links={links} />
