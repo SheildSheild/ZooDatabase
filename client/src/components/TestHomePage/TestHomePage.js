@@ -1,8 +1,12 @@
 import React from 'react';
 import { Link } from 'react-router-dom';
 import './TestHomePage.css';
+import DisplayTable from './../displayTable';
+import DataEntry from './../dataEntry';
 
-function TestHomePage() {
+
+
+function TestHomePage({list}) {
   return (
     <div className="homepage">
       <div className="sidebar">
@@ -14,26 +18,31 @@ function TestHomePage() {
         <Link className="sidebar-item" to="/animalPage">View Animals</Link>
         <br/>
         <Link className="sidebar-item" to="/calendar">View Schedule</Link>
+        <br />
+        <Link className="sidebar-item" to="/medicalRecords">View Medical Records</Link>
         <br/>
         <Link className="sidebar-item" to="/manage">Manage Data</Link>
       </div>
       <div className="main-content">
         {/* Content rendering based on route will be handled by the RouterProvider in the main index.js */}
       </div>
+      <DisplayTable data={require("./../animalPage/dummyAnimals.json")}/>
+      <center>
+        <DataEntry className="dataentry"/>
+      </center>
     </div>
   );
 }
 
-// export default function Navbar({links}){
-//   return <>
-//   <ul className='navbar'>
-//     {links.map((link, index) => (
-//       <li className='nav-link'>
-//         <Link className='nav-a' to={"/"+link}>{link}</Link>
-//       </li>
-//     ))}
-//   </ul>
-//   </>;
-// }
+function Test(){
+  return <TestHomePage list={[
+    {link:'/profile',text:"View Profile"}, 
+    {link:"/ticketsPage", text:"Buy Tickets"}, 
+    {link:"/animalPage", text:"View Animals"},
+    {link:"/calendar", text:"View Schecule"},
+    {link:"/medicalRecords", text:"View Medical Records"},
+    {link:"/manage", text:"Manage Data"}]}/>
+}
+
 
 export default TestHomePage;
