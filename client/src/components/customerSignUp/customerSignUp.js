@@ -15,13 +15,13 @@ export default function CustomerSignUp(){
                 ev.preventDefault();
                 const form=ev.target;
                 console.log(form);
-                postData('/register',{
-                    username:form.Email.value,
-                    password:form.Password.value,
-                    name:form.name.value,
-                    address:form.address.value,
-                    phone:form.phone.value,
-                }).then(val=>console.log(Navigate('/animalPage')))
+                // postData('/register',{
+                //     username:form.Email.value,
+                //     password:form.Password.value,
+                //     name:form.name.value,
+                //     address:form.address.value,
+                //     phone:form.phone.value,
+                // }).then(val=>console.log(Navigate('/animalPage')))
             }}>
                 <label for="name">Name: </label>
                 <input type="text" id="name" name="name" required />
