@@ -13,64 +13,70 @@ const parseSQL=(NAME,body)=>{
 }
 
 function api(req,res,query,body,name,db) {
-  const method = req.method;
   const NAME=name.toUpperCase();
   const Name=name[0].toUpperCase()+name.substring(1);
 
-  if (method === 'GET') {
+  const onError=(str,err)=>{
+    console.log(err);
+    res.statusCode = 500;
+    res.end(JSON.stringify({ message: str+Name, error: err.toString() }));
+  };
+  const onNotFound=()=>{
+    res.statusCode = 404;
+    res.end(JSON.stringify({ message: Name+'not found' }));
+  };
+  const onBadRequest=()=>{
+    res.statusCode = 400;
+    res.end(JSON.stringify({ message: Name+' ID is required' }));
+  };
+  const onSuccess=(val,code)=>{
+    res.statusCode = code||200;
+    res.end(JSON.stringify(val));
+  };
+
+  if (req.method === 'GET') {
     db.query(`SELECT * FROM ${NAME}`, (err, results) => {
-      if (err) {
-        res.statusCode = 500;
-        res.end(JSON.stringify({ message: `Error fetching ${Name}`, error: err.toString() }));
-      } else {
-        res.statusCode = 200;
-        res.end(JSON.stringify(results));
-      }
+      if (err) onError('Error fetching',err); 
+      else onSuccess(results);
     });
-  } else if (method === 'POST') {
+  } 
+  else if (req.method === 'POST') {
     req.on('end', () => {
       const [sql,values]=parseSQL(NAME,body);
-
       db.query(sql, values, (err, result) => {
-        if (err) {
-          console.log(err)
-          res.statusCode = 500;
-          res.end(JSON.stringify({ message: `Error adding ${Name}`, error: err.toString() }));
-        } else {
-          res.statusCode = 201;
-          res.end(JSON.stringify({ message: `${Name} added successfully`, Id: result.insertId }));
-        }
+        if (err) onError('Error adding',err);
+        else onSuccess({ message: `${Name} added successfully`, Id: result.insertId },201);
       });
     });
-  } else if (method === 'DELETE') {
+  } 
+  else{
     let ID = null;
     let IDString=null;
-    for(let q in query)
+    const values=[];
+    for(let q in query){
       if(q.substring(q.length-2).toUpperCase()=='ID'){
         ID=query[q];
         IDString=q;
-        break;
       }
+      else
+        values.push(`${q} = ${query[q]}`)
+    }
 
-    if (!ID) {
-      res.statusCode = 400; // Bad Request
-      res.end(JSON.stringify({ message: Name+' ID is required' }));
-    } else {
+    if (!ID) onBadRequest();
+    else if (req.method === 'DELETE') {
       const sql = `DELETE FROM ${NAME} WHERE ${IDString} = ${ID}`;
-
       db.query(sql, (err, result) => {
-        if (err) {
-          console.log(err)
-          res.statusCode = 500;
-          res.end(JSON.stringify({ message: `Error deleting ${Name}`, error: err.toString() }));
-        } else if (result.affectedRows === 0) {
-          // No rows affected means no zone was found with that ID
-          res.statusCode = 404;
-          res.end(JSON.stringify({ message: `${Name} not found` }));
-        } else {
-          res.statusCode = 200;
-          res.end(JSON.stringify({ message: `${Name} deleted successfully` }));
-        }
+        if (err) onError('Error deleting',err);
+        else if (result.affectedRows === 0) onNotFound();
+        else onSuccess({ message: `${Name} deleted successfully` });
+      });
+    }
+    else{
+      const sql = `UPDATE ${NAME} SET ${values.join()} WHERE ${IDString} = ${ID}`;
+      db.query(sql, (err, result) => {
+        if (err) onError('Error updating',err)
+        else if (result.affectedRows === 0) onNotFound();
+        else onSuccess({ message: `${Name} updated successfully` });
       });
     }
   }

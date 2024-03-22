@@ -1,13 +1,12 @@
 import "./customerHome.css"
 import Navbar from '../navBar/navBar';
 import { postData } from "../../communication";
-
-
+import { useNavigate } from "react-router-dom";
 
 export default function Login({title,}){
     const links = ["homepage", "customerHome", "customerSignUp", "animalPage", "aboutUsPage"];
-
-    return     (
+    const navigate=useNavigate();
+    return (
     <>
     <Navbar links={links} />
     <br></br>
@@ -18,10 +17,14 @@ export default function Login({title,}){
         ev.preventDefault();
         const form=ev.target;
         console.log(form);
-        postData('/login',{
-            username:form.Email.value,
-            password:form.Password.value
-        }).then(val=>console.log(val))
+        postData('/login',data).then(val=>{
+            if(val){
+                navigate('/customerHome');
+                localStorage.setItem('auth',{
+                    username:
+                })
+            }
+        })
     }}>
         <label for="Email">Email:</label>
         <input type="email" name="Email" id="Email"/>

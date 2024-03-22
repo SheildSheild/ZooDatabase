@@ -46,7 +46,7 @@ const server = http.createServer((req, res) => {
             name=_name;
     }
 
-    if(req.method=='POST'||req.method=='GET'||req.method=='DELETE'){
+    if(req.method=='POST'||req.method=='GET'||req.method=='DELETE'||req.method=='PUT'){
         if(name){
             res.setHeader('Content-Type', 'application/json');
             api(req,res,query,body,name,db);

@@ -33,6 +33,10 @@ function deleteData(url,id) {
 }
 
 function updateData(url,id,data) {
+  const auth=localStorage.getItem('auth');
+  if(auth)
+    data['auth']=auth;
+
   return fetch(apiUrl+url+'?id=${id}', {
     method: 'PUT',
     headers: {

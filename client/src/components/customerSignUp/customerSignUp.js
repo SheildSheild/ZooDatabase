@@ -1,15 +1,15 @@
 import './customerSignUp.css';
 import Navbar from '../navBar/navBar';
 import { postData } from '../../communication';
+import { useNavigate } from 'react-router-dom';
 
 export default function CustomerSignUp(){
     const links = ["homepage", "customerHome", "customerSignUp", "animalPage", "aboutUsPage"];
-    
-    return     (
-    <>
+    const navigate=useNavigate();
+    return (<>
     <Navbar links={links} />
     <br></br>
-    <center>
+        <center>
             <h1><strong>Customer Sign Up</strong></h1>
             <form onSubmit={(ev)=>{
                 ev.preventDefault();
@@ -21,7 +21,10 @@ export default function CustomerSignUp(){
                     name:form.name.value,
                     address:form.address.value,
                     phone:form.phone.value,
-                }).then(val=>console.log(Navigate('/animalPage')))
+                }).then(val=>{
+                    if(val)
+                        navigate('/animalPage');
+                })
             }}>
                 <label for="name">Name: </label>
                 <input type="text" id="name" name="name" required />

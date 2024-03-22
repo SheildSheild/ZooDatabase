@@ -11,7 +11,7 @@ export default function Homepage(){
     <h1><center><strong>Weclome to the <em>Cougar Zoo</em> Database!</strong></center></h1>
     <h2><center><img src={cougar} alt="cougar at our Zoo"></img></center></h2>
     <h4><center><Link to='/customerHome'>Returning Customer</Link></center></h4>
-    <h4><center>Don't have a account yet? <a href="\customerSignUp">Click Here To Sign Up...</a></center></h4>
+    <h4><center>Don't have a account yet? <Link to="/customerSignUp">Click Here To Sign Up...</Link></center></h4>
     </>
     
 }
