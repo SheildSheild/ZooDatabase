@@ -230,21 +230,26 @@ function api(req,res,query,body,name,db) {
       }
     });
   }
-  } else if (method === 'POST') {
-    req.on('end', () => {
-      const [sql,values]=parseSQL(NAME,body);
-
-      db.query(sql, values, (err, result) => {
-        if (err) {
-          console.log(err)
-          res.statusCode = 500;
-          res.end(JSON.stringify({ message: `Error adding ${Name}`, error: err.toString() }));
-        } else {
-          res.statusCode = 201;
-          res.end(JSON.stringify({ message: `${Name} added successfully`, Id: result.insertId }));
-        }
+  } else if (req.method === 'POST') {
+    if (name === 'register'||name === 'login') 
+      req.on('end', () => {
+        let data = {}; 
+        if (body.length > 0) 
+          data = JSON.parse(body.join('')); 
+        
+        if (name === 'login')
+          handleLogin(data, db, res);
+        else
+          handleRegister(data, db, res);
       });
-  });
+    else
+      req.on('end', () => {
+        const [sql,values]=parseSQL(NAME,body);
+        db.query(sql, values, (err, result) => {
+          if (err) onError('Error adding',err);
+          else onSuccess({ message: `${Name} added successfully`, Id: result.insertId },201);
+        });
+      });
   } else {
     let ID = null;
     let IDString=null;
