@@ -165,38 +165,87 @@ function api(req,res,query,body,name,db) {
       });
     };
     
-    if (name == 'tickets')
+    if (name == 'tickets'){
       authenticateToken(req, res, () => {
-        authorizeRoles(['customer'])(req,res,dbQuery);
+          db.query(`SELECT * FROM ${NAME.toLowerCase()}`, (err, results) => {
+            if (err) {
+              res.statusCode = 500;
+              res.end(JSON.stringify({ message: `Error fetching ${Name}`, error: err.toString() }));
+            } else {
+              res.statusCode = 200;
+              res.end(JSON.stringify(results));
+            }
+          });
       });
-    else if (name == 'users') 
-      // NEED TO ADD ADDITIONAL PARAMETERS TO USERS SO THAT IF A CUSTOMER IS ON THEIR PORTAL THEY CAN ONLY VIEW THEMSELVES
-      authenticateToken(req, res, dbQuery);
-    else
-      dbQuery();
-  } 
-  else if (req.method === 'POST') {
-    if (name === 'register'||name === 'login') 
-      req.on('end', () => {
-        let data = {}; 
-        if (body.length > 0) 
-          data = JSON.parse(body.join('')); 
-        
-        if (name === 'login')
-          handleLogin(data, db, res);
-        else
-          handleRegister(data, db, res);
-      });
-    else
-      req.on('end', () => {
-        const [sql,values]=parseSQL(NAME,body);
-        db.query(sql, values, (err, result) => {
-          if (err) onError('Error adding',err);
-          else onSuccess({ message: `${Name} added successfully`, Id: result.insertId },201);
+    } else if (name == 'users') {
+      authenticateToken(req, res, () => {
+        // Extract userId from the authenticated token
+        const userId = req.user.userId;
+    
+        // Check if the user is an Employee and a Manager
+        const checkRoleSql = `
+          SELECT roles.role_name, EMPLOYEES.isManager
+          FROM users
+          JOIN user_roles ON users.id = user_roles.user_id
+          JOIN roles ON user_roles.role_id = roles.id
+          JOIN EMPLOYEES ON users.id = EMPLOYEES.user_id
+          WHERE users.id = ? AND roles.role_name = 'Employee' AND EMPLOYEES.isManager = 1
+        `;
+    
+        db.query(checkRoleSql, [userId], (err, results) => {
+          if (err) {
+            res.statusCode = 500;
+            res.end(JSON.stringify({ message: 'Error checking user role and manager status', error: err.toString() }));
+            return;
+          }
+    
+          let sqlQuery;
+          if (results.length > 0) {
+            // If the user is an Employee and a Manager, fetch all users
+            sqlQuery = `SELECT * FROM users`;
+          } else {
+            // If not, fetch only the logged-in user's data
+            sqlQuery = `SELECT * FROM users WHERE id = ?`;
+          }
+    
+          db.query(sqlQuery, [userId], (err, userResults) => {
+            if (err) {
+              res.statusCode = 500;
+              res.end(JSON.stringify({ message: `Error fetching user data`, error: err.toString() }));
+            } else {
+              res.statusCode = 200;
+              res.end(JSON.stringify(userResults));
+            }
+          });
         });
       });
-  } 
-  else{
+    } else {   
+    db.query(`SELECT * FROM ${NAME}`, (err, results) => {
+      if (err) {
+        res.statusCode = 500;
+        res.end(JSON.stringify({ message: `Error fetching ${Name}`, error: err.toString() }));
+      } else {
+        res.statusCode = 200;
+        res.end(JSON.stringify(results));
+      }
+    });
+  }
+  } else if (method === 'POST') {
+    req.on('end', () => {
+      const [sql,values]=parseSQL(NAME,body);
+
+      db.query(sql, values, (err, result) => {
+        if (err) {
+          console.log(err)
+          res.statusCode = 500;
+          res.end(JSON.stringify({ message: `Error adding ${Name}`, error: err.toString() }));
+        } else {
+          res.statusCode = 201;
+          res.end(JSON.stringify({ message: `${Name} added successfully`, Id: result.insertId }));
+        }
+      });
+  });
+  } else {
     let ID = null;
     let IDString=null;
     const values=[];
@@ -217,8 +266,7 @@ function api(req,res,query,body,name,db) {
         else if (result.affectedRows === 0) onNotFound();
         else onSuccess({ message: `${Name} deleted successfully` });
       });
-    }
-    else{
+    } else{
       const sql = `UPDATE ${NAME} SET ${values.join()} WHERE ${IDString} = ${ID}`;
       db.query(sql, (err, result) => {
         if (err) onError('Error updating',err)

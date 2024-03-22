@@ -9,8 +9,8 @@ export default function Homepage(){
     // check if logged in!
 
     var links = ["homepage", "customerSignUp", "customerHome", "animalPage", "aboutUsPage"];
-    if (isLoggedIn && localStorage.getItem('role') == 'customer') {
-        links.push("homepage", "animalPage","testhomepage", "aboutUsPage");
+    if (isLoggedIn) {
+        links = ["homepage", "animalPage","testhomepage","aboutUsPage"];
     }
     const handleLogout = () => {
         localStorage.removeItem('token'); // Remove token from storage

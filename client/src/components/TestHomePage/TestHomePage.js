@@ -48,7 +48,7 @@ function TestHomePage({list}) {
       </div>
       <div className="main-content">
         {/* Content rendering based on route will be handled by the RouterProvider in the main index.js */}
-        <p> Welcome back, {userData.username}!</p>
+        <p> Welcome back, {userData[0].username}!</p>
       </div>
     </div>
   );
