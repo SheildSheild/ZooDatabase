@@ -1,14 +1,14 @@
 body {
-  background-color: black;
+  background-color: rgb(46, 46, 46);
   font-family: Arial, Helvetica, sans-serif;
-  color: white;
+  color: rgb(43, 43, 43);
   margin-top: 20px;
 }
 header {
-  color: white;
+  color: rgb(90, 88, 88);
 }
 em {
-  color: red;
+  color: rgb(223, 70, 70);
 }
 h3 {
   color: white;

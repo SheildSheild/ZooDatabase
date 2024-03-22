@@ -14,6 +14,7 @@ import TicketsPage from './components/ticketsPage';
 import DataEntry from './components/dataEntry';
 import AboutUsPage from './components/aboutUsPage';
 import EmployeeHome from './components/employeeHome';
+import TestHomePage from './components/TestHomePage';
 import Report from './components/report';
 import DisplayTable from './components/displayTable'
 
@@ -53,6 +54,10 @@ const router = createHashRouter([
   {
     path:"/employeeHome",
     element: <EmployeeHome/>
+  },
+  {
+    path:"/TestHomePage",
+    element: <TestHomePage/>,
   },
   {
     path:"/report",

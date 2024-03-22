@@ -1,7 +1,15 @@
 const apiUrl='http://158.101.102.104:3301/api'
 
-function getData(url){
-  return fetch(apiUrl+url).then(res=>res.json());
+function getData(url, data){
+  return fetch(apiUrl+url,{
+    headers: {
+      'Accept': 'application/json',
+      'Content-Type': 'application/json',
+      'Authorization': `Bearer ${data}`
+    },
+  }).then(
+      res=>res.json()
+      );
 }
 
 function postData(url,data){
