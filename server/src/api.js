@@ -181,44 +181,66 @@ function api(req,res,query,body,name,db) {
       authenticateToken(req, res, () => {
         // Extract userId from the authenticated token
         const userId = req.user.userId;
-    
-        // Check if the user is an Employee and a Manager
-        const checkRoleSql = `
-          SELECT roles.role_name, EMPLOYEES.isManager
+      
+        // Modified SQL query to include employee details
+        const sqlQuery = `
+          SELECT 
+            users.id AS userId, 
+            users.username, 
+            users.email, 
+            EMPLOYEES.Employee_ID, 
+            EMPLOYEES.Fname, 
+            EMPLOYEES.Lname, 
+            EMPLOYEES.SSN, 
+            EMPLOYEES.Email AS EmployeeEmail, 
+            EMPLOYEES.Address, 
+            EMPLOYEES.Birth_Date, 
+            EMPLOYEES.Start_Date, 
+            EMPLOYEES.isManager, 
+            EMPLOYEES.isMedic
           FROM users
-          JOIN user_roles ON users.id = user_roles.user_id
-          JOIN roles ON user_roles.role_id = roles.id
-          JOIN EMPLOYEES ON users.id = EMPLOYEES.user_id
-          WHERE users.id = ? AND roles.role_name = 'Employee' AND EMPLOYEES.isManager = 1
+          LEFT JOIN EMPLOYEES ON users.id = EMPLOYEES.user_id
+          WHERE users.id = ?
         `;
-    
-        db.query(checkRoleSql, [userId], (err, results) => {
+      
+        db.query(sqlQuery, [userId], (err, results) => {
           if (err) {
             res.statusCode = 500;
-            res.end(JSON.stringify({ message: 'Error checking user role and manager status', error: err.toString() }));
+            res.end(JSON.stringify({ message: `Error fetching user and employee data`, error: err.toString() }));
             return;
           }
-    
-          let sqlQuery;
-          if (results.length > 0) {
-            // If the user is an Employee and a Manager, fetch all users
-            sqlQuery = `SELECT * FROM users`;
-          } else {
-            // If not, fetch only the logged-in user's data
-            sqlQuery = `SELECT * FROM users WHERE id = ?`;
+      
+          // Assuming there's always at most one user with the given ID
+          const user = results[0];
+          if (!user) {
+            res.statusCode = 404;
+            res.end(JSON.stringify({ message: `User not found` }));
+            return;
           }
-    
-          db.query(sqlQuery, [userId], (err, userResults) => {
-            if (err) {
-              res.statusCode = 500;
-              res.end(JSON.stringify({ message: `Error fetching user data`, error: err.toString() }));
-            } else {
-              res.statusCode = 200;
-              res.end(JSON.stringify(userResults));
-            }
-          });
+      
+          // Preparing the response object
+          const response = {
+            userId: user.userId,
+            username: user.username,
+            email: user.email,
+            employeeDetails: user.Employee_ID ? {
+              employeeId: user.Employee_ID,
+              firstName: user.Fname,
+              lastName: user.Lname,
+              ssn: user.SSN,
+              email: user.EmployeeEmail,
+              address: user.Address,
+              birthDate: user.Birth_Date,
+              startDate: user.Start_Date,
+              isManager: !!user.isManager,
+              isMedic: !!user.isMedic,
+            } : null
+          };
+      
+          res.statusCode = 200;
+          res.end(JSON.stringify(response));
         });
-      });
+      });      
     } else {   
     db.query(`SELECT * FROM ${NAME}`, (err, results) => {
       if (err) {
