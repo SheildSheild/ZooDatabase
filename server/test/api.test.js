@@ -53,9 +53,9 @@ describe('API Routes Tests', () => {
     },timeOut);
     it('POST /api/animal_health - should add a new animal health record', async () => {
         const newRecord = {
-            Animal_ID: 1, 
+            Animal_Health_ID: 1, 
             Health_ID: 1, 
-            Primary_Doctor: 1, 
+            Primary_Doctor_ID: 1, 
             Description: "Health Record Test", 
             Date_Of_Examination: "2019-20-03"
         };
