@@ -47,8 +47,47 @@ async function handleRegister(data, db, res) {
   });
 }
 
+const jwt = require('jsonwebtoken');
+const SECRET_KEY = 'your_secret_key'; // Ensure you use a secure, environment-specific key
+// Middleware for authenticating token
+function authenticateToken(req, res, next) {
+  const token = req.headers['authorization']?.split(' ')[1]; // Expecting "Bearer TOKEN"
+
+  if (token == null) {
+    res.statusCode = 401; // Set status code to 401 Unauthorized
+    return res.end('Unauthorized'); // End the response with an "Unauthorized" message
+  }
+
+  jwt.verify(token, SECRET_KEY, (err, user) => {
+    if (err) {
+      res.statusCode = 403; // Set status code to 403 Forbidden
+      return res.end('Forbidden'); // End the response with a "Forbidden" message
+    }
+    req.user = user;
+    next(); // Proceed to the next middleware or function
+  });
+}
+
+// Middleware for checking user roles
+function authorizeRoles(allowedRoles) {
+  return (req, res, next) => {
+    if (!req.user) {
+      res.statusCode = 401;
+      return res.end(req); // Just in case the role check runs before token authentication
+    }
+
+    const userRole = req.user.role;
+    if (allowedRoles.includes(userRole)) {
+      next(); // User role is allowed, proceed
+    } else {
+      res.statusCode = 403; // Forbidden access
+    }
+  };
+}
+
 async function handleLogin(data, db, res) {
   const { email, password } = data;
+  console.log(email, password)
   const sql = `
     SELECT users.id, users.email, users.hashed_password, 
            roles.role_name, 
@@ -62,25 +101,32 @@ async function handleLogin(data, db, res) {
 
   db.query(sql, [email], async (err, results) => {
     if (err || results.length === 0) {
-      res.statusCode = 401; 
+      res.statusCode = 402; 
       res.end(JSON.stringify({ message: 'Login failed', error: 'User not found or error occurred' }));
       return;
     }
-
     const user = results[0];
     const passwordMatch = await bcrypt.compare(password, user.hashed_password);
 
+    console.log(user, bcrypt.compare(password, user.hashed_password))
+
     if (passwordMatch) {
+      const token = jwt.sign(
+        { userId: user.id, role: user.role_name },
+        SECRET_KEY,
+        { expiresIn: '1h' } // Token expires in 1 hour
+      );
       const response = {
         message: 'Login successful',
         userId: user.id,
         role: user.role_name || 'customer',
         isEmployee: user.role_name === 'employee',
         isMedic: user.isMedic,
-        isManager: user.isManager
+        isManager: user.isManager,
+        token,
       };
-
       res.statusCode = 200;
+      res.setHeader('Content-Type', 'application/json')
       res.end(JSON.stringify(response));
     } else {
       res.statusCode = 401;
@@ -89,85 +135,95 @@ async function handleLogin(data, db, res) {
   });
 }
 
-
-
 function api(req,res,query,body,name,db) {
-  const method = req.method;
   const NAME=name.toUpperCase();
   const Name=name[0].toUpperCase()+name.substring(1);
 
-  if (name === 'register' && method === 'POST') {
-    req.on('end', () => {
-      let data = {}; 
-      if (body.length > 0) {
-        data = JSON.parse(body.join('')); 
-      }
-      handleRegister(data, db, res);
-      return;
-    });
-  } else if (name === 'login' && method === 'POST') {
-    req.on('end', () => {
-      let data = {}; 
-      if (body.length > 0) {
-        data = JSON.parse(body.join('')); 
-      }
-      handleLogin(data, db, res);
-      return;
-    });
-  } else if (method === 'GET') {
-    db.query(`SELECT * FROM ${NAME}`, (err, results) => {
-      if (err) {
-        res.statusCode = 500;
-        res.end(JSON.stringify({ message: `Error fetching ${Name}`, error: err.toString() }));
-      } else {
-        res.statusCode = 200;
-        res.end(JSON.stringify(results));
-      }
-    });
-  } else if (method === 'POST') {
-    req.on('end', () => {
-      const [sql,values]=parseSQL(NAME,body);
+  const onError=(str,err)=>{
+    console.log(err);
+    res.statusCode = 500;
+    res.end(JSON.stringify({ message: str+Name, error: err.toString() }));
+  };
+  const onNotFound=()=>{
+    res.statusCode = 404;
+    res.end(JSON.stringify({ message: Name+'not found' }));
+  };
+  const onBadRequest=()=>{
+    res.statusCode = 400;
+    res.end(JSON.stringify({ message: Name+' ID is required' }));
+  };
+  const onSuccess=(val,code)=>{
+    res.statusCode = code||200;
+    res.end(JSON.stringify(val));
+  };
 
-      db.query(sql, values, (err, result) => {
-        if (err) {
-          console.log(err)
-          res.statusCode = 500;
-          res.end(JSON.stringify({ message: `Error adding ${Name}`, error: err.toString() }));
-        } else {
-          res.statusCode = 201;
-          res.end(JSON.stringify({ message: `${Name} added successfully`, Id: result.insertId }));
-        }
+  if (req.method === 'GET') {
+    const dbQuery=() => {
+      db.query(`SELECT * FROM ${NAME}`, (err, results) => {
+        if (err) onError('Error fetching',err);
+        else onSuccess(results);
       });
-    });
-  } else if (method === 'DELETE') {
+    };
+    
+    if (name == 'tickets')
+      authenticateToken(req, res, () => {
+        authorizeRoles(['customer'])(req,res,dbQuery);
+      });
+    else if (name == 'users') 
+      // NEED TO ADD ADDITIONAL PARAMETERS TO USERS SO THAT IF A CUSTOMER IS ON THEIR PORTAL THEY CAN ONLY VIEW THEMSELVES
+      authenticateToken(req, res, dbQuery);
+    else
+      dbQuery();
+  } 
+  else if (req.method === 'POST') {
+    if (name === 'register'||name === 'login') 
+      req.on('end', () => {
+        let data = {}; 
+        if (body.length > 0) 
+          data = JSON.parse(body.join('')); 
+        
+        if (name === 'login')
+          handleLogin(data, db, res);
+        else
+          handleRegister(data, db, res);
+      });
+    else
+      req.on('end', () => {
+        const [sql,values]=parseSQL(NAME,body);
+        db.query(sql, values, (err, result) => {
+          if (err) onError('Error adding',err);
+          else onSuccess({ message: `${Name} added successfully`, Id: result.insertId },201);
+        });
+      });
+  } 
+  else{
     let ID = null;
     let IDString=null;
-    for(let q in query)
+    const values=[];
+    for(let q in query){
       if(q.substring(q.length-2).toUpperCase()=='ID'){
         ID=query[q];
         IDString=q;
-        break;
       }
+      else
+        values.push(`${q} = ${query[q]}`)
+    }
 
-    if (!ID) {
-      res.statusCode = 400; 
-      res.end(JSON.stringify({ message: Name+' ID is required' }));
-    } else {
+    if (!ID) onBadRequest();
+    else if (req.method === 'DELETE') {
       const sql = `DELETE FROM ${NAME} WHERE ${IDString} = ${ID}`;
-
       db.query(sql, (err, result) => {
-        if (err) {
-          console.log(err)
-          res.statusCode = 500;
-          res.end(JSON.stringify({ message: `Error deleting ${Name}`, error: err.toString() }));
-        } else if (result.affectedRows === 0) {
-          // No rows affected means no zone was found with that ID
-          res.statusCode = 404;
-          res.end(JSON.stringify({ message: `${Name} not found` }));
-        } else {
-          res.statusCode = 200;
-          res.end(JSON.stringify({ message: `${Name} deleted successfully` }));
-        }
+        if (err) onError('Error deleting',err);
+        else if (result.affectedRows === 0) onNotFound();
+        else onSuccess({ message: `${Name} deleted successfully` });
+      });
+    }
+    else{
+      const sql = `UPDATE ${NAME} SET ${values.join()} WHERE ${IDString} = ${ID}`;
+      db.query(sql, (err, result) => {
+        if (err) onError('Error updating',err)
+        else if (result.affectedRows === 0) onNotFound();
+        else onSuccess({ message: `${Name} updated successfully` });
       });
     }
   }

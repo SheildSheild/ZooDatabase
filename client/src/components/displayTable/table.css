@@ -85,6 +85,11 @@ main {
   font-weight: 500;
 }
 
+.create_form input, .update_form input{
+  padding:8px;
+  font-size: 8px;
+}
+
 @keyframes fade-out {
   100% {
     opacity: 0;

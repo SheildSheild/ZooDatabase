@@ -11,7 +11,7 @@ const port = 3301;
 const db = mysql.createConnection({
     host: "localhost",
     user: "root",
-    password: "rasjeN-hibdix-1puzka", // Replace with your actual password
+    password: "rasjeN-hibdix-1puzka", 
     database: "Cougar_Zoo"
 });
 
@@ -46,7 +46,7 @@ const server = http.createServer((req, res) => {
             name=_name;
     }
 
-    if(req.method=='POST'||req.method=='GET'||req.method=='DELETE'){
+    if(req.method=='POST'||req.method=='GET'||req.method=='DELETE'||req.method=='PUT'){
         if(name){
             res.setHeader('Content-Type', 'application/json');
             api(req,res,query,body,name,db);

@@ -1,5 +1,5 @@
 {
   "dependencies": {
-    "passport-local": "^1.0.0"
+    "bcrypt": "^5.1.1"
   }
 }
