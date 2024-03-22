@@ -57,8 +57,7 @@ function TestHomePage() {
 
   const role = getRole();
   if (userData.employeeDetails) {
-    var employeeRole = userData.employeeDetails.isManager ? 'manager' : ''
-    employeeRole = userData.employeeDetails.isMedic ? 'medic' : ''
+    var employeeRole = userData.employeeDetails.isManager ? 'manager' : (userData.employeeDetails.isMedic ? 'medic' : '')
     
       sidebarLinks.push(...employeeLinks)
       if (employeeRole === 'manager') {

