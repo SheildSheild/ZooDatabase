@@ -221,21 +221,21 @@ function MedicalRecordEntry() {
   return <Entry link="/animal_health" title="Enter Medical Record" name="medical"/>
 }
 
-// function MedicalRecordEntry() {
-//   return <Entry link="/animal_health" title="Enter Medical Record" name="medical"/>
-// }
-// function MedicalRecordEntry() {
-//   return <Entry link="/animal_health" title="Enter Medical Record" name="medical"/>
-// }
-// function MedicalRecordEntry() {
-//   return <Entry link="/animal_health" title="Enter Medical Record" name="medical"/>
-// }
-// function MedicalRecordEntry() {
-//   return <Entry link="/animal_health" title="Enter Medical Record" name="medical"/>
-// }
-// function MedicalRecordEntry() {
-//   return <Entry link="/animal_health" title="Enter Medical Record" name="medical"/>
-// }
+function ZoneEntry() {
+  return <Entry link="/zones" title="Enter Zone Data" name="zone"/>
+}
+function HabitatEntry() {
+  return <Entry link="/habitats" title="Enter Habitat Data" name="habitat"/>
+}
+function CustomerEntry() {
+  return <Entry link="/customers" title="Enter Customer Data" name="customer"/>
+}
+function AttendsToEntry() {
+  return <Entry link="/attends_to" title="Enter Attends-To Data" name="attends_to"/>
+}
+function HasOffspring() {
+  return <Entry link="/has_offstring" title="Enter Has-Offstring Data" name="has_offspring"/>
+}
 // function MedicalRecordEntry() {
 //   return <Entry link="/animal_health" title="Enter Medical Record" name="medical"/>
 // }
