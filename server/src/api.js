@@ -47,8 +47,47 @@ async function handleRegister(data, db, res) {
   });
 }
 
+const jwt = require('jsonwebtoken');
+const SECRET_KEY = 'your_secret_key'; // Ensure you use a secure, environment-specific key
+// Middleware for authenticating token
+function authenticateToken(req, res, next) {
+  const token = req.headers['authorization']?.split(' ')[1]; // Expecting "Bearer TOKEN"
+
+  if (token == null) {
+    res.statusCode = 401; // Set status code to 401 Unauthorized
+    return res.end('Unauthorized'); // End the response with an "Unauthorized" message
+  }
+
+  jwt.verify(token, SECRET_KEY, (err, user) => {
+    if (err) {
+      res.statusCode = 403; // Set status code to 403 Forbidden
+      return res.end('Forbidden'); // End the response with a "Forbidden" message
+    }
+    req.user = user;
+    next(); // Proceed to the next middleware or function
+  });
+}
+
+// Middleware for checking user roles
+function authorizeRoles(allowedRoles) {
+  return (req, res, next) => {
+    if (!req.user) {
+      res.statusCode = 401;
+      return res.end(req); // Just in case the role check runs before token authentication
+    }
+
+    const userRole = req.user.role;
+    if (allowedRoles.includes(userRole)) {
+      next(); // User role is allowed, proceed
+    } else {
+      res.statusCode = 403; // Forbidden access
+    }
+  };
+}
+
 async function handleLogin(data, db, res) {
   const { email, password } = data;
+  console.log(email, password)
   const sql = `
     SELECT users.id, users.email, users.hashed_password, 
            roles.role_name, 
@@ -62,25 +101,32 @@ async function handleLogin(data, db, res) {
 
   db.query(sql, [email], async (err, results) => {
     if (err || results.length === 0) {
-      res.statusCode = 401; 
+      res.statusCode = 402; 
       res.end(JSON.stringify({ message: 'Login failed', error: 'User not found or error occurred' }));
       return;
     }
-
     const user = results[0];
     const passwordMatch = await bcrypt.compare(password, user.hashed_password);
 
+    console.log(user, bcrypt.compare(password, user.hashed_password))
+
     if (passwordMatch) {
+      const token = jwt.sign(
+        { userId: user.id, role: user.role_name },
+        SECRET_KEY,
+        { expiresIn: '1h' } // Token expires in 1 hour
+      );
       const response = {
         message: 'Login successful',
         userId: user.id,
         role: user.role_name || 'customer',
         isEmployee: user.role_name === 'employee',
         isMedic: user.isMedic,
-        isManager: user.isManager
+        isManager: user.isManager,
+        token,
       };
-
       res.statusCode = 200;
+      res.setHeader('Content-Type', 'application/json')
       res.end(JSON.stringify(response));
     } else {
       res.statusCode = 401;
@@ -89,11 +135,9 @@ async function handleLogin(data, db, res) {
   });
 }
 
-
-
 function api(req,res,query,body,name,db) {
   const method = req.method;
-  const NAME=name.toUpperCase();
+  var NAME=name.toUpperCase();
   const Name=name[0].toUpperCase()+name.substring(1);
 
   if (name === 'register' && method === 'POST') {
@@ -115,6 +159,34 @@ function api(req,res,query,body,name,db) {
       return;
     });
   } else if (method === 'GET') {
+    if (name == 'tickets') {
+      authenticateToken(req, res, () => {
+        authorizeRoles(['customer'])(req,res, () => {
+          db.query(`SELECT * FROM ${NAME.toLowerCase()}`, (err, results) => {
+            if (err) {
+              res.statusCode = 500;
+              res.end(JSON.stringify({ message: `Error fetching ${Name}`, error: err.toString() }));
+            } else {
+              res.statusCode = 200;
+              res.end(JSON.stringify(results));
+            }
+          });
+        });
+      });
+    } else if (name == 'users') {
+      // NEED TO ADD ADDITIONAL PARAMETERS TO USERS SO THAT IF A CUSTOMER IS ON THEIR PORTAL THEY CAN ONLY VIEW THEMSELVES
+            authenticateToken(req, res, () => {
+                db.query(`SELECT * FROM ${NAME.toLowerCase()}`, (err, results) => {
+                  if (err) {
+                    res.statusCode = 500;
+                    res.end(JSON.stringify({ message: `Error fetching ${Name}`, error: err.toString() }));
+                  } else {
+                    res.statusCode = 200;
+                    res.end(JSON.stringify(results));
+                  }
+                });
+            });
+          }
     db.query(`SELECT * FROM ${NAME}`, (err, results) => {
       if (err) {
         res.statusCode = 500;

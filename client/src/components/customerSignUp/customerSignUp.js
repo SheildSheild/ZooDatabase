@@ -1,25 +1,42 @@
 import './customerSignUp.css';
 import Navbar from '../navBar/navBar';
+import { postData } from '../../communication';
 
 export default function CustomerSignUp(){
     const links = ["homepage", "customerHome", "customerSignUp", "animalPage", "aboutUsPage"];
+    
     return     (
     <>
     <Navbar links={links} />
     <br></br>
     <center>
             <h1><strong>Customer Sign Up</strong></h1>
-            <form>
-                <label for="first_name">First Name: </label>
-                <input type="text" id="first_name" name="first_name" required />
-                <br />
-                <br />
-                <label for="last_name">Last Name: </label>
-                <input type="text" id="last_name" name="last_name" required />
+            <form onSubmit={(ev)=>{
+                ev.preventDefault();
+                const form=ev.target;
+                console.log(form);
+                // postData('/register',{
+                //     username:form.Email.value,
+                //     password:form.Password.value,
+                //     name:form.name.value,
+                //     address:form.address.value,
+                //     phone:form.phone.value,
+                // }).then(val=>console.log(Navigate('/animalPage')))
+            }}>
+                <label for="name">Name: </label>
+                <input type="text" id="name" name="name" required />
                 <br />
                 <br />
                 <label for="Email">Email: </label>
                 <input type="email" id="Email" name="Email" required />
+                <br />
+                <br />
+                <label for="Address">Address: </label>
+                <input type="address" id="address" name="address" required/>
+                <br />
+                <br />
+                <label for="Phone">Phone Number: </label>
+                <input type="phone" id="Phone" name="Phone" required/>
                 <br />
                 <br />
                 <label for="Password">Password: </label>
@@ -33,3 +50,4 @@ export default function CustomerSignUp(){
     </>
     )
 }
+

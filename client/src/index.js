@@ -13,6 +13,9 @@ import AnimalPage from './components/animalPage';
 import TicketsPage from './components/ticketsPage';
 import DataEntry from './components/dataEntry';
 import AboutUsPage from './components/aboutUsPage';
+import EmployeeHome from './components/employeeHome';
+import TestHomePage from './components/TestHomePage';
+import Report from './components/report';
 
 const router = createHashRouter([
   {
@@ -47,9 +50,27 @@ const router = createHashRouter([
     path :"/aboutUsPage",
     element: <AboutUsPage/>,
   },
-
+  {
+    path:"/employeeHome",
+    element: <EmployeeHome/>
+  },
+  {
+    path:"/TestHomePage",
+    element: <TestHomePage/>,
+  },
+  {
+    path:"/report",
+    element: <Report/>
+  }
 ]);
+/*
+more pages we need:
+report page
+employee schedule page
+animal schedule page
+every instance for display table
 
+*/
 
 
 const root = ReactDOM.createRoot(document.getElementById('root'));

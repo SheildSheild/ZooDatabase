@@ -6,8 +6,11 @@
     "@testing-library/jest-dom": "^5.17.0",
     "@testing-library/react": "^13.4.0",
     "@testing-library/user-event": "^13.5.0",
+    "chart.js": "^4.4.2",
+    "dayjs": "^1.11.10",
     "mysql": "^2.18.1",
     "react": "^18.2.0",
+    "react-big-calendar": "^1.11.2",
     "react-dom": "^18.2.0",
     "react-router-dom": "^6.22.1",
     "react-scripts": "^5.0.1",
@@ -36,5 +39,10 @@
       "last 1 firefox version",
       "last 1 safari version"
     ]
+  },
+  "devDependencies": {
+    "html2canvas": "^1.4.1",
+    "jspdf": "^2.5.1",
+    "react-chartjs-2": "^5.2.0"
   }
 }
