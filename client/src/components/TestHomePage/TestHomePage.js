@@ -1,8 +1,37 @@
 import React from 'react';
 import { Link } from 'react-router-dom';
 import './TestHomePage.css';
+import { useEffect, useState } from 'react';
+import { getData, postData } from '../../communication';
+
+function getToken() {
+  return localStorage.getItem('token');
+}
+
+function getRole() {
+  return localStorage.getItem('role')
+}
 
 function TestHomePage() {
+  const [userData, setUserData] = useState(null);
+  useEffect(() => {
+    // Assuming you have a function to get the saved token
+    const token = getToken(); // Get your token from somewhere, like localStorage
+    const role = getRole()
+    if (token) {
+      getData('/users', token)
+        .then(data => {
+          console.log('Protected data:', data);
+          setUserData(data)
+        })
+        .catch(error => {
+          console.error('Failed to fetch protected data:', error);
+        });
+    }
+  }, []);
+  if (!userData) {
+    return <div>Loading...</div>
+  }
   return (
     <div className="homepage">
       <div className="sidebar">
@@ -19,6 +48,7 @@ function TestHomePage() {
       </div>
       <div className="main-content">
         {/* Content rendering based on route will be handled by the RouterProvider in the main index.js */}
+        <p> Welcome back, {userData.username}!</p>
       </div>
     </div>
   );
