@@ -65,6 +65,14 @@ export default function CustomerSignUp() {
                 <input type="phone" id="Phone" name="Phone" required/>
                 <br />
                 <br />
+                <label for="Address">Address: </label>
+                <input type="address" id="address" name="address" required/>
+                <br />
+                <br />
+                <label for="Phone">Phone Number: </label>
+                <input type="phone" id="Phone" name="Phone" required/>
+                <br />
+                <br />
                 <label for="Password">Password: </label>
                 <input type="password" id="Password" name="Password" required />
                 <br />
@@ -75,4 +83,6 @@ export default function CustomerSignUp() {
     </>
     )
 }
+
+
 

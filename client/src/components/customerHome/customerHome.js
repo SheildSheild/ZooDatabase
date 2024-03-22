@@ -43,6 +43,7 @@ export default function Login({title,}){
     <br></br>
     <center>
     <div><h1><strong>{title}</strong></h1></div>
+    <div><h1><strong>{title}</strong></h1></div>
     <div>
         {errorMessage && <p className="error-message">{errorMessage}</p>} {/* display error message if exists */}
     <form onSubmit={handleLogin}>
@@ -59,6 +60,10 @@ export default function Login({title,}){
     </>
     );
 }
+
+// function CustomerLogin(){
+//     return <Login title={}/>
+// }
 
 // function CustomerLogin(){
 //     return <Login title={}/>

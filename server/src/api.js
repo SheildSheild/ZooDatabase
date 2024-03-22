@@ -223,6 +223,7 @@ function api(req,res,query,body,name,db) {
 
     if (!ID) {
       res.statusCode = 400; 
+      res.statusCode = 400; 
       res.end(JSON.stringify({ message: Name+' ID is required' }));
     } else {
       const sql = `DELETE FROM ${NAME} WHERE ${IDString} = ${ID}`;
@@ -246,3 +247,4 @@ function api(req,res,query,body,name,db) {
 }
 
 module.exports={api};
+

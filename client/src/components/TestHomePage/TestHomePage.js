@@ -12,7 +12,7 @@ function getRole() {
   return localStorage.getItem('role')
 }
 
-function TestHomePage() {
+function TestHomePage({list}) {
   const [userData, setUserData] = useState(null);
   useEffect(() => {
     // Assuming you have a function to get the saved token
@@ -54,16 +54,16 @@ function TestHomePage() {
   );
 }
 
-// export default function Navbar({links}){
-//   return <>
-//   <ul className='navbar'>
-//     {links.map((link, index) => (
-//       <li className='nav-link'>
-//         <Link className='nav-a' to={"/"+link}>{link}</Link>
-//       </li>
-//     ))}
-//   </ul>
-//   </>;
-// }
+
+function Test(){
+  return <TestHomePage list={[
+    {link:'/profile',text:"View Profile"}, 
+    {link:"/ticketsPage", text:"Buy Tickets"}, 
+    {link:"/animalPage", text:"View Animals"},
+    {link:"/calendar", text:"View Schecule"},
+    {link:"/medicalRecords", text:"View Medical Records"},
+    {link:"/manage", text:"Manage Data"}]}/>
+}
+
 
 export default TestHomePage;
