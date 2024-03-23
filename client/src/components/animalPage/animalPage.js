@@ -6,6 +6,14 @@ import React, { useState } from 'react';
 const dummyAnimals = require('./dummyAnimals');
 
 export default function AnimalPage() {
+  const token = localStorage.getItem('token');
+  const isLoggedIn = token != null;
+  // check if logged in!
+
+  var links = ["homepage", "customerSignUp", "customerHome", "animalPage", "aboutUsPage"];
+  if (isLoggedIn) {
+      links = ["homepage", "animalPage","testhomepage","aboutUsPage"];
+  }
   const [selectedZone, setSelectedZone] = useState('All');
   const [selectedHabitat, setSelectedHabitat] = useState('All');
   // const [availableHabitats, setAvailableHabitats] = useState([]);
@@ -33,8 +41,8 @@ export default function AnimalPage() {
   });
 
 
-  const links = ["homepage", "customerHome", "customerSignUp", "animalPage", "aboutUsPage"];
-    return (
+
+  return (
       <><Navbar links={links} />
       <br/><br/>
       <br/><br/>

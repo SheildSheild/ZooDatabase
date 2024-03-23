@@ -2,7 +2,14 @@ import './aboutUsPage.css';
 import Navbar from '../navBar/navBar';
 
 export default function AboutUsPage() {
-    const links = ["homepage", "customerHome", "customerSignUp", "animalPage", "aboutUsPage"];
+    const token = localStorage.getItem('token');
+    const isLoggedIn = token != null;
+    // check if logged in!
+
+    var links = ["homepage", "customerSignUp", "customerHome", "animalPage", "aboutUsPage"];
+    if (isLoggedIn) {
+        links = ["homepage", "animalPage","testhomepage","aboutUsPage"];
+    }
     return ( <>
         <Navbar links={links} />
         <br></br>

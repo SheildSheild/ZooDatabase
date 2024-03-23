@@ -32,7 +32,6 @@ function ReportVisit(){
 
 
   return <div>
-
 <Navbar links={links} />
 
 

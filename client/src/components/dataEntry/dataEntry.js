@@ -1,6 +1,7 @@
 import React, { useState } from 'react';
 import './dataEntry.css';
-import { postData } from '../../communication';
+// import DisplayTable from '.'
+import { postData,getData,updateData,deleteData } from '../../communication';
 
 function DataEntryBanner() {
     return(
@@ -9,6 +10,33 @@ function DataEntryBanner() {
         </div>
     );
 }
+
+// DisplayTable();
+
+// function Table({ data }) {
+//   if (!data || data.length === 0) {
+//       return <div>No data available</div>;
+//   }
+
+//   const headers = Object.keys(data[0]);
+
+//   return (
+//       <table>
+//           <thead>
+//               <tr>
+//                   {headers.map(header => <th key={header}>{header}</th>)}
+//               </tr>
+//           </thead>
+//           <tbody>
+//               {data.map((row, index) => (
+//                   <tr key={index}>
+//                       {headers.map(header => <td key={header}>{row[header]}</td>)}
+//                   </tr>
+//               ))}
+//           </tbody>
+//       </table>
+//   );
+// }
 
 const map={
   animal:{
@@ -49,6 +77,87 @@ const map={
     Date_Of_Examination: {type:"date",text:"Date of Examination:"},
     Description: {type:"text",text:"Description:"},
   },
+  zone:{
+    Zone_ID: {type:"number",text:"Zone ID:"},
+    Name: {type:"text", text:"Name:"},
+    Status: {type:"text", text:"Status:"},
+    Size: {type:"number", text:"Size:"},
+  },
+  habitat:{
+    Habitat_ID: {type:"number",text:"Habitat ID:"},
+    Zone_ID: {type:"number",text:"Zone ID:"},
+    Status: {type:"text",text:"Status:"},
+    Date_Opened: {type:"date",text:"Date Opened:"},
+    Capacity: {type:"number",text:"Capacity:"},
+  },
+  customer:{
+    Customer_ID: {type:"number",text:"Customer ID:"},
+    Name: {type:"text",text:"Name:"},
+    Address: {type:"text",text:"Address:"},
+    Phone: {type:"text",text:"Phone:"},
+    Email: {type:"text",text:"Email:"},
+    user_id: {type:"number",text:"User ID:"},
+  },
+  attendsto: {
+    Employee_ID: {type:"number",text:"Employee ID:"},
+    Animal_ID: {type:"number", text:"Animal ID:"},
+    Responsibility: {type:"text", text:"Responsibility:"},
+  },
+  hasoffstring:{
+    Parent_ID: {type:"number",text:"Parent ID:"},
+    Child_ID: {type:"number",text:"Child ID:"},
+    Date_Created: {type:"date",text:"Date Created:"},
+  },
+  item:{
+    Item_ID: {type:"number",text:"Item ID:"},
+    Shop_ID: {type:"number",text:"Shop ID:"},
+    Quantity: {type:"number",text:"Quantity:"},
+  },
+  lostitem:{
+    Lost_Item_ID: {type:"number",text:"Lost Item ID:"},
+    Customer_ID: {type: "number", text:"Customer ID:"},
+    Description: {type: "text",text:"Description:"},
+    Status: {type: "text",text:"Status:"},
+  },
+  restraunt:{
+    Restraunt_ID: {type:"number",text:"Restaurant ID:"},
+    Zone_ID: {type: "number", text:"Zone ID:"},
+    Name: {type: "text",text:"Name:"},
+    Status: {type: "text",text:"Status:"},
+  },
+  schedule:{
+    Schedule_ID: {type:"number",text:"Schedule ID:"},
+    Type_ID: {type: "number", text:"Type ID:"},
+    Zone_ID: {type: "number",text:"Zone ID:"},
+    Employee_ID: {type: "number",text:"Employee ID:"},
+    Restraunt_ID: {type:"number",text:"Restraunt ID:"},
+    Habitat_ID: {type: "number",text:"Habitat ID:"},
+    Shop_ID: {type: "number",text:"Shop ID:"},
+    Start_Time: {type:"date",text: "Start Time:"},
+    End_Time: {type:"date",text:"End Time:"},
+    Date: {type:"date",text:"Date:"},
+  },
+  scheduletype:{
+    Type_ID: {type:"number",text:"Type ID:"},
+    Name: {type:"number",text:"Name:"},
+  },
+  role:{
+    id: {type: "number", text:"ID:"},
+    role_name: {type: "text", text:"Role Name:"},
+  },
+  userrole:{
+    user_id: {type:"number",text:"User ID:"},
+    role_id: {type:"number",text:"Role ID:"},
+  },
+  user:{
+    id: {type:"number",text:"ID:"},
+    username: {type:"text",text:"Username:"},
+    email: {type:"text",text:"Email:"},
+    hashed_password: {type: "text", text:"Password"},
+    created_at: {type:"date",text:"Created At:"},
+  },
+
+
   /*
   add entry data like:
   entry:{
@@ -112,6 +221,28 @@ function MedicalRecordEntry() {
   return <Entry link="/animal_health" title="Enter Medical Record" name="medical"/>
 }
 
+function ZoneEntry() {
+  return <Entry link="/zones" title="Enter Zone Data" name="zone"/>
+}
+function HabitatEntry() {
+  return <Entry link="/habitats" title="Enter Habitat Data" name="habitat"/>
+}
+function CustomerEntry() {
+  return <Entry link="/customers" title="Enter Customer Data" name="customer"/>
+}
+function AttendsToEntry() {
+  return <Entry link="/attends_to" title="Enter Attends-To Data" name="attends_to"/>
+}
+function HasOffspring() {
+  return <Entry link="/has_offstring" title="Enter Has-Offstring Data" name="has_offspring"/>
+}
+// function MedicalRecordEntry() {
+//   return <Entry link="/animal_health" title="Enter Medical Record" name="medical"/>
+// }
+// function MedicalRecordEntry() {
+//   return <Entry link="/animal_health" title="Enter Medical Record" name="medical"/>
+// }
+
 /*
 add function here like:
 function NewEntry() {
@@ -145,6 +276,12 @@ function DataEntryPage() {
       {selectedDataType === 'animals' && <AnimalDataEntry />}
       {selectedDataType === 'employees' && <EmployeeDataEntry />}
       {selectedDataType === 'medicalRecords' && <MedicalRecordEntry />}
+      {/* {selectedDataType === 'medicalRecords' && <MedicalRecordEntry />}
+      {selectedDataType === 'medicalRecords' && <MedicalRecordEntry />}
+      {selectedDataType === 'medicalRecords' && <MedicalRecordEntry />}
+      {selectedDataType === 'medicalRecords' && <MedicalRecordEntry />}
+      {selectedDataType === 'medicalRecords' && <MedicalRecordEntry />}
+      {selectedDataType === 'medicalRecords' && <MedicalRecordEntry />} */}
       {/* add componet here */}
     </div>
   );
@@ -152,4 +289,3 @@ function DataEntryPage() {
   
   
 export default DataEntryPage;
-  
