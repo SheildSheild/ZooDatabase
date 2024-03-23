@@ -14,8 +14,9 @@ import TicketsPage from './components/ticketsPage';
 import DataEntry from './components/dataEntry';
 import AboutUsPage from './components/aboutUsPage';
 import EmployeeHome from './components/employeeHome';
-import Report from './components/report';
-
+import ReportRevenue from './components/reportRevenue';
+import ReportPaycheck from './components/reportPaycheck';
+import ReportVisit from './components/reportVisit';
 const router = createHashRouter([
   {
     path: "/",
@@ -54,8 +55,17 @@ const router = createHashRouter([
     element: <EmployeeHome/>
   },
   {
-    path:"/report",
-    element: <Report/>
+    path:"/reportRevenue",
+    element: <ReportRevenue/>
+  }
+  ,
+  {
+    path:"/reportPaycheck",
+    element: <ReportPaycheck/>
+  },
+  {
+    path:"/reportVisit",
+    element: <ReportVisit/>
   }
 ]);
 /*
