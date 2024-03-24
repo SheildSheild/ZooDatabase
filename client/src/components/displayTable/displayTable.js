@@ -25,9 +25,6 @@ function DisplayTable({link}){
 
   //data.sort((a,b)=>a.date-b.date)
   return <center>
-  <h1>Animal Table</h1>
-  {link === '/animals' && <AnimalDataEntry />}
-  <a href="#/dataEntry"><button>Create +</button></a>
   <section id="outer-table-container">
     <div id="inner-table-container">
       <table id='quote-table'>
@@ -116,8 +113,9 @@ function Add(link,setDataEntry,reRender,table){
       table.push(data);
       reRender();
     });
+    setDataEntry(<>Adding...</>);
+    reRender();
   }}/>);
-  setDataEntry(<>Adding...</>);
   reRender();
 }
 
