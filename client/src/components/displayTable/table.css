@@ -91,6 +91,9 @@ main {
   padding:8px;
   font-size: 8px;
 }
+.Create {
+  color:black;
+}
 
 .add-button:last-child {
   float: right;

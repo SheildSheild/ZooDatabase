@@ -6,7 +6,7 @@ import {Chart as Chartjs} from 'chart.js/auto';
 import html2canvas from 'html2canvas';
 import jsPDF from 'jspdf';
 
-const ReportDisplay = () => {
+const ReportDisplay = ( { fromDate, toDate, shopType }) => {
     const config =  {
         responsive: true,
         plugins: {
@@ -31,9 +31,10 @@ const ReportDisplay = () => {
             data: DummyData.map((data)=> data.revenue)
         }]
     };
-    return  <> <h1>Cougar  Zoo Revenue Report</h1>
-        <div style={{width:500}} >
+    return  <> <h1 style={{margin: 60}}>Cougar  Zoo Revenue Report</h1>
+        <div style={{width:1000}} >
         <Line data={data} options= {config} />
+
         </div>
 {/* 
         <table>
