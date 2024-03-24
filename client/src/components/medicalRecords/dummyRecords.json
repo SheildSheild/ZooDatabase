@@ -1,0 +1,31 @@
+[
+    {
+      "Health_ID": 1,
+      "Animal_ID": 329,
+      "Primary_Doctor": 10,
+      "Description": "Behavioral therapy for stress management.",
+      "Date_Of_Examination": "2023-06-26"
+    },
+    {
+      "Health_ID": 2,
+      "Animal_ID": 98,
+      "Primary_Doctor": 13,
+      "Description": "Nutritional assessment and diet plan update.",
+      "Date_Of_Examination": "2023-07-24"
+    },
+    {
+      "Health_ID": 3,
+      "Animal_ID": 184,
+      "Primary_Doctor": 3,
+      "Description": "Treated for a common cold.",
+      "Date_Of_Examination": "2023-07-02"
+    },
+    {
+      "Health_ID": 47,
+      "Animal_ID": 335,
+      "Primary_Doctor": 13,
+      "Description": "Rehabilitation from a previous injury.",
+      "Date_Of_Examination": "2023-09-30"
+    }
+  ]
+  

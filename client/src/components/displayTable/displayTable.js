@@ -189,6 +189,12 @@ function DisplayTable({link}){
     .then(res => setData(res.data))
     .catch(err => console.log(err))
   })
+  
+  // Handles empty data tables
+  if(!data)
+  {
+    return <div>No Data Avaliable</div>;
+  }
 
   // Function to handle modification of data
   const handleModify = (data, id) => {
