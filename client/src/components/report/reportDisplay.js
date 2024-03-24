@@ -31,7 +31,7 @@ const ReportDisplay = () => {
             data: DummyData.map((data)=> data.revenue)
         }]
     };
-    return  <> <h1 style={{margin: 60}}>Cougar  Zoo Revenue Report</h1>
+    return  <> <h1>Cougar  Zoo Revenue Report</h1>
         <div style={{width:500}} >
         <Line data={data} options= {config} />
         </div>

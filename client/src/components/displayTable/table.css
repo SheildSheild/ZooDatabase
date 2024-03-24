@@ -36,7 +36,13 @@ main {
   font-weight: 300;
 }
 
-.qth,
+.qth{
+  padding: 0.75rem 1rem;
+  position: sticky;
+  top: 0;
+  font-weight: 500;
+}
+
 .qtd {
   padding: 0.75rem 1rem;
 }
@@ -55,10 +61,6 @@ main {
 
 .qthead .qtr {
   background: var(--darkIV);
-}
-
-.qthead .qth {
-  font-weight: 500;
 }
 
 .qtbody .qtr:hover {
@@ -88,6 +90,10 @@ main {
 .create_form input, .update_form input{
   padding:8px;
   font-size: 8px;
+}
+
+.add-button:last-child {
+  float: right;
 }
 
 @keyframes fade-out {

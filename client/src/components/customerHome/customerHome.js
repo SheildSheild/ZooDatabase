@@ -26,7 +26,7 @@ export default function Login({title,}){
                     localStorage.setItem('role', response.role);
                     console.log("Stored role")
                 }
-                navigate('/animalPage'); // Redirect only on successful login
+                navigate('/TestHomePage'); // Redirect only on successful login
             } else {
                 setErrorMessage('Incorrect email or password. Please try again.');
             }
@@ -42,8 +42,7 @@ export default function Login({title,}){
     <Navbar links={links} />
     <br></br>
     <center>
-    <div><h1><strong>{title}</strong></h1></div>
-    <div><h1><strong>{title}</strong></h1></div>
+    <div><h1><strong>Login</strong></h1></div>
     <div>
         {errorMessage && <p className="error-message">{errorMessage}</p>} {/* display error message if exists */}
     <form onSubmit={handleLogin}>

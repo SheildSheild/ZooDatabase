@@ -18,6 +18,7 @@ body {
   
   .sidebar-item {
     border-bottom: 1px solid #444; /* Slightly lighter grey for separation */
+    width: 100%;
   }
 
   
@@ -33,7 +34,7 @@ body {
   
   /* Main content styles */
   .main-content {
-    margin-left: 250px; /* Same as sidebar width */
+    margin-left: 300px; /* Same as sidebar width */
     padding: 20px;
   }
   

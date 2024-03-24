@@ -45,7 +45,7 @@ const router = createHashRouter([
   },
   {
     path:"/dataEntry",
-    element: <DataEntry/>,
+    element: <DataEntry name='animals'/>,
   },
   {
     path :"/aboutUsPage",

@@ -8,8 +8,9 @@ function getData(url, data){
       'Authorization': `Bearer ${data}`
     },
   }).then(
-      res=>res.json()
-      );
+      res=>res.json(),
+      err=>console.log(err)
+  );
 }
 
 function postData(url,data){
@@ -26,26 +27,25 @@ function postData(url,data){
   );
 }
 
-function deleteData(url,id) {
-  return fetch(apiUrl+url+'?id={id}', {
+function deleteData(url,idString,id) {
+  return fetch(apiUrl+url+`?${idString}=${id}`, {
     method: 'DELETE',
     headers: {
       'Accept': 'application/json',
       'Content-Type': 'application/json'
     },
-    
   }).then(
     res=>res.json(),
     err=>console.log(err)
   );
 }
 
-function updateData(url,id,data) {
+function updateData(url,idString,id,data) {
   const auth=localStorage.getItem('auth');
   if(auth)
     data['auth']=auth;
 
-  return fetch(apiUrl+url+'?id=${id}', {
+  return fetch(apiUrl+url+`?${idString}=${id}`, {
     method: 'PUT',
     headers: {
       'Accept': 'application/json',
