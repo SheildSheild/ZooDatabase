@@ -44,8 +44,7 @@ export default function AnimalPage() {
 
   return (
       <><Navbar links={links} />
-      <br/><br/>
-      <br/><br/>
+      <br/>
       <div className="dropdown-container">
         <label htmlFor="zone-dropdown">Select Zone:</label>
         <select id="zone-dropdown" onChange={handleZoneChange}>

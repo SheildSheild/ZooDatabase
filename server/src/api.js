@@ -169,15 +169,7 @@ function api(req,res,query,body,name,db) {
     
     if (name == 'tickets'){
       authenticateToken(req, res, () => {
-          db.query(`SELECT * FROM ${NAME.toLowerCase()}`, (err, results) => {
-            if (err) {
-              res.statusCode = 500;
-              res.end(JSON.stringify({ message: `Error fetching ${Name}`, error: err.toString() }));
-            } else {
-              res.statusCode = 200;
-              res.end(JSON.stringify(results));
-            }
-          });
+          dbQuery();
       });
     } else if (name == 'users') {
       authenticateToken(req, res, () => {
@@ -244,15 +236,7 @@ function api(req,res,query,body,name,db) {
         });
       });      
     } else {   
-    db.query(`SELECT * FROM ${NAME}`, (err, results) => {
-      if (err) {
-        res.statusCode = 500;
-        res.end(JSON.stringify({ message: `Error fetching ${Name}`, error: err.toString() }));
-      } else {
-        res.statusCode = 200;
-        res.end(JSON.stringify(results));
-      }
-    });
+    dbQuery();
   }
   } else if (req.method === 'POST') {
     if (name === 'register'||name === 'login') 

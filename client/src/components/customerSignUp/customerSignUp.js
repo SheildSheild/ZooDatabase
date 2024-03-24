@@ -13,28 +13,20 @@ export default function CustomerSignUp() {
         event.preventDefault();
         const { name, Email, address, Phone, Password } = event.target.elements;
         
-        fetch('http://localhost:3301/api/register', {
-            method: 'POST',
-            headers: {
-                'Content-Type': 'application/json',
-            },
-            body: JSON.stringify({
-                username: Email.value,
-                email: Email.value, // Assuming email as username
-                password: Password.value,
-                role: 'customer',
-                // Include other fields as needed
-            }),
-        })
-        .then((response) => response.json())
-        .then((data) => {
-            if (data.message === 'User registered successfully') {
-                navigate('/animalPage'); // Redirect on success
+        postData('/register', {
+            username: Email.value,
+            email: Email.value, // Assuming email as username
+            password: Password.value,
+            role: 'customer',
+            // Include other fields as needed
+        }).then((data) => {
+            if (data&&data.message&&data.message === 'User registered successfully') {
+                navigate('/TestHomePage'); // Redirect on success
             } else {
+                console.log('reg failed',data)
                 setErrorMessage('Failed to register. Please try again.');
             }
-        })
-        .catch((error) => {
+        }).catch((error) => {
             console.error('Registration error:', error);
             setErrorMessage('An error occurred during registration.');
         });
