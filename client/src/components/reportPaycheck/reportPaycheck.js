@@ -1,15 +1,18 @@
 
-import { useState } from 'react';
+import { useState,useEffect } from 'react';
 import Navbar from '../navBar/navBar';
 import React, { useRef } from 'react';
 import html2canvas from 'html2canvas';
 import jsPDF from 'jspdf';
-
-
-export default function ReportPaycheck(){
+import ReportForm from './reportForm';
+import ReportDisplay from './reportDisplay';
+export default  function ReportPaycheck(){
     const [reportData, setReportData] = useState(null);
     const links = ["homepage", "reportRevenue","reportPaycheck","reportVisit"];
     const pdfRef = useRef();
+    const [data, setData] = useState(null);
+    const [data1, setData1] = useState(null);
+
     const downloadPDF = () =>{
             const input = pdfRef.current;
             html2canvas(input).then((canvas)=>{
@@ -30,12 +33,34 @@ export default function ReportPaycheck(){
     const handleFormSubmit = (data) => {
         setReportData(data);
     };
+    useEffect(() => {
+        fetch('http://158.101.102.104:3301/api/animals')
+          .then(response => response.json())
+          .then(data => setData(data))
+          .catch(error => console.error('Error:', error));
+          fetch('http://158.101.102.104:3301/api/employees')
+          .then(response => response.json())
+          .then(data => setData1(data))
+          .catch(error => console.error('Error:', error));
+      }, [])
+    console.log(data && data[0]);
+    console.log(data1 && data1[0]);
 
 
   return <div>
-
-<Navbar links={links} />
-
-
+        <Navbar links={links} />
+        <h1>HEYYYY</h1>
+        <ReportForm onFormSubmit={handleFormSubmit} />
+        {reportData != null && <><div ref={pdfRef}><ReportDisplay
+            employeeId={reportData.employeeId}
+            lastName={reportData.lastName}
+            firstName = {reportData.firstName}
+            fromDate={reportData.formDate}
+            toDate={reportData.toDate}
+            />
+            </div>
+            <button className='btn btn-primary' onClick={downloadPDF}>DOWNLOAD</button>
+            </>
+        }
     </div>
 };

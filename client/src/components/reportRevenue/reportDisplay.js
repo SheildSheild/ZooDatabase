@@ -1,10 +1,7 @@
-import Navbar from '../navBar/navBar';
 import React, { useRef } from 'react';
 import {Bar, Line} from 'react-chartjs-2';
 import {DummyData} from './reportdata';
 import {Chart as Chartjs} from 'chart.js/auto';
-import html2canvas from 'html2canvas';
-import jsPDF from 'jspdf';
 
 const ReportDisplay = ( { fromDate, toDate, shopType }) => {
     const config =  {
