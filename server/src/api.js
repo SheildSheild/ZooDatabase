@@ -1,6 +1,7 @@
 const bcrypt = require('bcrypt');
 const jwt = require('jsonwebtoken');
 const SECRET_KEY = 'your_secret_key';
+const {routes}=require('./routes');
 
 const parseSQL=(NAME,body)=>{
   const data = JSON.parse(body.join(''));
@@ -30,6 +31,25 @@ const parseName=(name)=>{
       up=true;
   }
   return Name.join('');
+};
+
+const getID=(Name)=>{
+  if(Name[Name.length-1]=='s')
+    return Name.substring(0,Name.length-1)+'_ID';
+  return Name+'_ID';
+};
+
+const parseQuery=(Name,query)=>{
+  let ID;
+  const IDString=getID(Name);
+  const values=[];
+  for(let q in query){
+    if(q==IDString)
+      ID=query[q];
+    else
+      values.push(`${q} = ${query[q]}`)
+  }
+  return {ID,IDString,values};
 };
 
 function onError(res,str,err){
@@ -95,28 +115,25 @@ async function handleLogin(data, db, res) {
       return onUnauthorized(res);
     const user = results[0];
     
-    console.log(email,password,user)
-    let passwordMatch = await bcrypt.compare(password, user.Hashed_Password);
-    if (user.isManager == 1) 
-      passwordMatch = true;
-
+    console.log(email,password,user);
+    const passwordMatch = await bcrypt.compare(password, user.Hashed_Password);
     console.log(passwordMatch)
+    
     if (passwordMatch) {
+      user.Role=user.Role||'customer';
       const token = jwt.sign(
         { userId: user.User_ID, role: user.Role },
-        SECRET_KEY,
-        { expiresIn: '1h' } // Token expires in 1 hour
+        SECRET_KEY, { expiresIn: '1h' }
       );
-      const response = {
+      onSuccess(res,{
         message: 'Login successful',
         userId: user.User_ID,
-        role: user.Role || 'customer',
+        role: user.Role,
         isEmployee: user.Role === 'employee',
         isMedic: user.isMedic,
         isManager: user.isManager,
         token,
-      };
-      onSuccess(res,response);
+      });
     } 
     else 
       onUnauthorized(res);
@@ -130,17 +147,14 @@ function authenticateToken(req, res, next) {
     return onUnauthorized(res);
 
   jwt.verify(token, SECRET_KEY, (err, user) => {
-    if (err)
+    if (err || !user)
       return onForbidden(res);
     req.user = user;
     next();
   });
 }
 
-function authorizeRoles(req, res, next) {
-  if (!req.user) 
-    return onUnauthorized(res);
-
+function authorizeRoles(req, res, allowedRoles, next) {
   const userRole = req.user.role;
   if (allowedRoles.includes(userRole)) 
     next(); 
@@ -149,10 +163,7 @@ function authorizeRoles(req, res, next) {
 }
 
 const getUsers=(req,res,db)=>{
-  // Extract userId from the authenticated token
   const userId = req.user.userId;
-
-  // Modified SQL query to include employee details
   const sqlQuery = `
     SELECT 
       USERS.User_ID AS userId, USERS.Username, USERS.Email, 
@@ -171,13 +182,11 @@ const getUsers=(req,res,db)=>{
     if (err) 
       return onError(res,`Error fetching user and employee data`,err);
 
-    // Assuming there's always at most one user with the given ID
     const user = results[0];
     if (!user) 
       return onNotFound(res,'User');
 
-    // Preparing the response object
-    const response = {
+    onSuccess(res,{
       userId: user.userId,
       username: user.Username,
       email: user.Email,
@@ -188,9 +197,7 @@ const getUsers=(req,res,db)=>{
         birthDate: user.Birth_Date,startDate: user.Start_Date,
         isManager: !!user.isManager,isMedic: !!user.isMedic,
       } : null
-    };
-
-    onSuccess(res,response);
+    });
   });
 };
 
@@ -199,74 +206,86 @@ function api(req,res,query,body,name,db) {
   const Name=parseName(name);
 
   if (req.method === 'GET') {
+    let next=()=>{
+      const {values,..._}=parseQuery(Name,query);
+      let sql=`SELECT * FROM ${NAME}`;
+      if(values.length>0)
+        sql+=` WHERE ${values.join()}`;
+      db.query(sql,(err, results) => {
+        if (err) onError(res,'Error fetching '+Name,err);
+        else onSuccess(res,results);
+      });
+    };
     switch(name){
       case 'users':
-        authenticateToken(req,res,()=>getUsers(req,res,db));
+        next=()=>getUsers(req,res,db);
         return;
-      default:
-        db.query(`SELECT * FROM ${NAME}`, (err, results) => {
-          if (err) onError(res,'Error fetching '+Name,err);
-          else onSuccess(res,results);
-        });
-    }
-  } 
-  else if (req.method === 'POST') {
-    switch(name){
-      case 'register':
-      case 'login':
-        req.on('end', () => {
-          let data = {}; 
-          if (body.length > 0) 
-            data = JSON.parse(body.join('')); 
-          
-          if (name === 'login')
-            handleLogin(data, db, res);
-          else
-            handleRegister(data, db, res);
-        });
-        break;
-      default:
-        req.on('end', () => {
-          const [sql,values]=parseSQL(NAME,body);
-          db.query(sql, values, (err, result) => {
-            if (err) onError(res,'Error adding '+Name,err);
-            else onSuccess(res,{ message: `${Name} added successfully`, Id: result.insertId },201);
-          });
-        });
-    }
-  }
-  else {
-    let ID = null;
-    let IDString;
-    if(Name[Name.length-1]=='s')
-      IDString=Name.substring(0,Name.length-1)+'_ID';
-    else
-      IDString=Name+'_ID';
-    const values=[];
-    for(let q in query){
-      if(q==IDString)
-        ID=query[q];
-      else
-        values.push(`${q} = ${query[q]}`)
+      
     }
 
-    if (!ID) onBadRequest(res,"ID required");
-    else if (req.method === 'DELETE') {
-      const sql = `DELETE FROM ${NAME} WHERE ${IDString} = ${ID}`;
-      db.query(sql, (err, result) => {
-        if (err) onError(res,'Error deleting '+Name,err);
-        else if (result.affectedRows === 0) onNotFound(res,Name);
-        else onSuccess(res,{ message: `${Name} deleted successfully` });
+    if(routes[name].view=='all')
+      next();
+    else
+      authenticateToken(req,res,()=>
+        authorizeRoles(req,res,routes[name].view,next)
+      );
+  } 
+  else {
+    let next=()=>
+      req.on('end', () => {
+        const [sql,values]=parseSQL(NAME,body);
+        db.query(sql, values, (err, result) => {
+          if (err) onError(res,'Error adding '+Name,err);
+          else onSuccess(res,{ message: `${Name} added successfully`, Id: result.insertId },201);
+        });
       });
-    } 
-    else{
-      const sql = `UPDATE ${NAME} SET ${values.join()} WHERE ${IDString} = ${ID}`;
-      db.query(sql, (err, result) => {
-        if (err) onError(res,'Error updating '+Name,err)
-        else if (result.affectedRows === 0) onNotFound(res,Name);
-        else onSuccess(res,{ message: `${Name} updated successfully` });
-      });
+    if (req.method === 'POST') {
+      switch(name){
+        case 'register':
+        case 'login':
+          next=()=>req.on('end', () => {
+            let data = {}; 
+            if (body.length > 0) 
+              data = JSON.parse(body.join('')); 
+            
+            if (name === 'login')
+              handleLogin(data, db, res);
+            else
+              handleRegister(data, db, res);
+          });
+          break;
+      }
     }
+    else { 
+      const {ID,IDString,values}=parseQuery(Name,query);
+  
+      if (ID===undefined) return onBadRequest(res,"ID required");
+      else if (req.method === 'DELETE') 
+        next=()=>{
+          const sql = `DELETE FROM ${NAME} WHERE ${IDString} = ${ID}`;
+          db.query(sql, (err, result) => {
+            if (err) onError(res,'Error deleting '+Name,err);
+            else if (result.affectedRows === 0) onNotFound(res,Name);
+            else onSuccess(res,{ message: `${Name} deleted successfully` });
+          });
+        } 
+      else
+        next=()=>{
+          const sql = `UPDATE ${NAME} SET ${values.join()} WHERE ${IDString} = ${ID}`;
+          db.query(sql, (err, result) => {
+            if (err) onError(res,'Error updating '+Name,err)
+            else if (result.affectedRows === 0) onNotFound(res,Name);
+            else onSuccess(res,{ message: `${Name} updated successfully` });
+          });
+        }
+    }
+
+    if(routes[name].modify=='all')
+      next();
+    else
+      authenticateToken(req,res,()=>
+        authorizeRoles(req,res,routes[name].modify,next)
+      );
   }
 }
 

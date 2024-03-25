@@ -1,4 +1,4 @@
-const e='employee',m='manager', em='medic', c='customer', a='all';
+const e=['employee','medic','manager'],m=['manager'], em=['medic','manager'], c=['customer'], a='all';
 function access(v,m){
   return {
     view:v,
