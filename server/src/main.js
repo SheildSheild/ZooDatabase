@@ -42,7 +42,7 @@ const server = http.createServer((req, res) => {
     let name=null;
     if(path.substring(0,5)==='/api/'){
         const _name=path.substring(5);
-        if(routes.has(_name))
+        if(_name in routes)
             name=_name;
     }
 
