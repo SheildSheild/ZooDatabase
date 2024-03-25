@@ -1,36 +1,41 @@
 import './animalPage.css';
 import Navbar from '../navBar/navBar';
-import React, { useState } from 'react';
-
-
-const dummyAnimals = require('./dummyAnimals');
+import React, { useEffect, useState } from 'react';
+import { getData } from '../../communication';
 
 export default function AnimalPage() {
   const token = localStorage.getItem('token');
   const isLoggedIn = token != null;
   // check if logged in!
 
-  var links = ["homepage", "customerSignUp", "customerHome", "animalPage", "aboutUsPage"];
+  let links = ["homepage", "customerSignUp", "customerHome", "animalPage", "aboutUsPage"];
   if (isLoggedIn) {
       links = ["homepage", "animalPage","testhomepage","aboutUsPage"];
   }
   const [selectedZone, setSelectedZone] = useState('All');
   const [selectedHabitat, setSelectedHabitat] = useState('All');
-  // const [availableHabitats, setAvailableHabitats] = useState([]);
+  const [animals, setAnimals]=useState([]);
+
+  useEffect(()=>{
+    getData('/animals')
+    .then(data=>{
+      if(data)
+        setAnimals(data);
+    })
+  },[]);
+
+  if(animals.length==0)
+    return <>Loading...</>;
 
   const handleZoneChange = (event) => {
     setSelectedZone(event.target.value);
-    // const zoneID = event.target.value;
-    // const habitatsInZone = dummyAnimals.filter(animal => animal.Zone_ID === zoneID).map(animal => animal.Habitat_ID);
-    // setAvailableHabitats(habitatsInZone);
-    // setSelectedHabitat('All');
   };
 
   const handleHabitatChange = (event) => {
     setSelectedHabitat(event.target.value);
   };
 
-  const filteredAnimals = dummyAnimals.filter(animal => {
+  const filteredAnimals = animals.filter(animal => {
     if (selectedZone !== 'All' && animal.Zone_ID != selectedZone) {
       return false;
     }
@@ -57,12 +62,6 @@ export default function AnimalPage() {
         <br></br>
         <br></br>
         <label htmlFor="habitat-dropdown">Select Habitat:</label>
-        {/* <select id="habitat-dropdown" onChange={handleHabitatChange} value={selectedHabitat}>
-          <option value="All">All</option>
-          {availableHabitats.map(habitat => (
-            <option key={habitat} value={habitat}>{habitat}</option>
-          ))}
-        </select> */}
         <select id="habitat-dropdown" onChange={handleHabitatChange}>
           <option value="All">All</option>
           <option value="10">Savannah</option>
@@ -72,15 +71,6 @@ export default function AnimalPage() {
         </select>
       </div>
       <div className="animal-container">
-        {/* {dummyAnimals
-          .filter(animal => (selectedZone === 'All' || animal.Zone_ID === selectedZone) && (selectedHabitat === 'All' || animal.Habitat_ID === selectedHabitat))
-          .map(animal => (
-            <div key={animal.Animal_ID} className="animal">
-              <h3>{animal.Name}</h3>
-              <p>Species: {animal.Species}</p>
-              <p>{animal.Habitat_Name}</p>
-            </div>
-          ))} */}
         {filteredAnimals.map(animal => (
           <div key={animal.Animal_ID} className="animal">
             <h3>{animal.Name}</h3>

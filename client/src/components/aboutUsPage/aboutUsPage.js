@@ -6,9 +6,9 @@ export default function AboutUsPage() {
     const isLoggedIn = token != null;
     // check if logged in!
 
-    var links = ["homepage", "customerSignUp", "customerHome", "animalPage", "aboutUsPage"];
+    var links = ["homepage", "customerSignUp", "login", "animalPage", "aboutUsPage"];
     if (isLoggedIn) {
-        links = ["homepage", "animalPage","testhomepage","aboutUsPage"];
+        links = ["homepage", "animalPage","portal","aboutUsPage"];
     }
     return ( <>
         <Navbar links={links} />
