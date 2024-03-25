@@ -23,7 +23,6 @@ function ReportForm({ onFormSubmit }) {
   }
 
   const handleReset = () => {
-
     setFromDate('');
     setToDate('');
     setShopType('');

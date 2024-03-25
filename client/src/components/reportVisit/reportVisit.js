@@ -4,7 +4,8 @@ import Navbar from '../navBar/navBar';
 import React, { useRef } from 'react';
 import html2canvas from 'html2canvas';
 import jsPDF from 'jspdf';
-
+import ReportForm from './reportForm';
+import ReportDisplay from './reportDisplay';
 function ReportVisit(){
     const [reportData, setReportData] = useState(null);
     const links = ["homepage", "reportRevenue","reportPaycheck","reportVisit"];
@@ -29,12 +30,18 @@ function ReportVisit(){
     const handleFormSubmit = (data) => {
         setReportData(data);
     };
-
-
   return <div>
-<Navbar links={links} />
-
-
+        <Navbar links={links} />
+        <h1>HEYYYY</h1>
+        <ReportForm onFormSubmit={handleFormSubmit} />
+        {reportData != null && <><div ref={pdfRef}><ReportDisplay
+            fromDate={reportData.fromDate}
+            toDate={reportData.toDate}
+            />
+            </div>
+            <button className='btn btn-primary' onClick={downloadPDF}>DOWNLOAD</button>
+            </>
+        }
     </div>
 };
 
