@@ -11,7 +11,7 @@ function DisplayTable({link}){
   const [renderCnt,render]=useState(1);
   const reRender=()=>render(renderCnt+1);
   useEffect(() => {
-    getData(link,data)
+    getData(link)
     .then(res => setData(res))
     .catch(err => console.log(err))
   })

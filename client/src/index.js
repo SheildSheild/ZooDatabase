@@ -6,18 +6,18 @@ import {
 } from "react-router-dom";
 
 
-import CustomerHome from './components/customerHome';
+import Login from './components/login';
 import CustomerSignUp from './components/customerSignUp';
 import Homepage from './components/homepage';
 import AnimalPage from './components/animalPage';
 import TicketsPage from './components/ticketsPage';
 import DataEntry from './components/dataEntry';
 import AboutUsPage from './components/aboutUsPage';
-import EmployeeHome from './components/employeeHome';
+import EmployeeSchedule from './components/employeeSchedule';
 import ReportRevenue from './components/reportRevenue';
 import ReportPaycheck from './components/reportPaycheck';
 import ReportVisit from './components/reportVisit';
-import TestHomePage from './components/TestHomePage';
+import Portal from './components/portal';
 import DisplayTable from './components/displayTable';
 import MedicalRecords from './components/medicalRecords';
 import LostAndFoundReport from './components/lostAndFoundReport';
@@ -28,8 +28,8 @@ const router = createHashRouter([
     element: <Homepage/>,
   },
   {
-    path: "/customerHome",
-    element: <CustomerHome/>,
+    path: "/login",
+    element: <Login/>,
   },
   {
     path: "/customerSignUp",
@@ -56,14 +56,13 @@ const router = createHashRouter([
     element: <AboutUsPage/>,
   },
   {
-    path:"/employeeHome",
-    element: <EmployeeHome/>
+    path:"/employeeSchedule",
+    element: <EmployeeSchedule/>
   },
   {
     path:"/reportRevenue",
     element: <ReportRevenue/>
-  }
-  ,
+  },
   {
     path:"/reportPaycheck",
     element: <ReportPaycheck/>
@@ -73,8 +72,8 @@ const router = createHashRouter([
     element: <ReportVisit/>
   },
   {
-    path:"/TestHomePage",
-    element: <TestHomePage/>,
+    path:"/portal",
+    element: <Portal/>,
   },
   {
     path:"/displayTable",

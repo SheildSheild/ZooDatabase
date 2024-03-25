@@ -1,8 +1,10 @@
 import React, { useEffect, useState } from 'react';
 import { Link } from 'react-router-dom';
-import './TestHomePage.css';
+import './portal.css';
 import { getData } from '../../communication';
 import DisplayTable from '../displayTable';
+import EmployeeSchedule from '../employeeSchedule';
+import ManagerSchedule from '../managerSchedule';
 
 function getToken() {
   return localStorage.getItem('token');
@@ -24,12 +26,12 @@ const customerLinks = [
 const employeeLinks = [
   // IMPLEMENT A PAGE TO EDIT ANIMALS
   { text:"View Schedule", onClick: (userData,setMainComponent)=>{
-    
+    setMainComponent(<EmployeeSchedule/>)
   }},
 ]
 
 const medicLinks = [
-  { text: 'View Medical Records', onClick: (userData,setMainComponent)=>{
+  { text: 'Edit Medical Records', onClick: (userData,setMainComponent)=>{
     setMainComponent(<DisplayTable link='\animal_health'/>)
   } },
 ]
@@ -40,19 +42,25 @@ const managerLinks = [
   { text: 'Manage Data', onClick: (userData,setMainComponent)=>{
     
   } },
-  { text: 'View Medical Records', onClick: (userData,setMainComponent)=>{
-    setMainComponent(<DisplayTable link='\animal_health'/>)
+  { text: 'Edit Animals List', onClick: (userData,setMainComponent)=>{
+    setMainComponent(<DisplayTable link='\animals'/>)
+  } },
+  { text: 'Edit Purchases', onClick: (userData,setMainComponent)=>{
+    setMainComponent(<DisplayTable link='\purchases'/>)
+  } },
+  { text: 'Edit Employee Schedule', onClick: (userData,setMainComponent)=>{
+    setMainComponent(<ManagerSchedule/>)
   } },
 ];
 
-function TestHomePage() {
+function Portal() {
   const [userData, setUserData] = useState(null);
   const [mainComponent,setMainComponent]=useState(<></>)
 
   useEffect(() => {
     const token = getToken();
     if (token) {
-      getData('/users', token)
+      getData('/users')
         .then(data => {
           console.log('Protected data:', data);
           setUserData(data);
@@ -60,6 +68,7 @@ function TestHomePage() {
         })
         .catch(error => {
           console.error('Failed to fetch protected data:', error);
+          setMainComponent(<>Unexpected Error: {error}</>)
         });
     }
   },[]);
@@ -67,17 +76,19 @@ function TestHomePage() {
   if (!userData) 
     return <div>Loading...</div>;
 
-  // Determine which links to display based on user role
   const sidebarLinks = [];
 
   const role = getRole();
   if (userData.employeeDetails) {
     const employeeRole = userData.employeeDetails.isManager ? 'manager' : (userData.employeeDetails.isMedic ? 'medic' : '');
-    sidebarLinks.push(...employeeLinks)
-    if (employeeRole === 'manager') 
-      sidebarLinks.push(...managerLinks);
-    else if (employeeRole === 'medic') 
-      sidebarLinks.push(...medicLinks);
+    switch(employeeRole){
+      case 'manager':
+        sidebarLinks.push(...managerLinks);
+      case 'medic':
+        sidebarLinks.push(...medicLinks);
+      default:
+        sidebarLinks.push(...employeeLinks)
+    }
   }
   else
     sidebarLinks.push(...customerLinks);
@@ -99,4 +110,4 @@ function TestHomePage() {
   );
 }
 
-export default TestHomePage;
+export default Portal;
