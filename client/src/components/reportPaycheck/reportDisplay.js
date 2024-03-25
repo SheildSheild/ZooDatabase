@@ -1,9 +1,10 @@
 import React from 'react'
 
-function reportDisplay() {
+function ReportDisplay({ fromDate, toDate, employeeId, firstName,lastName }) {
+  console.log(fromDate,toDate,employeeId,firstName,lastName)
   return (
     <div>reportDisplay</div>
   )
 }
 
-export default reportDisplay
+export default ReportDisplay

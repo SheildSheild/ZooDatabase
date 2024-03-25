@@ -1,11 +1,11 @@
-import "./customerHome.css"
+import "./login.css"
 import Navbar from '../navBar/navBar';
 import { postData } from "../../communication";
 import { useNavigate } from 'react-router-dom'
 import { useState } from 'react';
 
-export default function Login({title,}){
-    const links = ["homepage", "customerHome", "customerSignUp", "animalPage", "aboutUsPage"];
+function Login({title,}){
+    const links = ["homepage", "login", "customerSignUp", "animalPage", "aboutUsPage"];
     const navigate = useNavigate(); // navigates to next page upon customer login
     const [errorMessage, setErrorMessage] = useState(''); // stores error
 
@@ -26,7 +26,7 @@ export default function Login({title,}){
                     localStorage.setItem('role', response.role);
                     console.log("Stored role")
                 }
-                navigate('/TestHomePage'); // Redirect only on successful login
+                navigate('/portal'); // Redirect only on successful login
             } else {
                 setErrorMessage('Incorrect email or password. Please try again.');
             }
@@ -60,10 +60,4 @@ export default function Login({title,}){
     );
 }
 
-// function CustomerLogin(){
-//     return <Login title={}/>
-// }
-
-// function CustomerLogin(){
-//     return <Login title={}/>
-// }
+export default Login;

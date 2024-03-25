@@ -21,7 +21,7 @@ export default function CustomerSignUp() {
             // Include other fields as needed
         }).then((data) => {
             if (data&&data.message&&data.message === 'User registered successfully') {
-                navigate('/TestHomePage'); // Redirect on success
+                navigate('/portal'); // Redirect on success
             } else {
                 console.log('reg failed',data)
                 setErrorMessage('Failed to register. Please try again.');

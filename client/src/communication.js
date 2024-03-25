@@ -1,11 +1,11 @@
 const apiUrl='http://158.101.102.104:3301/api'
 
-function getData(url, data){
+function getData(url){
   return fetch(apiUrl+url,{
     headers: {
       'Accept': 'application/json',
       'Content-Type': 'application/json',
-      'Authorization': `Bearer ${data}`
+      'Authorization': `Bearer ${localStorage.getItem('token')}`
     },
   }).then(
       res=>res.json(),
