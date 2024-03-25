@@ -20,6 +20,7 @@ import ReportVisit from './components/reportVisit';
 import TestHomePage from './components/TestHomePage';
 import DisplayTable from './components/displayTable';
 import MedicalRecords from './components/medicalRecords';
+import LostAndFoundReport from './components/lostAndFoundReport';
 
 const router = createHashRouter([
   {
@@ -83,6 +84,10 @@ const router = createHashRouter([
     path:"/medicalRecords",
     element: <MedicalRecords/>,
   },
+  {
+    path:"/lostAndFoundReport",
+    element: <LostAndFoundReport/>
+  }
   
   // data={[{"Animal_ID":1,"Habitat_ID":10,"Zone_ID":14,"Habitat_Name":"Savannah","Name":"Laura","Weight":300.05,"Height":83.06,"Birth_Date":"2019-03-30","Species":"Panthera leo"},{"Animal_ID":2,"Habitat_ID":11,"Zone_ID":15,"Habitat_Name":"Jungle","Name":"Tikes","Weight":403.08,"Height":90.57,"Birth_Date":"2018-04-02","Species":"Panthera tigris"},{"Animal_ID":3,"Habitat_ID":12,"Zone_ID":16,"Habitat_Name":"Grasslands","Name":"Braum","Weight":320.09,"Height":67.08,"Birth_Date":"2020-01-19","Species":"Lycaon pictus"},{"Animal_ID":4,"Habitat_ID":13,"Zone_ID":17,"Habitat_Name":"Forest","Name":"Chaser","Weight":509.08,"Height":78.46,"Birth_Date":"2018-07-24","Species":"Puma concolor"}]}
 ]);
