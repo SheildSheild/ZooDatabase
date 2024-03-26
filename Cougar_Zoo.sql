@@ -212,10 +212,8 @@ CREATE TABLE `CUSTOMERS` (
   `Address` varchar(45) DEFAULT NULL,
   `Phone` varchar(15) DEFAULT NULL,
   `Email` varchar(45) DEFAULT NULL,
-  `User_ID` int DEFAULT NULL,
-  PRIMARY KEY (`Customer_ID`),
-  KEY `fk_CUSTOMERS_USERS` (`User_ID`),
-  CONSTRAINT `fk_CUSTOMERS_USERS` FOREIGN KEY (`User_ID`) REFERENCES `USERS` (`User_ID`)
+  `Password` varchar(63) DEFAULT NULL,
+  PRIMARY KEY (`Customer_ID`)
 ) ENGINE=InnoDB AUTO_INCREMENT=3 DEFAULT CHARSET=utf8mb3;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
@@ -225,7 +223,7 @@ CREATE TABLE `CUSTOMERS` (
 
 LOCK TABLES `CUSTOMERS` WRITE;
 /*!40000 ALTER TABLE `CUSTOMERS` DISABLE KEYS */;
-INSERT INTO `CUSTOMERS` VALUES (2,'John Doe','123 Example St','555-5555','john.doe@example.com',1);
+INSERT INTO `CUSTOMERS` VALUES (2,'John Doe','123 Example St','555-5555','john.doe@example.com',NULL);
 /*!40000 ALTER TABLE `CUSTOMERS` ENABLE KEYS */;
 UNLOCK TABLES;
 
@@ -245,27 +243,24 @@ CREATE TABLE `EMPLOYEES` (
   `Fname` varchar(45) NOT NULL,
   `Lname` varchar(45) NOT NULL,
   `SSN` char(11) DEFAULT NULL,
-  `Gender` varchar(10) NOT NULL,
+  `Gender` enum('Male','Female','Other') DEFAULT NULL,
   `Email` varchar(45) NOT NULL,
   `Address` varchar(45) NOT NULL,
   `Birth_Date` date NOT NULL,
   `Start_Date` date NOT NULL,
-  `User_ID` int DEFAULT NULL,
-  `isManager` tinyint(1) NOT NULL DEFAULT '0',
-  `isMedic` tinyint(1) NOT NULL DEFAULT '0',
-  `Hour_Rate` float(4,2) NOT NULL,
+  `Hour_Rate` float(5,2) DEFAULT NULL,
+  `Password` varchar(63) DEFAULT NULL,
+  `Role` enum('Employee','Manager','Medic') DEFAULT NULL,
   PRIMARY KEY (`Employee_ID`),
   UNIQUE KEY `SSN_UNIQUE` (`SSN`),
   KEY `fk_EMPLOYEES_EMPLOYEES1_idx` (`Supervisor_ID`),
   KEY `fk_EMPLOYEES_SHOPS1_idx` (`Shop_ID`),
   KEY `fk_EMPLOYEES_HABITATS1_idx` (`Habitat_ID`),
   KEY `fk_EMPLOYEES_RESTAURANTS1_idx` (`Restaurant_ID`),
-  KEY `fk_EMPLOYEES_USERS` (`User_ID`),
   CONSTRAINT `fk_EMPLOYEES_EMPLOYEES1` FOREIGN KEY (`Supervisor_ID`) REFERENCES `EMPLOYEES` (`Employee_ID`) ON DELETE SET NULL ON UPDATE CASCADE,
   CONSTRAINT `fk_EMPLOYEES_HABITATS1` FOREIGN KEY (`Habitat_ID`) REFERENCES `HABITATS` (`Habitat_ID`) ON DELETE SET NULL ON UPDATE CASCADE,
   CONSTRAINT `fk_EMPLOYEES_RESTAURANTS1` FOREIGN KEY (`Restaurant_ID`) REFERENCES `RESTAURANTS` (`Restaurant_ID`) ON DELETE SET NULL ON UPDATE CASCADE,
-  CONSTRAINT `fk_EMPLOYEES_SHOPS1` FOREIGN KEY (`Shop_ID`) REFERENCES `SHOPS` (`Shop_ID`) ON DELETE SET NULL ON UPDATE CASCADE,
-  CONSTRAINT `fk_EMPLOYEES_USERS` FOREIGN KEY (`User_ID`) REFERENCES `USERS` (`User_ID`)
+  CONSTRAINT `fk_EMPLOYEES_SHOPS1` FOREIGN KEY (`Shop_ID`) REFERENCES `SHOPS` (`Shop_ID`) ON DELETE SET NULL ON UPDATE CASCADE
 ) ENGINE=InnoDB AUTO_INCREMENT=16 DEFAULT CHARSET=utf8mb3;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
@@ -275,7 +270,7 @@ CREATE TABLE `EMPLOYEES` (
 
 LOCK TABLES `EMPLOYEES` WRITE;
 /*!40000 ALTER TABLE `EMPLOYEES` DISABLE KEYS */;
-INSERT INTO `EMPLOYEES` VALUES (2,NULL,NULL,NULL,NULL,'Andrew','Almasi','394-20-1030','Male','andrewalmasi@gmail.com','12615 Bethany Bay Dr','2003-05-15','2024-03-18',2,1,0,20.00),(3,NULL,NULL,NULL,NULL,'medicJaneDoe','medicJaneDoe','987-65-4321','Female','medicJaneDoe@example.com','456 Healing Lane','1988-12-22','2024-02-01',12,0,1,25.00),(4,NULL,NULL,NULL,NULL,'Keean','Smith','576-49-3005','Male','keeansmith@gmail.com','4138 Tahoe Valley Lane','1999-12-21','2024-02-06',4,1,0,18.00),(5,NULL,NULL,NULL,NULL,'Noah','Smith','350-62-0924','Female','noah.smith@example.com','123 Main St','1975-03-15','2024-03-20',4,1,1,20.00),(8,NULL,NULL,NULL,NULL,'Sarah','Smith','354-07-3258','Male','sarah.smith@test.org','984 Evandale Ln','1990-02-02','2024-01-10',5,0,0,20.00),(9,NULL,NULL,NULL,NULL,'Donesh','Doe','720-47-1452','Female','donesh.doe@mail.com','486 Sheppard Dr','1985-07-07','2023-06-15',3,0,0,20.00),(10,NULL,NULL,NULL,NULL,'Jane','Davis','755-04-6551','Female','jane.davis@mail.com','3321 Briar Forest Dr','2002-11-09','2024-01-10',7,0,1,20.00),(11,NULL,NULL,NULL,NULL,'Laura','Smith','769-13-5744','Female','laura.smith@example.com','3321 Briar Forest Dr','1985-07-07','2024-03-20',3,0,1,20.00),(12,NULL,NULL,NULL,NULL,'Rosemary','Jones','413-63-1005','Female','rosemary.jones@mail.com','486 Sheppard Dr','1985-07-07','2024-01-10',3,1,0,20.00),(13,NULL,NULL,NULL,NULL,'Jane','Richter','733-69-9554','Male','jane.richter@mail.com','789 Pine Rd','1990-02-02','2023-01-01',9,1,1,20.00),(15,NULL,NULL,NULL,NULL,'Manager','Manager','123-45-6739','Male','TestManager@Example.com','121 Manager Road','1980-01-01','2024-01-01',18,1,0,20.00);
+INSERT INTO `EMPLOYEES` VALUES (2,NULL,NULL,NULL,NULL,'Andrew','Almasi','394-20-1030','Male','andrewalmasi@gmail.com','12615 Bethany Bay Dr','2003-05-15','2024-03-18',20.00,NULL,NULL),(3,NULL,NULL,NULL,NULL,'medicJaneDoe','medicJaneDoe','987-65-4321','Female','medicJaneDoe@example.com','456 Healing Lane','1988-12-22','2024-02-01',25.00,NULL,NULL),(4,NULL,NULL,NULL,NULL,'Keean','Smith','576-49-3005','Male','keeansmith@gmail.com','4138 Tahoe Valley Lane','1999-12-21','2024-02-06',18.00,NULL,NULL),(5,NULL,NULL,NULL,NULL,'Noah','Smith','350-62-0924','Female','noah.smith@example.com','123 Main St','1975-03-15','2024-03-20',20.00,NULL,NULL),(8,NULL,NULL,NULL,NULL,'Sarah','Smith','354-07-3258','Male','sarah.smith@test.org','984 Evandale Ln','1990-02-02','2024-01-10',20.00,NULL,NULL),(9,NULL,NULL,NULL,NULL,'Donesh','Doe','720-47-1452','Female','donesh.doe@mail.com','486 Sheppard Dr','1985-07-07','2023-06-15',20.00,NULL,NULL),(10,NULL,NULL,NULL,NULL,'Jane','Davis','755-04-6551','Female','jane.davis@mail.com','3321 Briar Forest Dr','2002-11-09','2024-01-10',20.00,NULL,NULL),(11,NULL,NULL,NULL,NULL,'Laura','Smith','769-13-5744','Female','laura.smith@example.com','3321 Briar Forest Dr','1985-07-07','2024-03-20',20.00,NULL,NULL),(12,NULL,NULL,NULL,NULL,'Rosemary','Jones','413-63-1005','Female','rosemary.jones@mail.com','486 Sheppard Dr','1985-07-07','2024-01-10',20.00,NULL,NULL),(13,NULL,NULL,NULL,NULL,'Jane','Richter','733-69-9554','Male','jane.richter@mail.com','789 Pine Rd','1990-02-02','2023-01-01',20.00,NULL,NULL),(15,NULL,NULL,NULL,NULL,'Manager','Manager','123-45-6739','Male','TestManager@Example.com','121 Manager Road','1980-01-01','2024-01-01',20.00,NULL,NULL);
 /*!40000 ALTER TABLE `EMPLOYEES` ENABLE KEYS */;
 UNLOCK TABLES;
 
@@ -636,36 +631,6 @@ SET @saved_cs_client     = @@character_set_client;
 SET character_set_client = @saved_cs_client;
 
 --
--- Table structure for table `USERS`
---
-
-DROP TABLE IF EXISTS `USERS`;
-/*!40101 SET @saved_cs_client     = @@character_set_client */;
-/*!50503 SET character_set_client = utf8mb4 */;
-CREATE TABLE `USERS` (
-  `User_ID` int NOT NULL,
-  `Username` varchar(31) DEFAULT NULL,
-  `Email` varchar(31) DEFAULT NULL,
-  `Hashed_Password` varchar(63) DEFAULT NULL,
-  `created_at` timestamp NULL DEFAULT CURRENT_TIMESTAMP,
-  `Role` enum('Manager','Employee','Medic','Customer') DEFAULT NULL,
-  PRIMARY KEY (`User_ID`),
-  UNIQUE KEY `username` (`Username`),
-  UNIQUE KEY `email` (`Email`)
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb3;
-/*!40101 SET character_set_client = @saved_cs_client */;
-
---
--- Dumping data for table `USERS`
---
-
-LOCK TABLES `USERS` WRITE;
-/*!40000 ALTER TABLE `USERS` DISABLE KEYS */;
-INSERT INTO `USERS` VALUES (1,'john_doe','john.doe@example.com','hashed_password_here','2024-03-19 00:41:24',NULL),(2,'Andrew Almasi','andrewalmasi@gmail.com','Hunt77584','2024-03-19 00:48:29',NULL),(3,'testUser','testUser@example.com','$2b$10$67eOQVopfgOYUZN4BKlRcO6dCnrXaTsPTD7sXwoNsqLEbzRb7Opba','2024-03-19 23:04:55',NULL),(4,'employeeUsername','employee@example.com','$2b$10$psq3KoDLjp8AXzgHO75BFuSS1cD9Sb5PJGlN.T7EVmFUEXBsVYd9O','2024-03-19 23:06:07',NULL),(5,'medicEmployee','medicEmployee@example.com','$2b$10$OQFykk3enkbJgPD1h8rR3eucpqcSapdTZ/twt9HvGhAH9rsH0ldXK','2024-03-19 23:21:57',NULL),(7,'medicUser','medicUser@example.com','$2b$10$1w1HAGtzRAG4vvajrK8oiedWrjknyjaUI1uuB14m059oTeLAC5zW.','2024-03-19 23:26:05',NULL),(9,'newMedicEmployee','newMedicEmployee@example.com','$2b$10$Ra7Zj.oyHhfz2UmFsRDq7.89u6wkO6qKbiGQ0uAkS3F2nkkKGGTtS','2024-03-19 23:33:23',NULL),(11,'newMedicEmployee2','newMedicEmployee2@example.com','$2b$10$s7uFXXZQ6cXiRbchwkSPwuWw0xdiAWhZsv6hd9PbIBmCgO.Yx8ENm','2024-03-19 23:36:43',NULL),(12,'medicJaneDoe','medicJaneDoe@example.com','$2b$10$vxqxDd3Dre9QGZfZhXTDhekr1Lvvm.SHwOG7T.StRZLV8o93Tgoci','2024-03-19 23:39:28',NULL),(13,'andrewarshia@yahoo.com','andrewarshia@yahoo.com','$2b$10$Q.gIAj0tNtCfjuCxmXknQ.iEruwlmsfx92i15sNCs8beL7xexMVRK','2024-03-21 23:56:08',NULL),(15,'andrewplayspc@yahoo.com','andrewplayspc@yahoo.com','$2b$10$/ZE7QBO8qIg0.VYx4LslSuXj5ik2i05JPxAfjs9cYdhyNhsrzdElW','2024-03-21 23:57:31',NULL),(16,'amam@gmail.com','amam@gmail.com','$2b$10$XtY//h7NF3ZslQPTVZ7z5O7I5qmrVOdDbUkaFuapE1grAR5ersmPO','2024-03-22 01:25:42',NULL),(18,'TestManager','TestManager@Example.com','ManagerPassword','2024-03-22 22:56:44',NULL),(19,'lseabasol@gmail.com','lseabasol@gmail.com','$2b$10$1BEOZ4qNoXm0rtU5CKiaquyRHSVGHA50PbX4mIFxo/suyN3rS3h/e','2024-03-23 04:02:12',NULL),(22,'lseabasl@gmail.com','lseabasl@gmail.com','$2b$10$iH90he.r8oUuA9Ryk8JX5u1NwmL4.G5GC6NHVHGe.LRcCADxPARyi','2024-03-23 04:05:36',NULL),(23,'lseabsl@gmail.com','lseabsl@gmail.com','$2b$10$m5D8OBWywW5DbH9L9ALQ0uDOhQUWuoYnzPgepZjhlROvjuCIHFmfm','2024-03-23 04:06:36',NULL),(24,'lseabl@gmail.com','lseabl@gmail.com','$2b$10$tBN51LbocYoetcuGY4hyc.6l9vRKWu1oD/FcqurQFR3D14YMO17my','2024-03-23 04:07:13',NULL);
-/*!40000 ALTER TABLE `USERS` ENABLE KEYS */;
-UNLOCK TABLES;
-
---
 -- Table structure for table `ZONES`
 --
 
@@ -773,4 +738,4 @@ UNLOCK TABLES;
 /*!40101 SET COLLATION_CONNECTION=@OLD_COLLATION_CONNECTION */;
 /*!40111 SET SQL_NOTES=@OLD_SQL_NOTES */;
 
--- Dump completed on 2024-03-25 20:30:55
+-- Dump completed on 2024-03-26  0:02:46
