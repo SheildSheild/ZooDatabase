@@ -1,0 +1,32 @@
+/usr/local/lib/node_modules/serve/node_modules/arg/index.js:132
+						throw new ArgError(
+						      ^
+
+ArgError: unknown or unexpected option: -g
+    at arg (/usr/local/lib/node_modules/serve/node_modules/arg/index.js:132:13)
+    at parseArguments (file:///usr/local/lib/node_modules/serve/build/main.js:396:28)
+    at file:///usr/local/lib/node_modules/serve/build/main.js:473:40
+    at ModuleJob.run (node:internal/modules/esm/module_job:222:25)
+    at async ModuleLoader.import (node:internal/modules/esm/loader:323:24)
+    at async loadESM (node:internal/process/esm_loader:28:7)
+    at async handleMainPromise (node:internal/modules/run_main:120:12) {
+  code: 'ARG_UNKNOWN_OPTION'
+}
+
+Node.js v21.7.1
+/usr/local/lib/node_modules/serve/node_modules/arg/index.js:132
+						throw new ArgError(
+						      ^
+
+ArgError: unknown or unexpected option: -g
+    at arg (/usr/local/lib/node_modules/serve/node_modules/arg/index.js:132:13)
+    at parseArguments (file:///usr/local/lib/node_modules/serve/build/main.js:396:28)
+    at file:///usr/local/lib/node_modules/serve/build/main.js:473:40
+    at ModuleJob.run (node:internal/modules/esm/module_job:222:25)
+    at async ModuleLoader.import (node:internal/modules/esm/loader:323:24)
+    at async loadESM (node:internal/process/esm_loader:28:7)
+    at async handleMainPromise (node:internal/modules/run_main:120:12) {
+  code: 'ARG_UNKNOWN_OPTION'
+}
+
+Node.js v21.7.1

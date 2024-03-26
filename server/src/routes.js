@@ -31,5 +31,9 @@ module.exports={
     "tickets":access(m,m),
     "login_customers":access(a,c),
     "login_employees":access(a,m),
+    "shop_monthly_revenue":access([],m),
+    "ticket_monthly_revenue":access([],m),
+    "pay_stub":access([],c),
+    "monthly_visit":access([],m),
   }
 }
