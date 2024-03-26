@@ -14,6 +14,10 @@ function getRole() {
   return localStorage.getItem('role');
 }
 
+function getID() {
+  return localStorage.getItem('userId');
+}
+
 const customerLinks = [
   { text: 'View Profile', onClick: (userData,setMainComponent)=>{
     
@@ -26,7 +30,7 @@ const customerLinks = [
 const employeeLinks = [
   // IMPLEMENT A PAGE TO EDIT ANIMALS
   { text:"View Schedule", onClick: (userData,setMainComponent)=>{
-    setMainComponent(<EmployeeSchedule/>)
+    setMainComponent(<EmployeeSchedule User_ID={userData.userId}/>)
   }},
 ]
 
@@ -56,19 +60,29 @@ const managerLinks = [
 function Portal() {
   const [userData, setUserData] = useState(null);
   const [mainComponent,setMainComponent]=useState(<></>)
-
+  const [renderCnt,render]=useState(1);
+  const reRender=()=>render(renderCnt+1);
   useEffect(() => {
     const token = getToken();
     if (token) {
-      getData('/users')
+      const role=getRole();
+      const route=role=='Customer'?'/customers?Customer_ID=':'/employees?Employee_ID=';
+      getData(route+getID())
         .then(data => {
-          console.log('Protected data:', data);
-          setUserData(data);
-          setMainComponent(<h1>Welcome back, {data.username}!</h1>);
+          if(!data||!data[0]){
+            setMainComponent(<>Not Logged In</>)
+            reRender();
+            return;
+          }
+          console.log('Protected data:', data[0]);
+          setUserData(data[0]);
+          setMainComponent(<h1>Welcome back, {data[0].Email}!</h1>);
+          reRender();
         })
         .catch(error => {
           console.error('Failed to fetch protected data:', error);
           setMainComponent(<>Unexpected Error: {error}</>)
+          reRender();
         });
     }
   },[]);
@@ -79,19 +93,17 @@ function Portal() {
   const sidebarLinks = [];
 
   const role = getRole();
-  if (userData.employeeDetails) {
-    const employeeRole = userData.employeeDetails.isManager ? 'manager' : (userData.employeeDetails.isMedic ? 'medic' : '');
-    switch(employeeRole){
-      case 'manager':
-        sidebarLinks.push(...managerLinks);
-      case 'medic':
-        sidebarLinks.push(...medicLinks);
-      default:
-        sidebarLinks.push(...employeeLinks)
-    }
+  switch(role){
+    case 'Customer':
+      sidebarLinks.push(...customerLinks);
+      break;
+    case 'Manager':
+      sidebarLinks.push(...managerLinks);
+    case 'Medic':
+      sidebarLinks.push(...medicLinks);
+    default:
+      sidebarLinks.push(...employeeLinks)
   }
-  else
-    sidebarLinks.push(...customerLinks);
 
   return (
     <div className="homepage">

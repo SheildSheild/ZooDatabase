@@ -13,20 +13,17 @@ export default function CustomerSignUp() {
         event.preventDefault();
         const { name, Email, address, Phone, Password } = event.target.elements;
         
-        postData('/register', {
-            username: Email.value,
+        postData('/customers', {
             email: Email.value, // Assuming email as username
             password: Password.value,
-            role: 'customer',
-            // Include other fields as needed
-        }).then((data) => {
-            if (data&&data.message&&data.message === 'User registered successfully') {
+        })
+        .then((data) => {
+            if (data&&data.message&&data.message?.endsWith('successfully')) 
                 navigate('/portal'); // Redirect on success
-            } else {
-                console.log('reg failed',data)
+            else 
                 setErrorMessage('Failed to register. Please try again.');
-            }
-        }).catch((error) => {
+        })
+        .catch((error) => {
             console.error('Registration error:', error);
             setErrorMessage('An error occurred during registration.');
         });

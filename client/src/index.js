@@ -6,7 +6,7 @@ import {
 } from "react-router-dom";
 
 
-import Login from './components/login';
+import {CustomerLogin,EmployeeLogin} from './components/login';
 import CustomerSignUp from './components/customerSignUp';
 import Homepage from './components/homepage';
 import AnimalPage from './components/animalPage';
@@ -28,7 +28,11 @@ const router = createHashRouter([
   },
   {
     path: "/login",
-    element: <Login/>,
+    element: <CustomerLogin/>,
+  },
+  {
+    path: "/employeeLogin",
+    element: <EmployeeLogin/>,
   },
   {
     path: "/customerSignUp",

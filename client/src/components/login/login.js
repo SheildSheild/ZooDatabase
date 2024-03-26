@@ -1,10 +1,10 @@
 import "./login.css"
 import Navbar from '../navBar/navBar';
-import { postData } from "../../communication";
+import { getData } from "../../communication";
 import { useNavigate } from 'react-router-dom'
 import { useState } from 'react';
 
-function Login({title,}){
+function Login({link}){
     const links = ["homepage", "login", "customerSignUp", "animalPage", "aboutUsPage"];
     const navigate = useNavigate(); // navigates to next page upon customer login
     const [errorMessage, setErrorMessage] = useState(''); // stores error
@@ -14,22 +14,17 @@ function Login({title,}){
         const email = ev.target.Email.value;
         const password = ev.target.Password.value;
 
-        postData('/login', { email, password })
+        getData(`/login_${link}?Email=${email}&Password=${password}`)
         .then((response) => {
-            // Assuming the response contains an object with a success property
-            if (response.userId) {
-                console.log(email, password)
-
-                if (response.token) {
-                    localStorage.setItem('token',response.token);
-                    console.log("token set")
-                    localStorage.setItem('role', response.role);
-                    console.log("Stored role")
-                }
+            if (response&&response.user&&response.token&&response.userId) {
+                localStorage.setItem('token',response.token);
+                localStorage.setItem('role', response.user.Role);
+                localStorage.setItem('userId',response.userId);
+                console.log('stored token and role');
                 navigate('/portal'); // Redirect only on successful login
-            } else {
+            } 
+            else 
                 setErrorMessage('Incorrect email or password. Please try again.');
-            }
         })
         .catch((error) => {
             console.error('Login error:', error);
@@ -37,27 +32,28 @@ function Login({title,}){
         });
     };
 
-    return     (
-    <>
-    <Navbar links={links} />
-    <br></br>
-    <center>
-    <div><h1><strong>Login</strong></h1></div>
-    <div>
-        {errorMessage && <p className="error-message">{errorMessage}</p>} {/* display error message if exists */}
-    <form onSubmit={handleLogin}>
-        <label htmlFor="Email">Email:</label>
-        <input type="email" name="Email" id="Email" required />
-        <br/> <br/>
-        <label htmlFor="Password">Password:</label>
-        <input type="password" name="Password" id="Password" required/>
-        <br/> <br/>
-        <input type="submit" value="Go! "/>
-    </form>
-    </div>
-    </center> 
-    </>
-    );
+    return <>
+        <Navbar links={links} />
+        <br/>
+        <center>
+        <div><h1><strong>Login</strong></h1></div>
+        <div>
+            {errorMessage && <p className="error-message">{errorMessage}</p>}
+        <form onSubmit={handleLogin}>
+            <label htmlFor="Email">Email:</label>
+            <input type="email" name="Email" id="Email" required />
+            <br/> <br/>
+            <label htmlFor="Password">Password:</label>
+            <input type="password" name="Password" id="Password" required/>
+            <br/> <br/>
+            <input type="submit" value="Go! "/>
+        </form>
+        </div>
+        </center> 
+    </>;
 }
 
-export default Login;
+const CustomerLogin=()=><Login link='customers'/>
+const EmployeeLogin=()=><Login link='employees'/>
+
+export {EmployeeLogin,CustomerLogin};
