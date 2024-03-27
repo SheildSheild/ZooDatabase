@@ -53,7 +53,7 @@ CREATE TABLE `ANIMALS` (
   `Name` varchar(45) NOT NULL,
   `Weight` float(5,2) NOT NULL,
   `Height` float(5,2) NOT NULL,
-  `Birth_Date` date NOT NULL,
+  `Birth_Date` DATE NOT NULL FORMAT `YYYY-MM-DD`,
   `Species` varchar(45) NOT NULL,
   `Mother_ID` int DEFAULT NULL,
   `Father_ID` int DEFAULT NULL,
