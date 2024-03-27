@@ -3,7 +3,7 @@ import './dataEntry.css';
 import { postData,getData,updateData,deleteData } from '../../communication';
 
 const map={
-  animals:{
+  Animals:{
     Name: {type:"text",text:"Animal Name:"},
     Habitat_ID: {type:"number",text:"Habitat ID:"},
     Weight: {type:"number",text:"Weight:"},
@@ -12,7 +12,7 @@ const map={
     Animal_ID: {type:"number",text:"Animal ID:"},
     Birth_Date: {type:"date",text:"Birth Date:"},
   },
-  employees:{
+  Employees:{
     Fname: {type:"number",text:"Employee Name:"},
     Lname: {type:"number",text:"Employee Name:"},
     Employee_ID: {type:"number",text:"Employee ID:"},
@@ -35,26 +35,26 @@ const map={
       <br />
     </>}
   },
-  animal_health:{
+  Animal_Health:{
     Primary_Doctor_ID: {type:"number",text:"Primary Doctor:"},
     Animal_Health_ID: {type:"number",text:"Medical Record ID:"},
     Date_Of_Examination: {type:"date",text:"Date of Examination:"},
     Description: {type:"text",text:"Description:"},
   },
-  zones:{
+  Zones:{
     Zone_ID: {type:"number",text:"Zone ID:"},
     Name: {type:"text", text:"Name:"},
     Status: {type:"text", text:"Status:"},
     Size: {type:"number", text:"Size:"},
   },
-  habitats:{
+  Habitats:{
     Habitat_ID: {type:"number",text:"Habitat ID:"},
     Zone_ID: {type:"number",text:"Zone ID:"},
     Status: {type:"text",text:"Status:"},
     Date_Opened: {type:"date",text:"Date Opened:"},
     Capacity: {type:"number",text:"Capacity:"},
   },
-  customers:{
+  Customers:{
     Customer_ID: {type:"number",text:"Customer ID:"},
     Name: {type:"text",text:"Name:"},
     Address: {type:"text",text:"Address:"},
@@ -62,66 +62,48 @@ const map={
     Email: {type:"text",text:"Email:"},
     user_id: {type:"number",text:"User ID:"},
   },
-  attends_to: {
+  Attends_To: {
     Employee_ID: {type:"number",text:"Employee ID:"},
     Animal_ID: {type:"number", text:"Animal ID:"},
     Responsibility: {type:"text", text:"Responsibility:"},
   },
-  has_offstring:{
-    Parent_ID: {type:"number",text:"Parent ID:"},
-    Child_ID: {type:"number",text:"Child ID:"},
-    Date_Created: {type:"date",text:"Date Created:"},
-  },
-  items:{
+  Items:{
     Item_ID: {type:"number",text:"Item ID:"},
     Shop_ID: {type:"number",text:"Shop ID:"},
     Quantity: {type:"number",text:"Quantity:"},
   },
-  lost_items:{
+  Lost_Items:{
     Lost_Item_ID: {type:"number",text:"Lost Item ID:"},
     Customer_ID: {type: "number", text:"Customer ID:"},
     Description: {type: "text",text:"Description:"},
     Status: {type: "text",text:"Status:"},
   },
-  restaurants:{
+  Restaurants:{
     Restraunt_ID: {type:"number",text:"Restaurant ID:"},
     Zone_ID: {type: "number", text:"Zone ID:"},
     Name: {type: "text",text:"Name:"},
     Status: {type: "text",text:"Status:"},
   },
-  schedules:{
+  Schedules:{
     Schedule_ID: {type:"number",text:"Schedule ID:"},
     Type_ID: {type: "number", text:"Type ID:"},
     Zone_ID: {type: "number",text:"Zone ID:"},
     Employee_ID: {type: "number",text:"Employee ID:"},
-    Restraunt_ID: {type:"number",text:"Restraunt ID:"},
+    Restraunt_ID: {type:"number",text:"Restaurant ID:"},
     Habitat_ID: {type: "number",text:"Habitat ID:"},
     Shop_ID: {type: "number",text:"Shop ID:"},
     Start_Time: {type:"date",text: "Start Time:"},
     End_Time: {type:"date",text:"End Time:"},
     Date: {type:"date",text:"Date:"},
   },
-  schedule_types:{
-    Type_ID: {type:"number",text:"Type ID:"},
-    Name: {type:"number",text:"Name:"},
-  },
-  roles:{
-    id: {type: "number", text:"ID:"},
-    role_name: {type: "text", text:"Role Name:"},
-  },
-  user_roles:{
-    user_id: {type:"number",text:"User ID:"},
-    role_id: {type:"number",text:"Role ID:"},
-  },
-  users:{
-    id: {type:"number",text:"ID:"},
-    username: {type:"text",text:"Username:"},
-    email: {type:"text",text:"Email:"},
-    hashed_password: {type: "text", text:"Password"},
-    created_at: {type:"date",text:"Created At:"},
-  },
-
-
+  Purchases:{
+    Purchase_ID:{type:"number",text:"Purchase ID:"},
+    Item_ID:{type:"number",text:"Item ID:"},
+    Shop_ID:{type:"number",text:"Shop ID:"},
+    Customer_ID:{type:"number",text:"Customer ID:"},
+    Quantity:{type:"number",text:"Quantity:"},
+    Date:{type:"date",text:"Date:"}
+  }
   /*
   add entry data like:
   entry:{

@@ -4,7 +4,6 @@ import React, { useState, useEffect } from 'react';
 import DataEntry from '../dataEntry';
 
 
-
 function DisplayTable({link}){
   const [data, setData] = useState([]);
   const [dataEntry,setDataEntry]=useState(<></>);
@@ -54,20 +53,36 @@ function DisplayTable({link}){
   </center>
 }
 
-function getId(val){
-  let id='ID'
-  let idVal=null
-  for(let prop in val)
-    if(prop.substring(prop.length-2).toLowerCase()=='id'){
-      id=prop;
-      break;
+
+const parseName=(name)=>{
+  const Name=[];
+  let up=true;
+  for(let i=0;i<name.length;i++){
+    if(up){
+      up=false;
+      Name.push(name[i].toUpperCase());
     }
-  return [id,idVal]
-}
+    else
+      Name.push(name[i]);
+    if(name[i]=='_')
+      up=true;
+  }
+  return Name.join('');
+};
+
+const getID=(Name,data)=>{
+  let ID;
+  if(Name[Name.length-1]=='s')
+    ID=Name.substring(0,Name.length-1)+'_ID';
+  else
+    ID=Name+'_ID';
+  return [ID,data[ID]];
+};
 
 function Modify(link,val,setDataEntry,reRender,table,idx) {
-  setDataEntry(<DataEntry title="Modify Data" name={link.substring(1)} onSubmit={data=>{
-    updateData(link,...getId(val),data).then(val=>{
+  const Name=parseName(link.substring(1));
+  setDataEntry(<DataEntry title="Modify Data" name={Name} onSubmit={data=>{
+    updateData(link,...getID(Name,data),data).then(val=>{
       if(!val){
         setDataEntry(<>Failed to Modify</>);
         reRender();
@@ -77,13 +92,14 @@ function Modify(link,val,setDataEntry,reRender,table,idx) {
       table[idx]=data
       reRender();
     });
+    setDataEntry(<>Modifying...</>);
   }} preFilled={val}/>);
-  setDataEntry(<>Modifying...</>);
   reRender();
 }
 
 function Delete(link,val,setDataEntry,reRender,table,idx) {
-  deleteData(link,...getId(val)).then(val=>{
+  const Name=parseName(link.substring(1));
+  deleteData(link,...getID(Name,val)).then(val=>{
     console.log(val)
     if(!val){
       setDataEntry(<>Failed to Delete</>);
@@ -99,7 +115,8 @@ function Delete(link,val,setDataEntry,reRender,table,idx) {
 }
 
 function Add(link,setDataEntry,reRender,table){
-  setDataEntry(<DataEntry title="Enter Data" name={link.substring(1)} onSubmit={data=>{
+  const Name=parseName(link.substring(1));
+  setDataEntry(<DataEntry title="Enter Data" name={Name} onSubmit={data=>{
     postData(link,data).then(val=>{
       if(!val){
         setDataEntry(<>Failed to Add</>);

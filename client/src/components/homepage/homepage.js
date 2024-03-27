@@ -13,9 +13,10 @@ export default function Homepage(){
         links = ["homepage", "animalPage","portal","aboutUsPage"];
     }
     const handleLogout = () => {
-        localStorage.removeItem('token'); // Remove token from storage
-        localStorage.removeItem('userRole'); // Remove user role
-        window.location.reload(); // Optionally, force a reload to clear app state
+        localStorage.removeItem('token');
+        localStorage.removeItem('role'); 
+        localStorage.removeItem('userId'); 
+        window.location.reload(); 
     };
 
     return <>

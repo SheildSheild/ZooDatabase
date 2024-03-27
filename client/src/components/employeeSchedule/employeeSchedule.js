@@ -14,10 +14,10 @@ function EmployeeSchedule({Employee_ID}){
         setErrorMessage('Failed to fetch data')
       else
         setEventList(data);
+      console.log(data);
     })
     .catch(err=>setErrorMessage('Error: '+err))
   },[]);
-  console.log(eventList,dayjs().day(0));
   return <>
     {errorMessage}
     <MyCalendar events={eventList}/>

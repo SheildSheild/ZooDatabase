@@ -28,7 +28,6 @@ const customerLinks = [
 ];
 
 const employeeLinks = [
-  // IMPLEMENT A PAGE TO EDIT ANIMALS
   { text:"View Schedule", onClick: (userData,setMainComponent)=>{
     setMainComponent(<EmployeeSchedule User_ID={userData.userId}/>)
   }},
@@ -41,8 +40,6 @@ const medicLinks = [
 ]
 
 const managerLinks = [
-  // IMPLEMENT A PAGE TO EDIT EMPLOYEES
-  // IMPLEMENT A PAGE TO EDIT TICKETS
   { text: 'Manage Data', onClick: (userData,setMainComponent)=>{
     
   } },
@@ -69,6 +66,12 @@ function Portal() {
       const route=role=='Customer'?'/customers?Customer_ID=':'/employees?Employee_ID=';
       getData(route+getID())
         .then(data => {
+          if(data.status){
+            setMainComponent(<>
+              <h1>{data.status}: {data.statusText}</h1>
+              <h2>Message: {data.message}</h2>
+            </>)
+          }
           if(!data||!data[0]){
             setMainComponent(<>Not Logged In</>)
             reRender();
@@ -88,7 +91,7 @@ function Portal() {
   },[]);
   
   if (!userData) 
-    return <div>Loading...</div>;
+    return <div>{mainComponent||'Loading...'}</div>;
 
   const sidebarLinks = [];
 
@@ -110,7 +113,11 @@ function Portal() {
       <div className="sidebar">
         {sidebarLinks.map((item, index) => (
           <React.Fragment key={index}>
-            <button className='sidebar-item' onClick={()=>item.onClick(userData,setMainComponent)}>{item.text}</button>
+            <button className='sidebar-item' onClick={()=>{
+              item.onClick(userData,setMainComponent);
+              reRender();
+              console.log('rerender')
+            }}>{item.text}</button>
             <br/>
           </React.Fragment>
         ))}
