@@ -6,7 +6,7 @@ export default function Navbar({links}){
   <ul className='navbar'>
     {links.map((link) => (
       <li className='nav-link'>
-        <Link className='nav-a' to={"/"+link}>{link}</Link>
+        <Link className='nav-a' to={"/"+link[0]}>{link[1]}</Link>
       </li>
     ))}
   </ul>

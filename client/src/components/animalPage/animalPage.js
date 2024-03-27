@@ -8,9 +8,10 @@ export default function AnimalPage() {
   const isLoggedIn = token != null;
   // check if logged in!
 
-  let links = ["homepage", "customerSignUp", "customerHome", "animalPage", "aboutUsPage"];
+  // let links = ["homepage", "customerSignUp", "customerHome", "animalPage", "aboutUsPage"];
+  var links = [["homepage", "Home"], ["customerSignUp", "Sign Up"], ["login", "Login"], ["animalPage", "Our Animals"], ["aboutUsPage", "About Us"]];
   if (isLoggedIn) {
-      links = ["homepage", "animalPage","testhomepage","aboutUsPage"];
+      links = [["homepage", "Home"], ["animalPage", "Our Animals"],["portal", "User Portal"],["aboutUsPage", "About Us"]];
   }
   const [selectedZone, setSelectedZone] = useState('All');
   const [selectedHabitat, setSelectedHabitat] = useState('All');

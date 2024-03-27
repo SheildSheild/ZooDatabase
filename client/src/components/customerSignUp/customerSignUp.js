@@ -7,8 +7,8 @@ import { useState } from 'react';
 export default function CustomerSignUp() {
     const navigate = useNavigate();
     const [errorMessage, setErrorMessage] = useState('');
-    const links = ["homepage", "customerHome", "customerSignUp", "animalPage", "aboutUsPage"];
-
+    // const links = ["homepage", "customerHome", "customerSignUp", "animalPage", "aboutUsPage"];
+    const links = [["homepage", "Home"], ["customerSignUp", "Sign Up"], ["login", "Login"], ["animalPage", "Our Animals"], ["aboutUsPage", "About Us"]];
     const handleSubmit = (event) => {
         event.preventDefault();
         const { name, Email, address, Phone, Password } = event.target.elements;
