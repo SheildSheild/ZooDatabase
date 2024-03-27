@@ -7,7 +7,6 @@ const {routes}=require('./routes');
 const hostname = '0.0.0.0';
 const port = 3301;
 
-// MySQL connection setup
 const db = mysql.createConnection({
     host: "localhost",
     user: "root",
@@ -16,11 +15,10 @@ const db = mysql.createConnection({
 });
 
 db.connect(err => {
-    if (err) {
+    if (err) 
         console.error('Database connection failed: ' + err.stack);
-        return;
-    }
-    console.log('Connected to database.');
+    else
+        console.log('Connected to database.');
 });
 
 const server = http.createServer((req, res) => {
@@ -28,16 +26,15 @@ const server = http.createServer((req, res) => {
     const path = reqUrl.pathname;
     const query = reqUrl.query;
     console.log(req.method,path);
-    //cors
+    
     res.appendHeader("Access-Control-Allow-Methods", "*");
     res.appendHeader("Access-Control-Allow-Origin", "*");
     res.appendHeader("Access-Control-Allow-Headers", "*");
 
-    // Parsing body data
     const body = [];
-    req.on('data', chunk => {
-        body.push(chunk.toString());
-    });
+    req.on('data', chunk => 
+        body.push(chunk.toString())
+    );
 
     let name=null;
     if(path.substring(0,5)==='/api/'){
@@ -46,7 +43,8 @@ const server = http.createServer((req, res) => {
             name=_name;
     }
 
-    if(req.method=='POST'||req.method=='GET'||req.method=='DELETE'||req.method=='PUT'){
+    switch(req.method){
+    case 'POST': case 'GET': case 'DELETE': case 'PUT':
         if(name){
             res.setHeader('Content-Type', 'application/json');
             api(req,res,query,body,name,db);
@@ -55,19 +53,17 @@ const server = http.createServer((req, res) => {
         res.statusCode = 404;
         res.setHeader('Content-Type', 'application/json');
         res.end(JSON.stringify({ message: 'Route not found' }));
-    }
-    else if(req.method=='OPTIONS'){
+        break;
+    case 'OPTIONS':
         res.statusCode=200;
         res.end();
-    }
-    else if(req.method=='HEAD'){
-        if(name)
-            res.setHeader('Content-Type', 'application/json');
-        else
-            res.statusCode=404;
+        break;
+    case 'HEAD':
+        if(name) res.setHeader('Content-Type', 'application/json');
+        else res.statusCode=404;
         res.end();
-    }
-    else{
+        break;
+    default:
         res.statusCode=404;
         res.setHeader('Content-Type', 'application/json');
         res.end(JSON.stringify({ message: 'METHOD not supported' }));

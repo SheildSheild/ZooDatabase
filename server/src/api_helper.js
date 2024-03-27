@@ -1,18 +1,16 @@
+const bcrypt = require('bcrypt');
 const jwt = require('jsonwebtoken');
 const SECRET_KEY = 'your_secret_key';
 
-const parseSQL=(NAME,body)=>{
+const parseBody=(body)=>{
   const data = JSON.parse(body.join(''));
   const dataNames=[];
   const dataValues=[];
-  const questionMarks=[];
   for(let name in data){
     dataNames.push(name);
-    dataValues.push(data[name]);
-    questionMarks.push('?');
+    dataValues.push("'"+data[name]+"'");
   }
-  const sql = `INSERT INTO ${NAME}(${dataNames}) VALUES (${questionMarks})`;
-  return [sql,dataValues];
+  return {dataNames,dataValues};
 }
 
 const parseName=(name)=>{
@@ -37,17 +35,13 @@ const getID=(Name)=>{
   return Name+'_ID';
 };
 
-const parseQuery=(Name,query)=>{
-  let ID;
-  const IDString=getID(Name);
+const parseQuery=(query,skip)=>{
   const values=[];
   for(let q in query){
-    if(q==IDString)
-      ID=query[q];
-    else
-      values.push(`${q} = '${query[q]}'`)
+    if(skip&&skip.has(q))continue;
+    values.push(`${q} = '${query[q]}'`)
   }
-  return {ID,IDString,values};
+  return values;
 };
 
 function onError(res,str,err){
@@ -62,25 +56,24 @@ function onNotFound(res,Name){
 function onBadRequest(res,message){
   res.statusCode = 400;
   res.end(JSON.stringify({ message }));
-};
-function onForbidden(res){
-  res.statusCode = 403;
-  res.end('Forbidden');
 }
-function onUnauthorized(res){
+function onUnauthorized(res,message='Unauthorized'){
   res.statusCode = 401; 
-  res.end('Unauthorized');
+  res.end(JSON.stringify({message}));
 }
-function onSuccess(res,val,code){
-  res.statusCode = code||200;
+function onSuccess(res,val,code=200){
+  res.statusCode = code;
   res.end(JSON.stringify(val));
 };
 
-function handleLogin(res,results,Name){
+async function handleLogin(res,results,Name,query){
   if(results.length==0)
-    return onNotFound(res,'Wrong Password or Username');
+    return onNotFound(res,'Username');
 
   const user=results[0];
+  if(!(await bcrypt.compare(query.Password,user.Password)))
+    return onUnauthorized(res,'Wrong Password');
+
   const userId=user[getID(Name)];
   user.Role=user.Role||'Customer';
   const token = jwt.sign(
@@ -90,15 +83,21 @@ function handleLogin(res,results,Name){
   onSuccess(res,{user,token,userId});
 }
 
+async function encryptPassword(dataNames,dataValues){
+  const idx=dataNames.findIndex(v=>v=='Password');
+  if(idx==-1)return;
+  dataValues[i]=await bcrypt.hash(dataValues[i],10);
+}
+
 function authenticateToken(req, res, next) {
   const token = req.headers['authorization']?.split(' ')[1]; // Expecting "Bearer TOKEN"
 
   if (token == null) 
-    return onUnauthorized(res);
+    return onUnauthorized(res,'No JWT');
 
-  jwt.verify(token, SECRET_KEY, (err, user) => {
+  jwt.verify(token, SECRET_KEY, async (err, user) => {
     if (err || !user)
-      return console.log(err,onForbidden(res));
+      return console.log(err,onUnauthorized(res,'JWT Expired'));
     req.user = user;
     next();
   });
@@ -110,11 +109,12 @@ function authorizeRoles(req, res, allowedRoles, next) {
   if (allowedRoles.includes(userRole)) 
     next(); 
   else 
-    onForbidden(res);
+    onUnauthorized(res,'Role not Authorized');
 }
 
 module.exports={
-  parseSQL,parseQuery,parseName,getID,
-  onError,onBadRequest,onForbidden,onNotFound,onSuccess,onUnauthorized,
-  handleLogin,authenticateToken,authorizeRoles
+  parseBody,parseQuery,parseName,getID,
+  onError,onBadRequest,onNotFound,onSuccess,onUnauthorized,
+  handleLogin,encryptPassword,
+  authenticateToken,authorizeRoles
 };
