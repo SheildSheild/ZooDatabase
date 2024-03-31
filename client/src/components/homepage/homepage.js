@@ -2,22 +2,30 @@ import './homepage.css';
 import cougar from './cougar.png';
 import Navbar from '../navBar/navBar';
 import { Link } from 'react-router-dom';
+import dayjs from 'dayjs';
+import { useState } from 'react';
 
 export default function Homepage(){
-    const token = localStorage.getItem('token');
-    const isLoggedIn = token != null;
-    // check if logged in!
-
-    var links = [["homepage", "Home"], ["customerSignUp", "Sign Up"], ["login", "Login"], ["animalPage", "Our Animals"], ["aboutUsPage", "About Us"]];
-    if (isLoggedIn) {
-        links = [["homepage", "Home"], ["animalPage", "Our Animals"],["portal", "User Portal"],["aboutUsPage", "About Us"]];
-    }
+    const [renderCnt,render]=useState(1);
+    const reRender=()=>render(renderCnt+1);
     const handleLogout = () => {
         localStorage.removeItem('token');
         localStorage.removeItem('role'); 
         localStorage.removeItem('userId'); 
-        window.location.reload(); 
+        localStorage.removeItem('expirationDate');
+        reRender();
     };
+    const expirationDate=localStorage.getItem('expirationDate');
+    if(expirationDate&&dayjs(expirationDate).diff(dayjs())<0)
+        handleLogout();
+    const token = localStorage.getItem('token');
+    const isLoggedIn = token != null;
+    
+
+    let links = [["homepage", "Home"], ["customerSignUp", "Sign Up"], ["login", "Customer Login"], ["employeeLogin", "Employee Login"], ["animalPage", "Our Animals"], ["aboutUsPage", "About Us"]];
+    if (isLoggedIn) 
+        links = [["homepage", "Home"], ["animalPage", "Our Animals"],["portal", "User Portal"],["aboutUsPage", "About Us"]];
+    
 
     return <>
         <Navbar links={links}/>

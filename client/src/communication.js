@@ -10,6 +10,7 @@ const then=[
         localStorage.removeItem('token');
         localStorage.removeItem('role');
         localStorage.removeItem('userId');
+        localStorage.removeItem('expirationDate');
       }
       return {...data,status:res.status,statusText:res.statusText};
     });

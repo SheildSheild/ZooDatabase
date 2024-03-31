@@ -14,9 +14,7 @@ import TicketsPage from './components/ticketsPage';
 import DataEntry from './components/dataEntry';
 import AboutUsPage from './components/aboutUsPage';
 import EmployeeSchedule from './components/employeeSchedule';
-import ReportRevenue from './components/reportRevenue';
-import ReportPaycheck from './components/reportPaycheck';
-import ReportVisit from './components/reportVisit';
+import Report from './components/report';
 import Portal from './components/portal';
 import DisplayTable from './components/displayTable';
 import MedicalRecords from './components/medicalRecords';
@@ -65,15 +63,15 @@ const router = createHashRouter([
   },
   {
     path:"/reportRevenue",
-    element: <ReportRevenue/>
+    element: <Report path={'/ticket_monthly_revenue'} title='Monthly Revenue From Tickets'/>
   },
   {
-    path:"/reportPaycheck",
-    element: <ReportPaycheck/>
+    path:"/reportShopRevenue",
+    element: <Report path={'/ticke_monthly_revenue'} title='Monthly Revenue From Shops'/>
   },
   {
     path:"/reportVisit",
-    element: <ReportVisit/>
+    element: <Report path={'/monthly_visit'} title='Monthly Visits Report'/>
   },
   {
     path:"/portal",

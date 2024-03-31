@@ -3,6 +3,7 @@ import Navbar from '../navBar/navBar';
 import { getData } from "../../communication";
 import { useNavigate } from 'react-router-dom'
 import { useState } from 'react';
+import dayjs from "dayjs";
 
 function Login({link}){
     // const links = ["homepage", "login", "customerSignUp", "animalPage", "aboutUsPage"];
@@ -21,6 +22,7 @@ function Login({link}){
                 localStorage.setItem('token',response.token);
                 localStorage.setItem('role', response.user.Role);
                 localStorage.setItem('userId',response.userId);
+                localStorage.setItem('expirationDate',dayjs().add(1,'hour').format());
                 console.log('stored token and role');
                 navigate('/portal'); // Redirect only on successful login
             } 
