@@ -1,5 +1,5 @@
 
-const apiUrl='http://158.101.102.104:3301/api'
+const apiUrl='http://0.0.0.0:3301/api'
 
 const then=[
   res=>{
@@ -21,13 +21,18 @@ const then=[
   }
 ];
 
-const headers=()=>{
-  return {
+const headers = () => {
+  const token = localStorage.getItem('token');
+  let headers = {
     'Accept': 'application/json',
-    'Content-Type': 'application/json',
-    'Authorization': `Bearer ${localStorage.getItem('token')}`
+    'Content-Type': 'application/json'
   };
+  if (token) {
+    headers['Authorization'] = `Bearer ${token}`;
+  }
+  return headers;
 };
+
 
 function getData(url){
   return fetch(apiUrl+url,{
