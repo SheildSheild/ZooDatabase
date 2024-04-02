@@ -21,10 +21,10 @@ function getID() {
 
 const customerLinks = [
   { text: 'View Profile', onClick: (userData,setMainComponent)=>{
-    
+    setMainComponent();
   } },
   { text: 'Buy Tickets', onClick: (userData,setMainComponent)=>{
-    
+    setMainComponent();
   } },
 ];
 
