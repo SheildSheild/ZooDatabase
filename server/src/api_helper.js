@@ -86,7 +86,9 @@ async function handleLogin(res,results,Name,query){
 async function encryptPassword(dataNames,dataValues){
   const idx=dataNames.findIndex(v=>v=='Password');
   if(idx==-1)return;
-  dataValues[i]=await bcrypt.hash(dataValues[i],10);
+  const val=dataValues[idx];
+  const parsed=val.substring(1,val.length-1);
+  dataValues[idx]="'"+await bcrypt.hash(parsed,10)+"'";
 }
 
 function authenticateToken(req, res, next) {

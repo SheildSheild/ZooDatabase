@@ -21,7 +21,7 @@ module.exports={
     "employees":access(m,m),
     "animal_health":access(em,em),
     "items":access(e,m),
-    "customers":access(m,c),
+    "customers":access(c,a),
     "lost_items":access(e,e),
     "complaints":access(m,c),
     "schedule_types":access(m,m),
