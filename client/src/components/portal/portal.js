@@ -41,7 +41,6 @@ const medicLinks = [
 
 const managerLinks = [
   { text: 'Manage Data', onClick: (userData,setMainComponent)=>{
-    
   } },
   { text: 'Edit Animals List', onClick: (userData,setMainComponent)=>{
     setMainComponent(<DisplayTable link='\animals'/>)

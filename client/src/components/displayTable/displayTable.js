@@ -19,6 +19,13 @@ function DisplayTable({link}){
   for(let prop in data[0])
     dataColumns.push(prop);
 
+  const renderCell = (value, prop) => {
+    if (prop === 'Birth_Date' || prop === 'Date_Of_Examination') {
+      return formatDate(value);
+    }
+    return value;
+  };
+  
   //data.sort((a,b)=>a.date-b.date)
   return <center>
   <section id="outer-table-container">
@@ -34,10 +41,7 @@ function DisplayTable({link}){
             <tr className='qtr' key={idx}>{
               
               dataColumns.map((prop,i)=>
-                <td key={idx+'-'+i}>
-                  {val[prop]}
-                  
-                </td>)
+                <td key={idx+'-'+i}>{renderCell(val[prop])}</td>)
             }
             <td key='-1'><button onClick={()=>Modify(link,val,setDataEntry,reRender,data,idx)}>Modify</button></td>
             <td key='-2'><button onClick={()=>Delete(link,val,setDataEntry,reRender,data,idx)}>Delete</button></td>
@@ -131,6 +135,17 @@ function Add(link,setDataEntry,reRender,table){
     reRender();
   }}/>);
   reRender();
+}
+
+function formatDate(dateString){
+  if (!dateString) return '';
+
+  const date = new Date(dateString);
+  const year = date.getFullYear();
+  const month = String(date.getMonth() + 1).padStart(2, '0');
+  const day = String(date.getDate()).padStart(2, '0');
+
+  return `${year}-${month}-${day}`;
 }
 
 export default DisplayTable;
