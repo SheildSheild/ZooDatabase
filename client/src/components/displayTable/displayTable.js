@@ -2,7 +2,7 @@ import './table.css'
 import { postData,getData,updateData,deleteData } from '../../communication';
 import React, { useState, useEffect } from 'react';
 import DataEntry from '../dataEntry';
-
+import { formatDate,getID,parseName } from '../../utils';
 
 function DisplayTable({link}){
   const [data, setData] = useState([]);
@@ -20,9 +20,8 @@ function DisplayTable({link}){
     dataColumns.push(prop);
 
   const renderCell = (value, prop) => {
-    if (prop === 'Birth_Date' || prop === 'Date_Of_Examination') {
+    if (prop.includes("Date")) 
       return formatDate(value);
-    }
     return value;
   };
   
@@ -41,7 +40,7 @@ function DisplayTable({link}){
             <tr className='qtr' key={idx}>{
               
               dataColumns.map((prop,i)=>
-                <td key={idx+'-'+i}>{renderCell(val[prop])}</td>)
+                <td key={idx+'-'+i}>{renderCell(val[prop], prop)}</td>)
             }
             <td key='-1'><button onClick={()=>Modify(link,val,setDataEntry,reRender,data,idx)}>Modify</button></td>
             <td key='-2'><button onClick={()=>Delete(link,val,setDataEntry,reRender,data,idx)}>Delete</button></td>
@@ -56,32 +55,6 @@ function DisplayTable({link}){
   {dataEntry}
   </center>
 }
-
-
-const parseName=(name)=>{
-  const Name=[];
-  let up=true;
-  for(let i=0;i<name.length;i++){
-    if(up){
-      up=false;
-      Name.push(name[i].toUpperCase());
-    }
-    else
-      Name.push(name[i]);
-    if(name[i]=='_')
-      up=true;
-  }
-  return Name.join('');
-};
-
-const getID=(Name,data)=>{
-  let ID;
-  if(Name[Name.length-1]=='s')
-    ID=Name.substring(0,Name.length-1)+'_ID';
-  else
-    ID=Name+'_ID';
-  return [ID,data[ID]];
-};
 
 function Modify(link,val,setDataEntry,reRender,table,idx) {
   const Name=parseName(link.substring(1));

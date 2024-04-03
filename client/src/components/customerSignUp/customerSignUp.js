@@ -7,19 +7,21 @@ import { useState } from 'react';
 export default function CustomerSignUp() {
     const navigate = useNavigate();
     const [errorMessage, setErrorMessage] = useState('');
-    // const links = ["homepage", "customerHome", "customerSignUp", "animalPage", "aboutUsPage"];
     const links = [["homepage", "Home"], ["customerSignUp", "Sign Up"], ["login", "Login"], ["animalPage", "Our Animals"], ["aboutUsPage", "About Us"]];
     const handleSubmit = (event) => {
         event.preventDefault();
         const { name, Email, address, Phone, Password } = event.target.elements;
         
         postData('/customers', {
+            name: name.value,
             email: Email.value, // Assuming email as username
             password: Password.value,
+            address: address.value,
+            phone: Phone.value
         })
         .then((data) => {
             if (data&&data.message&&data.message?.endsWith('successfully')) 
-                navigate('/portal'); // Redirect on success
+                navigate('/login'); // Redirect on success
             else 
                 setErrorMessage('Failed to register. Please try again.');
         })
@@ -44,14 +46,6 @@ export default function CustomerSignUp() {
                 <br />
                 <label for="Email">Email: </label>
                 <input type="email" id="Email" name="Email" required />
-                <br />
-                <br />
-                <label for="Address">Address: </label>
-                <input type="address" id="address" name="address" required/>
-                <br />
-                <br />
-                <label for="Phone">Phone Number: </label>
-                <input type="phone" id="Phone" name="Phone" required/>
                 <br />
                 <br />
                 <label for="Address">Address: </label>

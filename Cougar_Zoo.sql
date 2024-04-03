@@ -53,7 +53,7 @@ CREATE TABLE `ANIMALS` (
   `Name` varchar(45) NOT NULL,
   `Weight` float(5,2) NOT NULL,
   `Height` float(5,2) NOT NULL,
-  `Birth_Date` date NOT NULL,
+  `Birth_Date` DATE NOT NULL,
   `Species` varchar(45) NOT NULL,
   `Mother_ID` int DEFAULT NULL,
   `Father_ID` int DEFAULT NULL,
@@ -511,7 +511,7 @@ DELIMITER ;;
    AND WEEK(Date) = WEEK(CURRENT_DATE) 
    AND MONTH(Date) = MONTH(CURRENT_DATE) 
    AND YEAR(Date) = YEAR(CURRENT_DATE)
-   AND NEW.Type_ID = 1;
+   AND NEW.Schedule_Type_ID = 1;
    
    IF total_hours + (TIME_TO_SEC(TIMEDIFF(New.End_Time, New.Start_Time)) / 3600) > 40 THEN
       SET alert_message = CONCAT('Error: Working hours for Employee ', NEW.Employee_ID, ' this week exceed 40.');

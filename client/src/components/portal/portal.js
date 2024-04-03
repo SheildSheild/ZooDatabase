@@ -5,6 +5,7 @@ import { getData } from '../../communication';
 import DisplayTable from '../displayTable';
 import EmployeeSchedule from '../employeeSchedule';
 import ManagerSchedule from '../managerSchedule';
+import Report from '../report';
 
 function getToken() {
   return localStorage.getItem('token');
@@ -20,15 +21,15 @@ function getID() {
 
 const customerLinks = [
   { text: 'View Profile', onClick: (userData,setMainComponent)=>{
-    
+    setMainComponent();
   } },
   { text: 'Buy Tickets', onClick: (userData,setMainComponent)=>{
-    
+    setMainComponent();
   } },
 ];
 
 const employeeLinks = [
-  { text:"View Schedule", onClick: (userData,setMainComponent)=>{
+  { text:"View My Schedule", onClick: (userData,setMainComponent)=>{
     setMainComponent(<EmployeeSchedule User_ID={userData.userId}/>)
   }},
 ]
@@ -40,16 +41,17 @@ const medicLinks = [
 ]
 
 const managerLinks = [
-  { text: 'Manage Data', onClick: (userData,setMainComponent)=>{
-  } },
   { text: 'Edit Animals List', onClick: (userData,setMainComponent)=>{
     setMainComponent(<DisplayTable link='\animals'/>)
   } },
   { text: 'Edit Purchases', onClick: (userData,setMainComponent)=>{
     setMainComponent(<DisplayTable link='\purchases'/>)
   } },
-  { text: 'Edit Employee Schedule', onClick: (userData,setMainComponent)=>{
-    setMainComponent(<ManagerSchedule/>)
+  { text: 'Edit Employee Schedules', onClick: (userData,setMainComponent)=>{
+    setMainComponent(<ManagerSchedule type='Work'/>)
+  } },
+  { text: 'View Monthly Ticket Report', onClick: (userData,setMainComponent)=>{
+    setMainComponent(<Report path={'/ticket_monthly_revenue'} title='Monthly Revenue From Tickets'/>)
   } },
 ];
 

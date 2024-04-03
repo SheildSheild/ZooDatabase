@@ -9,10 +9,13 @@
   top: 0;
   width: 100%;
   margin-bottom: 20px;
+  display: flex;
+  justify-content: center;
+  flex-direction: row;
 }
 
 .nav-link {
-  float: left;
+  float:none;
   border-right: 1px solid #bbb;
 }
 
@@ -30,5 +33,4 @@
 
 .nav-link:last-child {
   border-right: none;
-  float: right;
 }

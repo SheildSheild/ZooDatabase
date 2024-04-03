@@ -12,8 +12,12 @@ function EmployeeSchedule({Employee_ID}){
     .then(data=>{
       if(!data)
         setErrorMessage('Failed to fetch data')
-      else
+      else{
+        data.forEach(event => {
+          
+        });
         setEventList(data);
+      }
       console.log(data);
     })
     .catch(err=>setErrorMessage('Error: '+err))

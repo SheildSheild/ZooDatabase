@@ -8,9 +8,13 @@ const {routes}=require('./routes');
 
 function api(req,res,query,body,name,db) {
   let isLogin=false;
+  let isSignUp=false;
   if(name.startsWith('login_')){
     isLogin=true;
     name=name.substring(6);
+  }
+  if(name.startsWith('customers')){
+    isSignUp=true;
   }
   const NAME=name.toUpperCase();
   const Name=parseName(name);
@@ -39,7 +43,7 @@ function api(req,res,query,body,name,db) {
     next=()=>{
       req.on('end', async () => {
         const {dataNames,dataValues}=parseBody(body);
-        if(name=='customers'||name=='employees') await encryptPassword(dataNames,dataValues);
+        //if(name=='customers'||name=='employees') await encryptPassword(dataNames,dataValues);
         const sql = `INSERT INTO ${NAME}(${dataNames}) VALUES (${dataValues})`;
         db.query(sql, (err, result) => {
           if (err) onError(res,'Error adding '+Name,err);
@@ -78,7 +82,7 @@ function api(req,res,query,body,name,db) {
   default:
       break;
   }
-  if(isLogin||routes[name].rolesWithAccess(req.method)=='All')
+  if(isLogin||isSignUp||routes[name].rolesWithAccess(req.method)=='All')
     next();
   else
     authenticateToken(req,res,()=>
