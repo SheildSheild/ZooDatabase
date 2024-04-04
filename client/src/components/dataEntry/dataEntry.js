@@ -1,8 +1,8 @@
 import React, { useState } from 'react';
 import './dataEntry.css';
-import { postData,getData,updateData,deleteData } from '../../communication';
+import { formatDate } from '../../utils';
 
-const map={
+const schema={
   Animals:{
     Name: {type:"text",text:"Animal Name:"},
     Habitat_ID: {type:"number",text:"Habitat ID:"},
@@ -20,20 +20,7 @@ const map={
     Start_Date: {type:"date",text:"Employee Start Date:"},
     Birth_Date: {type:"date",text:"Employee Birth Date:"},
     SSN: {type:"number",text:"Employee SSN:"},
-    Gender: {code:<>
-      <label>
-        Employee Gender:
-        <select name="gender" required>
-          <option value="">--Please choose an option--</option>
-          <option value="1">Male</option>
-          <option value="2">Female</option>
-          <option value="3">Other</option>
-          <option value="4">Prefer Not To Answer</option>
-        </select>
-      </label>
-      <br />
-      <br />
-    </>}
+    Gender: {type:"enum", text:"Select Gender:", enum:['Male','Female','Other']}
   },
   Animal_Health:{
     Primary_Doctor_ID: {type:"number",text:"Primary Doctor:"},
@@ -84,18 +71,6 @@ const map={
     Name: {type: "text",text:"Name:"},
     Status: {type: "text",text:"Status:"},
   },
-  Schedules:{
-    Schedule_ID: {type:"number",text:"Schedule ID:"},
-    Type_ID: {type: "number", text:"Type ID:"},
-    Zone_ID: {type: "number",text:"Zone ID:"},
-    Employee_ID: {type: "number",text:"Employee ID:"},
-    Restraunt_ID: {type:"number",text:"Restaurant ID:"},
-    Habitat_ID: {type: "number",text:"Habitat ID:"},
-    Shop_ID: {type: "number",text:"Shop ID:"},
-    Start_Time: {type:"date",text: "Start Time:"},
-    End_Time: {type:"date",text:"End Time:"},
-    Date: {type:"date",text:"Date:"},
-  },
   Purchases:{
     Purchase_ID:{type:"number",text:"Purchase ID:"},
     Item_ID:{type:"number",text:"Item ID:"},
@@ -103,27 +78,85 @@ const map={
     Customer_ID:{type:"number",text:"Customer ID:"},
     Quantity:{type:"number",text:"Quantity:"},
     Date:{type:"date",text:"Date:"}
-  }
-  /*
-  add entry data like:
-  entry:{
-    Prop_1: {type:"",text:""},
-    Prop_2: {code:<>specia jsx</>}
-  }
-  */
+  },
+  Timesheets:{
+    Employee_Schedule_ID: {type:"number",text:"Schedule ID:"},
+    Description: {type: "text", text:"Description:"},
+    Employee_ID: {type: "number",text:"Employee ID:"},
+    Start_Time: {type:"datetime-local",text: "Start Time:"},
+    End_Time: {type:"datetime-local",text:"End Time:"},
+  },
+  Employee_Schedules:{
+    Employee_Schedule_ID: {type:"number",text:"Schedule ID:"},
+    Description: {type: "text", text:"Description:"},
+    Employee_ID: {type: "number",text:"Employee ID:"},
+    Start_Time: {type:"datetime-local",text: "Start Time:"},
+    End_Time: {type:"datetime-local",text:"End Time:"},
+  },
+  Animal_Schedules:{
+    Animal_Schedule_ID: {type:"number",text:"Schedule ID:"},
+    Description: {type: "text", text:"Description:"},
+    Animal_ID: {type: "number",text:"Animal ID:"},
+    Start_Time: {type:"datetime-local",text: "Start Time:"},
+    End_Time: {type:"datetime-local",text:"End Time:"},
+  },
+  Shop_Schedules:{
+    WaveShaperNode_Schedule_ID: {type:"number",text:"Schedule ID:"},
+    Description: {type: "text", text:"Description:"},
+    Shop_ID: {type: "number",text:"Shop ID:"},
+    Start_Time: {type:"datetime-local",text: "Start Time:"},
+    End_Time: {type:"datetime-local",text:"End Time:"},
+  },
+  Habitat_Schedules:{
+    Habitat_Schedule_ID: {type:"number",text:"Schedule ID:"},
+    Description: {type: "text", text:"Description:"},
+    Habitat_ID: {type: "number",text:"Habitat ID:"},
+    Start_Time: {type:"datetime-local",text: "Start Time:"},
+    End_Time: {type:"datetime-local",text:"End Time:"},
+  },
 };
 
-const mapEach=(name,func)=>{
+const renderEnum=(options)=><>
+  <select name="gender" required>
+    <option value="">--Please choose an option--</option>
+    {options.map((option,i)=><option value={i}>{option}</option>)}
+  </select>
+</>;
+
+const renderCell = (value, prop) => {
+  if (prop.includes("Date")||prop.includes("Time")) 
+    return formatDate(value);
+  return value;
+};
+
+let i=0;
+const renderInput=(type,key,startingVal)=><>
+  <input key={i++} type={type} name={key} defaultValue={renderCell(startingVal,key)} required/>
+</>;
+
+const mapEach=(name,preFilled)=>{
   const out=[];
-  for(let key in map[name]){
-    const data=map[name][key];
-    if(data.code)
-      out.push(data.code);
-    out.push(func(key,data.text,data.type));
+  const func=(key,data)=>{
+    const startingVal=(preFilled&&preFilled[key])||null;
+    return <>
+      <label>
+        {data.text}
+        {
+          data.type=='enum'?
+            renderEnum(data.enum,startingVal):
+            renderInput(data.type,key,startingVal)
+        }
+      </label>
+      <br/>
+      <br/>
+    </>;
+  };
+  for(let key in schema[name]){
+    const data=schema[name][key];
+    out.push(func(key,data));
   }
   return out;
 }
-
 
 function DataEntry({title,name,onSubmit,preFilled}){
   const link='/'+name;
@@ -134,7 +167,7 @@ function DataEntry({title,name,onSubmit,preFilled}){
     ev.preventDefault();
     const form=ev.target;
     const data={};
-    for(let prop in map[name])
+    for(let prop in schema[name])
       data[prop]=form[prop].value;
     
     onSubmit&&onSubmit(data);
@@ -142,17 +175,7 @@ function DataEntry({title,name,onSubmit,preFilled}){
   return (
     <form onSubmit={handleSubmit}>
       <h2><strong>{title}</strong></h2>
-      {mapEach(name,(val,text,type)=>{
-        const startingVal=(preFilled&&preFilled[val])||null;
-        return <>
-          <label>
-            {text}
-            <input type={type} name={val} defaultValue={startingVal} required/>
-          </label>
-          <br />
-          <br />
-        </>
-      },preFilled)}
+      {mapEach(name,preFilled)}
       <button type="submit">Submit</button>
     </form>
   );

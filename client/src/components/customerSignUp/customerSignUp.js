@@ -10,11 +10,14 @@ export default function CustomerSignUp() {
     const links = [["homepage", "Home"], ["customerSignUp", "Sign Up"], ["login", "Login"], ["animalPage", "Our Animals"], ["aboutUsPage", "About Us"]];
     const handleSubmit = (event) => {
         event.preventDefault();
-        const { name, Email, address, Phone, Password } = event.target.elements;
+        const { Name, Email, Address, Phone, Password } = event.target.elements;
         
         postData('/customers', {
-            email: Email.value, // Assuming email as username
-            password: Password.value,
+            Name: Name.value,
+            Address: Address.value,
+            Phone: Phone.value,
+            Email: Email.value, // Assuming email as username
+            Password: Password.value,
         })
         .then((data) => {
             if (data&&data.message&&data.message?.endsWith('successfully')) 
@@ -38,7 +41,7 @@ export default function CustomerSignUp() {
             {errorMessage && <p className="error">{errorMessage}</p>}
             <form onSubmit={handleSubmit}>
                 <label for="name">Name: </label>
-                <input type="text" id="name" name="name" required />
+                <input type="text" id="name" name="Name" required />
                 <br />
                 <br />
                 <label for="Email">Email: </label>
@@ -46,15 +49,7 @@ export default function CustomerSignUp() {
                 <br />
                 <br />
                 <label for="Address">Address: </label>
-                <input type="address" id="address" name="address" required/>
-                <br />
-                <br />
-                <label for="Phone">Phone Number: </label>
-                <input type="phone" id="Phone" name="Phone" required/>
-                <br />
-                <br />
-                <label for="Address">Address: </label>
-                <input type="address" id="address" name="address" required/>
+                <input type="address" id="address" name="Address" required/>
                 <br />
                 <br />
                 <label for="Phone">Phone Number: </label>

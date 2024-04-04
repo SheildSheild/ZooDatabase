@@ -8,36 +8,27 @@ import { useState } from 'react';
 const localizer = dayjsLocalizer(dayjs)
 const DnDCalendar = withDragAndDrop(Calendar);
 
-function MyCalendar({events,canDrag}){
+function MyCalendar({events,canDrag,onSelect,onResize,onDrop}){
   const [render,reRender]=useState(0);
+  const sharedProps={
+    localizer,
+    events,
+    startAccessor:"from",
+    endAccessor:"to",
+    resizable:true,
+    style:{ height: 500 }
+  };
   if(canDrag)
     return <DnDCalendar
-      localizer={localizer}
-      events={events}
-      startAccessor="start"
-      endAccessor="end"
-      resizable
-      onSelectEvent={(data)=>{
-        console.log(data)
-      }}
-      onEventResize = {(data) => {
-        const { start, end } = data;
-        events[0].start = start;
-        events[0].end = end;
-        reRender(render+1);
-      }}
-      onEventDrop = {(data) => {
-        console.log(data);
-      }}
-      style={{ height: 500 }}
+      {...sharedProps}
+      onSelectEvent={event => onSelect(event)}
+      onEventResize = {event => onResize(event)}
+      onEventDrop = {event => onDrop(event)}
     />
   return <Calendar
-    localizer={localizer}
-    events={events}
-    startAccessor="start"
-    endAccessor="end"
-    resizable
-    style={{ height: 500 }}
+    {...sharedProps}
+    onSelectEvent={(data)=>console.log('selected',data)}
+    onSelecting={()=>console.log('selecting')}
   />
 };
 
