@@ -1,8 +1,9 @@
-const e=['Employee','Medic','Manager'],m=['Manager'], em=['Medic','Manager'], c=['Customer'], a='All';
-function access(v,m){
+const e=['Employee','Medic','Manager'],m=['Manager'], em=['Medic','Manager'], c=['Customer'], a='All', n=[];
+function access(v,m,c){
   return {
     view:v,
     modify:m,
+    create:c||m,
     rolesWithAccess(method){
       if(method==='GET')
         return v;
@@ -25,15 +26,19 @@ module.exports={
     "lost_items":access(e,e),
     "complaints":access(m,c),
     "schedule_types":access(m,m),
-    "schedules":access(e,m),
+    "employee_schedules":access(e,m),
+    "animal_schedules":access(e,m),
+    "shop_schedules":access(e,m),
+    "habitat_schedules":access(e,m),
+    "timesheets":access(e,m),
     "attends_to":access(e,m),
     "purchases":access(m,m),
     "tickets":access(m,m),
     "login_customers":access(a,c),
     "login_employees":access(a,m),
-    "shop_monthly_revenue":access(m,[]),
-    "ticket_monthly_revenue":access(m,[]),
-    "pay_stub":access(e,[]),
-    "monthly_visit":access(m,[]),
+    "shop_monthly_revenue":access(m,n),
+    "ticket_monthly_revenue":access(m,n),
+    "pay_stub":access(e,n),
+    "monthly_visit":access(m,n),
   }
 }
