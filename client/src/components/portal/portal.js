@@ -13,10 +13,10 @@ const getID=()=>localStorage.getItem('userId');
 
 const customerLinks = [
   { text: 'View Profile', onClick: (userData,setMainComponent)=>{
-    
+    setMainComponent();
   } },
   { text: 'Buy Tickets', onClick: (userData,setMainComponent)=>{
-    
+    setMainComponent();
   } },
 ];
 

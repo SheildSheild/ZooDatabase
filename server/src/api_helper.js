@@ -72,7 +72,7 @@ async function handleLogin(res,results,Name,query){
 
   const user=results[0];
   if(!(await bcrypt.compare(query.Password,user.Password)))
-    return onUnauthorized(res,'Wrong Password');
+        return onUnauthorized(res,'Wrong Password');
 
   const userId=user[getID(Name)];
   user.Role=user.Role||'Customer';
@@ -86,7 +86,9 @@ async function handleLogin(res,results,Name,query){
 async function encryptPassword(dataNames,dataValues){
   const idx=dataNames.findIndex(v=>v=='Password');
   if(idx==-1)return;
-  dataValues[i]=await bcrypt.hash(dataValues[i],10);
+  const val=dataValues[idx];
+  const parsed=val.substring(1,val.length-1);
+  dataValues[idx]="'"+await bcrypt.hash(parsed,10)+"'";
 }
 
 function authenticateToken(req, res, next) {

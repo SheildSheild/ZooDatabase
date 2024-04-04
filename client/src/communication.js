@@ -24,13 +24,18 @@ const then=[
   }
 ];
 
-const headers=()=>{
-  return {
+const headers = () => {
+  const token = localStorage.getItem('token');
+  let headers = {
     'Accept': 'application/json',
-    'Content-Type': 'application/json',
-    'Authorization': `Bearer ${localStorage.getItem('token')}`
+    'Content-Type': 'application/json'
   };
+  if (token) 
+    headers['Authorization'] = `Bearer ${token}`;
+  
+  return headers;
 };
+
 
 function getData(url){
   return fetch(apiUrl+url,{

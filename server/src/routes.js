@@ -21,7 +21,7 @@ module.exports={
     "employees":access(m,m),
     "animal_health":access(em,em),
     "items":access(e,m),
-    "customers":access(m,c),
+    "customers":access(c,a),
     "lost_items":access(e,e),
     "complaints":access(m,c),
     "schedule_types":access(m,m),
@@ -31,9 +31,9 @@ module.exports={
     "tickets":access(m,m),
     "login_customers":access(a,c),
     "login_employees":access(a,m),
-    "shop_monthly_revenue":access([],m),
-    "ticket_monthly_revenue":access([],m),
-    "pay_stub":access([],c),
-    "monthly_visit":access([],m),
+    "shop_monthly_revenue":access(m,[]),
+    "ticket_monthly_revenue":access(m,[]),
+    "pay_stub":access(e,[]),
+    "monthly_visit":access(m,[]),
   }
 }
