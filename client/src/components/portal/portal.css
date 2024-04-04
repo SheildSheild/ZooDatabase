@@ -11,7 +11,7 @@ body {
     background-color: #333; /* Dark grey */
     color: #fff; /* White text color */
     height: 100vh; /* Full height of the viewport */
-    width: 300px; /* Sidebar width */
+    width: 20%; /* Sidebar width */
     position: fixed; /* Fixed sidebar (it will not move when you scroll the page) */
     overflow-y: auto; /* Add scroll if needed */
   }
@@ -34,7 +34,7 @@ body {
   
   /* Main content styles */
   .main-content {
-    margin-left: 300px; /* Same as sidebar width */
+    margin-left: 20%; /* Same as sidebar width */
     padding: 20px;
   }
   

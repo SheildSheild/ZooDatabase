@@ -6,12 +6,15 @@ const then=[
     if(res.ok)
       return res.json();
     return res.json().then(data=>{
-      if(res.message=='JWT Expired'){
+      if(data.message=='JWT Expired'){
         localStorage.removeItem('token');
         localStorage.removeItem('role');
         localStorage.removeItem('userId');
         localStorage.removeItem('expirationDate');
+        window.location.href='/';
       }
+      if(data.message=='No JWT')
+        window.location.href='/';
       return {...data,status:res.status,statusText:res.statusText};
     });
   },
@@ -27,9 +30,9 @@ const headers = () => {
     'Accept': 'application/json',
     'Content-Type': 'application/json'
   };
-  if (token) {
+  if (token) 
     headers['Authorization'] = `Bearer ${token}`;
-  }
+  
   return headers;
 };
 

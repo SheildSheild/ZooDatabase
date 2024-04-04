@@ -71,8 +71,8 @@ async function handleLogin(res,results,Name,query){
     return onNotFound(res,'Username');
 
   const user=results[0];
-  if(!(await bcrypt.compare(query.Password,user.Password))) 
-    return onUnauthorized(res,'Wrong Password');
+  if(!(await bcrypt.compare(query.Password,user.Password)))
+        return onUnauthorized(res,'Wrong Password');
 
   const userId=user[getID(Name)];
   user.Role=user.Role||'Customer';

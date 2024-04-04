@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from 'react';
-import { Link } from 'react-router-dom';
+import { Link, useNavigate } from 'react-router-dom';
 import './portal.css';
 import { getData } from '../../communication';
 import DisplayTable from '../displayTable';
@@ -7,17 +7,9 @@ import EmployeeSchedule from '../employeeSchedule';
 import ManagerSchedule from '../managerSchedule';
 import Report from '../report';
 
-function getToken() {
-  return localStorage.getItem('token');
-}
-
-function getRole() {
-  return localStorage.getItem('role');
-}
-
-function getID() {
-  return localStorage.getItem('userId');
-}
+const getToken=()=>localStorage.getItem('token');
+const getRole=()=>localStorage.getItem('role');
+const getID=()=>localStorage.getItem('userId');
 
 const customerLinks = [
   { text: 'View Profile', onClick: (userData,setMainComponent)=>{
@@ -30,7 +22,7 @@ const customerLinks = [
 
 const employeeLinks = [
   { text:"View My Schedule", onClick: (userData,setMainComponent)=>{
-    setMainComponent(<EmployeeSchedule User_ID={userData.userId}/>)
+    setMainComponent(<EmployeeSchedule Employee_ID={userData.Employee_ID}/>)
   }},
 ]
 
@@ -48,7 +40,7 @@ const managerLinks = [
     setMainComponent(<DisplayTable link='\purchases'/>)
   } },
   { text: 'Edit Employee Schedules', onClick: (userData,setMainComponent)=>{
-    setMainComponent(<ManagerSchedule type='Work'/>)
+    setMainComponent(<ManagerSchedule link='\employee_schedules'/>)
   } },
   { text: 'View Monthly Ticket Report', onClick: (userData,setMainComponent)=>{
     setMainComponent(<Report path={'/ticket_monthly_revenue'} title='Monthly Revenue From Tickets'/>)
@@ -60,6 +52,7 @@ function Portal() {
   const [mainComponent,setMainComponent]=useState(<></>)
   const [renderCnt,render]=useState(1);
   const reRender=()=>render(renderCnt+1);
+  const navigate=useNavigate();
   useEffect(() => {
     const token = getToken();
     if (token) {
@@ -89,6 +82,8 @@ function Portal() {
           reRender();
         });
     }
+    else
+      navigate('/');
   },[]);
   
   if (!userData) 
@@ -124,7 +119,7 @@ function Portal() {
         ))}
       </div>
       <div className="main-content">
-        {mainComponent}
+        {renderCnt%2?mainComponent:<div>{mainComponent}</div>}
       </div>
     </div>
   );

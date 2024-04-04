@@ -1,6 +1,7 @@
 import html2canvas from 'html2canvas';
 import jsPDF from 'jspdf';
-import { getData } from "./communication";
+import DataEntry from './components/dataEntry';
+import { postData,getData,updateData,deleteData } from './communication';
 
 function formatDate(dateString){
   if (!dateString) return '';
@@ -35,8 +36,64 @@ const getID=(Name,data)=>{
     ID=Name.substring(0,Name.length-1)+'_ID';
   else
     ID=Name+'_ID';
-  return [ID,data[ID]];
+  if(data)
+    return [ID,data[ID]];
+  return ID;
 };
+
+function Modify(link,val,setDataEntry,reRender,table,idx,convertData=x=>x) {
+  const Name=parseName(link.substring(1));
+  setDataEntry(<DataEntry title="Modify Data" name={Name} onSubmit={data=>{
+    updateData(link,...getID(Name,data),data).then(val=>{
+      if(!val){
+        setDataEntry(<>Failed to Modify</>);
+        reRender();
+        return;
+      }
+      setDataEntry(<>Successfully Modified</>);
+      table[idx]=convertData(data);
+      reRender();
+    });
+    setDataEntry(<>Modifying...</>);
+  }} preFilled={val}/>);
+  reRender();
+}
+
+function Delete(link,val,setDataEntry,reRender,table,idx) {
+  const Name=parseName(link.substring(1));
+  deleteData(link,...getID(Name,val)).then(val=>{
+    console.log(val)
+    if(!val){
+      setDataEntry(<>Failed to Delete</>);
+      reRender();
+      return;
+    }
+    setDataEntry(<>Successfully Deleted</>);
+    table.splice(idx,1);
+    reRender();
+  });
+  setDataEntry(<>Deleting...</>);
+  reRender();
+}
+
+function Add(link,setDataEntry,reRender,table,convertData=x=>x){
+  const Name=parseName(link.substring(1));
+  setDataEntry(<DataEntry title="Enter Data" name={Name} onSubmit={data=>{
+    postData(link,data).then(val=>{
+      if(!val){
+        setDataEntry(<>Failed to Add</>);
+        reRender();
+        return;
+      }
+      setDataEntry(<>Successfully Added</>);
+      table.push(convertData(data));
+      reRender();
+    });
+    setDataEntry(<>Adding...</>);
+    reRender();
+  }}/>);
+  reRender();
+}
 
 function fetchNames(IDList,route){
   const NameID=(Name,ID)=>Name+' ID: '+ID;
@@ -69,4 +126,4 @@ const downloadPDF = (pdfRef) =>{
 });
 }
 
-export {formatDate,getID,parseName,downloadPDF}
+export {formatDate,getID,parseName,downloadPDF,fetchNames,Add,Delete,Modify}
