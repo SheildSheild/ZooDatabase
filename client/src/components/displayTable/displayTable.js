@@ -4,19 +4,25 @@ import React, { useState, useEffect } from 'react';
 import { formatDate,Add,Modify,Delete,getID,parseName } from '../../utils';
 
 let i=0;
-function DisplayTable({link}){
+function DisplayTable({link,viewLink}){
   const [data, setData] = useState([]);
+  const [view,setView] = useState([]);
   const [dataEntry,setDataEntry]=useState(<></>);
   const [renderCnt,render]=useState(1);
   const reRender=()=>render(renderCnt+1);
+
   useEffect(() => {
     getData(link)
     .then(res => setData(res))
     .catch(err => console.log(err))
   },[])
-
+  useEffect(() => {
+    getData(viewLink)
+    .then(res => setView(res))
+    .catch(err => console.log(err))
+  },[])
   const dataColumns=[];
-  for(let prop in data[0])
+  for(let prop in view[0])
     dataColumns.push(prop);
   const Name=parseName(link.substring(1));
   const ID=getID(Name);
@@ -26,6 +32,7 @@ function DisplayTable({link}){
       return formatDate(value);
     return value;
   };
+
   return <center>
   <section id="outer-table-container">
     <div id="inner-table-container">
@@ -36,13 +43,13 @@ function DisplayTable({link}){
         <th className='qth' key={'-'+i}>Delete</th>
         </tr></thead>
         <tbody className='qtbody'>{
-          data.map((val,idx) => <>
-            <tr className='qtr' key={val[ID]}>{  
+          view.map((val,idx) => <>
+            <tr className='qtr' key={data[ID]}>{  
               dataColumns.map((prop)=>
                 <td>{renderCell(val[prop], prop)}</td>)
             }
-            <td><button onClick={()=>Modify(link,val,setDataEntry,reRender,data,idx)}>Modify</button></td>
-            <td><button onClick={()=>Delete(link,val,setDataEntry,reRender,data,idx)}>Delete</button></td>
+            <td><button onClick={()=>Modify(link,data[idx],setDataEntry,reRender,data,idx)}>Modify</button></td>
+            <td><button onClick={()=>Delete(link,data[idx],setDataEntry,reRender,data,idx)}>Delete</button></td>
             </tr>
           </>)
         }</tbody>

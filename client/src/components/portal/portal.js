@@ -28,16 +28,16 @@ const employeeLinks = [
 
 const medicLinks = [
   { text: 'Edit Medical Records', onClick: (userData,setMainComponent)=>{
-    setMainComponent(<DisplayTable link='\animal_health'/>)
+    setMainComponent(<DisplayTable link='\animal_health' viewLink='\animal_health_view'/>)
   } },
 ]
 
 const managerLinks = [
   { text: 'Edit Animals List', onClick: (userData,setMainComponent)=>{
-    setMainComponent(<DisplayTable link='\animals'/>)
+    setMainComponent(<DisplayTable link='\animals' viewLink='\animals_view'/>)
   } },
   { text: 'Edit Purchases', onClick: (userData,setMainComponent)=>{
-    setMainComponent(<DisplayTable link='\purchases'/>)
+    setMainComponent(<DisplayTable link='\purchases' viewLink='\purchases_view'/>)
   } },
   { text: 'Edit Employee Schedules', onClick: (userData,setMainComponent)=>{
     setMainComponent(<ManagerSchedule link='\employee_schedules'/>)
