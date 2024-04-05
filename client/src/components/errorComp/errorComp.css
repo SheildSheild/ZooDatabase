@@ -1,0 +1,14 @@
+.error-container {
+    margin: 20px;
+    padding: 20px;
+    border: 1px solid red;
+    background-color: #ffe5e5;
+  }
+  
+  .error-title {
+    color: red;
+  }
+  
+  .error-message {
+    color: #333;
+  }  

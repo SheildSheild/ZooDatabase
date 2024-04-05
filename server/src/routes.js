@@ -40,5 +40,8 @@ module.exports={
     "ticket_monthly_revenue":access(m,n),
     "pay_stub":access(e,n),
     "monthly_visit":access(m,n),
+    "purchases_view":access(m,n),
+    "animals_view":access(m,n),
+    "animal_health_view":access(m,n),
   }
 }
