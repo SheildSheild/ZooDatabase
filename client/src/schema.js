@@ -110,6 +110,14 @@ const schema={
     Start_Time: {type:"datetime-local",text: "Start Time:"},
     End_Time: {type:"datetime-local",text:"End Time:"},
   },
+  Father:{
+    ForeignKey: "True",
+    Table:"Animals"
+  },
+  Mother:{
+    ForeignKey: "True",
+    Table:"Animals"
+  }
 }
 
 export default schema;

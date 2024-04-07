@@ -32,12 +32,18 @@ const parseName=(name)=>{
 };
 
 const parseID=(ID)=>{
-  const name=ID.substring(0,ID.length-3);
-  if(schema[name])
-    return schema[name];
-  name+='s';
-  if(schema[name])
-    return schema[name];
+  let name=ID.substring(0,ID.length-3);
+  if(schema[name] && schema[name].ForeignKey == "True"){
+    name = schema[name].Table;
+    return name.toLowerCase();
+  }
+  if(schema[name]){
+    return name.toLowerCase();
+  }
+  name +='s'
+  if(schema[name]){
+    return name.toLowerCase();
+  }
   throw Error('can\'t parse ID');
 };
 
@@ -122,13 +128,13 @@ async function fetchNames(props,ID){
   const NameID=(Name,Id)=>Name+' ID: '+Id;
   const results=await Promise.all(getForeignKeys(props,ID).map(foreignKey=>{
     const Name=parseID(foreignKey);
-    const route='/'+Name;
+    const route='/'+ Name;
     return getData(route).then(data=>{
       const out={IDToName:{},NameToID:{},ID:foreignKey};
       for(let tuple in data){
-        const name=NameID(tuple.Name,tuple[foreignKey]);
-        out.IDToName[tuple[foreignKey]]=name;
-        out.IDToName[name]=tuple[foreignKey];
+        const name=NameID(data[tuple].Name,data[tuple][foreignKey]);
+        out.IDToName[data[tuple][foreignKey]]=name;
+        out.NameToID[name]=data[tuple][foreignKey];
       }
       return out;
     });
