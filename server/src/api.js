@@ -7,6 +7,7 @@ const {
 const {routes}=require('./routes');
 
 function api(req,res,query,body,name,db) {
+  const access=routes[name].rolesWithAccess(req.method);
   let isLogin=false;
   if(name.startsWith('login_')){
     isLogin=true;
@@ -76,13 +77,13 @@ function api(req,res,query,body,name,db) {
       };
     break;
   default:
-      break;
+    break;
   }
-  if(isLogin||routes[name].rolesWithAccess(req.method)=='All')
+  if(access=='All')
     next();
   else
     authenticateToken(req,res,()=>
-      authorizeRoles(req,res,routes[name].rolesWithAccess(req.method),next)
+      authorizeRoles(req,res,access,next)
     );
 }
 

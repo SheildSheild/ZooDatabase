@@ -53,7 +53,7 @@ CREATE TABLE `ANIMALS` (
   `Name` varchar(45) NOT NULL,
   `Weight` float(5,2) NOT NULL,
   `Height` float(5,2) NOT NULL,
-  `Birth_Date` DATE NOT NULL,
+  `Birth_Date` date NOT NULL,
   `Species` varchar(45) NOT NULL,
   `Mother_ID` int DEFAULT NULL,
   `Father_ID` int DEFAULT NULL,
@@ -144,6 +144,34 @@ INSERT INTO `ANIMAL_HEALTH` VALUES (1,329,10,'Behavioral therapy for stress mana
 UNLOCK TABLES;
 
 --
+-- Table structure for table `ANIMAL_SCHEDULES`
+--
+
+DROP TABLE IF EXISTS `ANIMAL_SCHEDULES`;
+/*!40101 SET @saved_cs_client     = @@character_set_client */;
+/*!50503 SET character_set_client = utf8mb4 */;
+CREATE TABLE `ANIMAL_SCHEDULES` (
+  `Animal_Schedule_ID` int NOT NULL AUTO_INCREMENT,
+  `Animal_ID` int NOT NULL,
+  `Start_Time` datetime NOT NULL,
+  `End_Time` datetime NOT NULL,
+  `Description` varchar(63) NOT NULL DEFAULT '',
+  PRIMARY KEY (`Animal_Schedule_ID`),
+  KEY `fk_ANIMAL_SCHEDULES_ANIMALS_idx` (`Animal_ID`),
+  CONSTRAINT `fk_ANIMAL_SCHEDULES_ANIMALS` FOREIGN KEY (`Animal_ID`) REFERENCES `ANIMALS` (`Animal_ID`) ON DELETE CASCADE ON UPDATE CASCADE
+) ENGINE=InnoDB AUTO_INCREMENT=5 DEFAULT CHARSET=utf8mb3;
+/*!40101 SET character_set_client = @saved_cs_client */;
+
+--
+-- Dumping data for table `ANIMAL_SCHEDULES`
+--
+
+LOCK TABLES `ANIMAL_SCHEDULES` WRITE;
+/*!40000 ALTER TABLE `ANIMAL_SCHEDULES` DISABLE KEYS */;
+/*!40000 ALTER TABLE `ANIMAL_SCHEDULES` ENABLE KEYS */;
+UNLOCK TABLES;
+
+--
 -- Table structure for table `ATTENDS_TO`
 --
 
@@ -214,7 +242,7 @@ CREATE TABLE `CUSTOMERS` (
   `Email` varchar(45) DEFAULT NULL,
   `Password` varchar(63) DEFAULT NULL,
   PRIMARY KEY (`Customer_ID`)
-) ENGINE=InnoDB AUTO_INCREMENT=3 DEFAULT CHARSET=utf8mb3;
+) ENGINE=InnoDB AUTO_INCREMENT=9 DEFAULT CHARSET=utf8mb3;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -223,7 +251,7 @@ CREATE TABLE `CUSTOMERS` (
 
 LOCK TABLES `CUSTOMERS` WRITE;
 /*!40000 ALTER TABLE `CUSTOMERS` DISABLE KEYS */;
-INSERT INTO `CUSTOMERS` VALUES (2,'John Doe','123 Example St','555-5555','john.doe@example.com',NULL);
+INSERT INTO `CUSTOMERS` VALUES (2,'John Doe','123 Example St','555-5555','john.doe@example.com',NULL),(3,'Sebastian De La Espriella','3207 canyon links dr','7138155588','lseabasol@gmail.com','$2b$10$1AcgnC9Psrpk8u3FnSfpNuLde.7siyyLLyU.OQ28RuNbmo43NSr76'),(4,'Sebastian De La Espriella','3207 canyon links dr','7138155588','lseabaso@gmail.com','$2b$10$moSg94AZJLC3.OpNae.raO/TfJQf6GpThLJcGHtOoEjIv8rsZ/cGC'),(5,'Sebastian De La Espriella','3207 canyon links dr','7138155588','lseabas@gmail.com','$2b$10$PmzrJQnE0Bu5LSlnCpu1b.ZjttKhN1yvOw7.OajIiWAOXxxMOGKY6'),(6,'Sebastian De La Espriella','3207 canyon links dr','7138155588','lseaba@gmail.com','$2b$10$LrCWpx/TE19CXRPYN72Br.X.KL85xqJ5d43IiL55OBNYZeVYseEIC'),(7,'Sebastian De La Espriella','3207 canyon links dr','7138155588','lseabasol1@gmail.com','$2b$10$utYkzkfr8gCGnoiZDPI1f.fQ2pEoncHhgUdh4a9lWZgMdaG.dRhZy'),(8,'Sebastian De La Espriella','3207 canyon links dr','7138155588','lseabasol2@gmail.com','$2b$10$9rTUZUUNWhFfHpIrGZqA2eZOc3A8RxWn3lnARBmPa86ElqcaGz2hC');
 /*!40000 ALTER TABLE `CUSTOMERS` ENABLE KEYS */;
 UNLOCK TABLES;
 
@@ -275,6 +303,34 @@ INSERT INTO `EMPLOYEES` VALUES (2,NULL,NULL,NULL,NULL,'Andrew','Almasi','394-20-
 UNLOCK TABLES;
 
 --
+-- Table structure for table `EMPLOYEE_SCHEDULES`
+--
+
+DROP TABLE IF EXISTS `EMPLOYEE_SCHEDULES`;
+/*!40101 SET @saved_cs_client     = @@character_set_client */;
+/*!50503 SET character_set_client = utf8mb4 */;
+CREATE TABLE `EMPLOYEE_SCHEDULES` (
+  `Employee_Schedule_ID` int NOT NULL AUTO_INCREMENT,
+  `Employee_ID` int NOT NULL,
+  `Start_Time` datetime NOT NULL,
+  `End_Time` datetime NOT NULL,
+  `Description` varchar(63) NOT NULL DEFAULT '',
+  PRIMARY KEY (`Employee_Schedule_ID`),
+  KEY `fk_EMPLOYEE_SCHEDULES_EMPLOYEES_idx` (`Employee_ID`),
+  CONSTRAINT `fk_EMPLOYEE_SCHEDULES_EMPLOYEES` FOREIGN KEY (`Employee_ID`) REFERENCES `EMPLOYEES` (`Employee_ID`) ON DELETE CASCADE ON UPDATE CASCADE
+) ENGINE=InnoDB AUTO_INCREMENT=5 DEFAULT CHARSET=utf8mb3;
+/*!40101 SET character_set_client = @saved_cs_client */;
+
+--
+-- Dumping data for table `EMPLOYEE_SCHEDULES`
+--
+
+LOCK TABLES `EMPLOYEE_SCHEDULES` WRITE;
+/*!40000 ALTER TABLE `EMPLOYEE_SCHEDULES` DISABLE KEYS */;
+/*!40000 ALTER TABLE `EMPLOYEE_SCHEDULES` ENABLE KEYS */;
+UNLOCK TABLES;
+
+--
 -- Table structure for table `HABITATS`
 --
 
@@ -301,6 +357,34 @@ LOCK TABLES `HABITATS` WRITE;
 /*!40000 ALTER TABLE `HABITATS` DISABLE KEYS */;
 INSERT INTO `HABITATS` VALUES (4,4,'Open','2024-01-01',0),(5,2,'Open','2024-01-01',100),(6,4,'Open','2024-02-01',100),(7,10,'Open','2024-03-01',150),(8,11,'Open','2024-04-01',150),(9,12,'Open','2024-05-01',200),(10,13,'Open','2024-06-01',200),(11,14,'Open','2024-07-01',100);
 /*!40000 ALTER TABLE `HABITATS` ENABLE KEYS */;
+UNLOCK TABLES;
+
+--
+-- Table structure for table `HABITAT_SCHEDULES`
+--
+
+DROP TABLE IF EXISTS `HABITAT_SCHEDULES`;
+/*!40101 SET @saved_cs_client     = @@character_set_client */;
+/*!50503 SET character_set_client = utf8mb4 */;
+CREATE TABLE `HABITAT_SCHEDULES` (
+  `Habitat_Schedule_ID` int NOT NULL AUTO_INCREMENT,
+  `Habitat_ID` int NOT NULL,
+  `Start_Time` datetime NOT NULL,
+  `End_Time` datetime NOT NULL,
+  `Description` varchar(63) NOT NULL DEFAULT '',
+  PRIMARY KEY (`Habitat_Schedule_ID`),
+  KEY `fk_HABITAT_SCHEDULES_HABITATS_idx` (`Habitat_ID`),
+  CONSTRAINT `fk_HABITAT_SCHEDULES_HABITATS` FOREIGN KEY (`Habitat_ID`) REFERENCES `HABITATS` (`Habitat_ID`) ON DELETE CASCADE ON UPDATE CASCADE
+) ENGINE=InnoDB AUTO_INCREMENT=5 DEFAULT CHARSET=utf8mb3;
+/*!40101 SET character_set_client = @saved_cs_client */;
+
+--
+-- Dumping data for table `HABITAT_SCHEDULES`
+--
+
+LOCK TABLES `HABITAT_SCHEDULES` WRITE;
+/*!40000 ALTER TABLE `HABITAT_SCHEDULES` DISABLE KEYS */;
+/*!40000 ALTER TABLE `HABITAT_SCHEDULES` ENABLE KEYS */;
 UNLOCK TABLES;
 
 --
@@ -385,7 +469,7 @@ SET @saved_cs_client     = @@character_set_client;
  1 AS `Start_Time`,
  1 AS `End_Time`,
  1 AS `Hour_Rate`,
- 1 AS `Date`,
+ 1 AS `month`,
  1 AS `Pay`*/;
 SET character_set_client = @saved_cs_client;
 
@@ -465,10 +549,10 @@ CREATE TABLE `SCHEDULES` (
   `Restaurant_ID` int DEFAULT NULL,
   `Habitat_ID` int DEFAULT NULL,
   `Shop_ID` int DEFAULT NULL,
-  `Start_Time` time NOT NULL,
-  `End_Time` time NOT NULL,
-  `Date` date DEFAULT NULL,
+  `Start_Time` datetime DEFAULT NULL,
+  `End_Time` datetime DEFAULT NULL,
   `Type` enum('Timesheet','Work','Animal','Shop','Habitat','Maintainance') DEFAULT NULL,
+  `Description` varchar(63) DEFAULT NULL,
   PRIMARY KEY (`Schedule_ID`),
   KEY `fk_SCHEDULES_ZONES1_idx` (`Zone_ID`),
   KEY `fk_SCHEDULES_EMPLOYEES1_idx` (`Employee_ID`),
@@ -489,7 +573,7 @@ CREATE TABLE `SCHEDULES` (
 
 LOCK TABLES `SCHEDULES` WRITE;
 /*!40000 ALTER TABLE `SCHEDULES` DISABLE KEYS */;
-INSERT INTO `SCHEDULES` VALUES (1,NULL,2,NULL,NULL,NULL,'08:00:00','15:00:00','2024-03-23',NULL),(2,NULL,3,NULL,NULL,NULL,'12:00:00','18:00:00','2024-03-25',NULL),(3,NULL,3,NULL,NULL,NULL,'12:00:00','18:00:00','2024-03-20',NULL),(4,NULL,2,NULL,NULL,NULL,'10:00:00','60:00:00','2024-03-23',NULL);
+INSERT INTO `SCHEDULES` VALUES (1,NULL,2,NULL,NULL,NULL,'2024-03-30 08:00:00','2024-03-30 15:00:00','Work',NULL),(2,NULL,3,NULL,NULL,NULL,'2024-03-30 12:00:00','2024-03-30 18:00:00','Work',NULL),(3,NULL,3,NULL,NULL,NULL,'2024-03-30 12:00:00','2024-03-30 18:00:00','Work',NULL),(4,NULL,2,NULL,NULL,NULL,'2024-03-30 10:00:00','2024-04-01 12:00:00','Work',NULL);
 /*!40000 ALTER TABLE `SCHEDULES` ENABLE KEYS */;
 UNLOCK TABLES;
 /*!50003 SET @saved_cs_client      = @@character_set_client */ ;
@@ -511,7 +595,7 @@ DELIMITER ;;
    AND WEEK(Date) = WEEK(CURRENT_DATE) 
    AND MONTH(Date) = MONTH(CURRENT_DATE) 
    AND YEAR(Date) = YEAR(CURRENT_DATE)
-   AND NEW.Schedule_Type_ID = 1;
+   AND NEW.Type_ID = 1;
    
    IF total_hours + (TIME_TO_SEC(TIMEDIFF(New.End_Time, New.Start_Time)) / 3600) > 40 THEN
       SET alert_message = CONCAT('Error: Working hours for Employee ', NEW.Employee_ID, ' this week exceed 40.');
@@ -564,6 +648,34 @@ SET @saved_cs_client     = @@character_set_client;
 SET character_set_client = @saved_cs_client;
 
 --
+-- Table structure for table `SHOP_SCHEDULES`
+--
+
+DROP TABLE IF EXISTS `SHOP_SCHEDULES`;
+/*!40101 SET @saved_cs_client     = @@character_set_client */;
+/*!50503 SET character_set_client = utf8mb4 */;
+CREATE TABLE `SHOP_SCHEDULES` (
+  `Shop_Schedule_ID` int NOT NULL AUTO_INCREMENT,
+  `Shop_ID` int NOT NULL,
+  `Start_Time` datetime NOT NULL,
+  `End_Time` datetime NOT NULL,
+  `Description` varchar(63) NOT NULL DEFAULT '',
+  PRIMARY KEY (`Shop_Schedule_ID`),
+  KEY `fk_SHOP_SCHEDULES_SHOPS_idx` (`Shop_ID`),
+  CONSTRAINT `fk_SHOP_SCHEDULES_SHOPS` FOREIGN KEY (`Shop_ID`) REFERENCES `SHOPS` (`Shop_ID`) ON DELETE CASCADE ON UPDATE CASCADE
+) ENGINE=InnoDB AUTO_INCREMENT=5 DEFAULT CHARSET=utf8mb3;
+/*!40101 SET character_set_client = @saved_cs_client */;
+
+--
+-- Dumping data for table `SHOP_SCHEDULES`
+--
+
+LOCK TABLES `SHOP_SCHEDULES` WRITE;
+/*!40000 ALTER TABLE `SHOP_SCHEDULES` DISABLE KEYS */;
+/*!40000 ALTER TABLE `SHOP_SCHEDULES` ENABLE KEYS */;
+UNLOCK TABLES;
+
+--
 -- Table structure for table `TICKETS`
 --
 
@@ -603,6 +715,33 @@ SET @saved_cs_client     = @@character_set_client;
  1 AS `month`,
  1 AS `revenue`*/;
 SET character_set_client = @saved_cs_client;
+
+--
+-- Table structure for table `TIMESHEETS`
+--
+
+DROP TABLE IF EXISTS `TIMESHEETS`;
+/*!40101 SET @saved_cs_client     = @@character_set_client */;
+/*!50503 SET character_set_client = utf8mb4 */;
+CREATE TABLE `TIMESHEETS` (
+  `Timesheet_ID` int NOT NULL AUTO_INCREMENT,
+  `Employee_ID` int NOT NULL,
+  `Start_Time` datetime NOT NULL,
+  `End_Time` datetime NOT NULL,
+  PRIMARY KEY (`Timesheet_ID`),
+  KEY `fk_TIMESHEETS_EMPLOYEES_idx` (`Employee_ID`),
+  CONSTRAINT `fk_TIMESHEETS_EMPLOYEES` FOREIGN KEY (`Employee_ID`) REFERENCES `EMPLOYEES` (`Employee_ID`) ON DELETE CASCADE ON UPDATE CASCADE
+) ENGINE=InnoDB AUTO_INCREMENT=5 DEFAULT CHARSET=utf8mb3;
+/*!40101 SET character_set_client = @saved_cs_client */;
+
+--
+-- Dumping data for table `TIMESHEETS`
+--
+
+LOCK TABLES `TIMESHEETS` WRITE;
+/*!40000 ALTER TABLE `TIMESHEETS` DISABLE KEYS */;
+/*!40000 ALTER TABLE `TIMESHEETS` ENABLE KEYS */;
+UNLOCK TABLES;
 
 --
 -- Table structure for table `ZONES`
@@ -662,7 +801,7 @@ UNLOCK TABLES;
 /*!50001 SET collation_connection      = utf8mb4_0900_ai_ci */;
 /*!50001 CREATE ALGORITHM=UNDEFINED */
 /*!50013 DEFINER=`root`@`localhost` SQL SECURITY DEFINER */
-/*!50001 VIEW `PAY_STUB` AS select `SCHEDULES`.`Employee_ID` AS `Employee_ID`,`EMPLOYEES`.`Lname` AS `Lname`,`EMPLOYEES`.`Fname` AS `Fname`,`SCHEDULES`.`Start_Time` AS `Start_Time`,`SCHEDULES`.`End_Time` AS `End_Time`,`EMPLOYEES`.`Hour_Rate` AS `Hour_Rate`,`SCHEDULES`.`Date` AS `Date`,((time_to_sec((`SCHEDULES`.`End_Time` - `SCHEDULES`.`Start_Time`)) / 3600) * `EMPLOYEES`.`Hour_Rate`) AS `Pay` from (`SCHEDULES` join `EMPLOYEES` on((`SCHEDULES`.`Employee_ID` = `EMPLOYEES`.`Employee_ID`))) order by `SCHEDULES`.`Employee_ID`,`SCHEDULES`.`Date` */;
+/*!50001 VIEW `PAY_STUB` AS select `SCHEDULES`.`Employee_ID` AS `Employee_ID`,`EMPLOYEES`.`Lname` AS `Lname`,`EMPLOYEES`.`Fname` AS `Fname`,`SCHEDULES`.`Start_Time` AS `Start_Time`,`SCHEDULES`.`End_Time` AS `End_Time`,`EMPLOYEES`.`Hour_Rate` AS `Hour_Rate`,date_format(`SCHEDULES`.`Start_Time`,'%Y-%m') AS `month`,((time_to_sec((`SCHEDULES`.`End_Time` - `SCHEDULES`.`Start_Time`)) / 3600) * `EMPLOYEES`.`Hour_Rate`) AS `Pay` from (`SCHEDULES` join `EMPLOYEES` on((`SCHEDULES`.`Employee_ID` = `EMPLOYEES`.`Employee_ID`))) order by `SCHEDULES`.`Employee_ID`,date_format(`SCHEDULES`.`Start_Time`,'%Y-%m') */;
 /*!50001 SET character_set_client      = @saved_cs_client */;
 /*!50001 SET character_set_results     = @saved_cs_results */;
 /*!50001 SET collation_connection      = @saved_col_connection */;
@@ -712,16 +851,4 @@ UNLOCK TABLES;
 /*!40101 SET COLLATION_CONNECTION=@OLD_COLLATION_CONNECTION */;
 /*!40111 SET SQL_NOTES=@OLD_SQL_NOTES */;
 
--- Dump completed on 2024-03-30 17:08:34
-/*VIEW `PAY_STUB` AS select 
-`SCHEDULES`.`Employee_ID` AS `Employee_ID`,
-`EMPLOYEES`.`Lname` AS `Lname`,
-`EMPLOYEES`.`Fname` AS `Fname`,
-`SCHEDULES`.`Start_Time` AS `Start_Time`,
-`SCHEDULES`.`End_Time` AS `End_Time`,
-`EMPLOYEES`.`Hour_Rate` AS `Hour_Rate`,
-date_format(`SCHEDULES`.`Start_Time`,'%Y-%m') AS `month`,
-((time_to_sec((`SCHEDULES`.`End_Time` - `SCHEDULES`.`Start_Time`)) / 3600) * `EMPLOYEES`.`Hour_Rate`) AS `Pay`
-from (`SCHEDULES` join `EMPLOYEES` on((`SCHEDULES`.`Employee_ID` = `EMPLOYEES`.`Employee_ID`)))
-order by `SCHEDULES`.`Employee_ID`,`month`;
-*/
+-- Dump completed on 2024-04-04  3:16:20

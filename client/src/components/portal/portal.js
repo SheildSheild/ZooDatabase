@@ -6,6 +6,7 @@ import DisplayTable from '../displayTable';
 import EmployeeSchedule from '../employeeSchedule';
 import ManagerSchedule from '../managerSchedule';
 import Report from '../report';
+import CustomerProfile from '../customerProfile'
 
 const getToken=()=>localStorage.getItem('token');
 const getRole=()=>localStorage.getItem('role');
@@ -13,11 +14,14 @@ const getID=()=>localStorage.getItem('userId');
 
 const customerLinks = [
   { text: 'View Profile', onClick: (userData,setMainComponent)=>{
-    setMainComponent();
-  } },
+    setMainComponent(<CustomerProfile></CustomerProfile>);
+  }},
   { text: 'Buy Tickets', onClick: (userData,setMainComponent)=>{
     setMainComponent();
-  } },
+  }},
+  { text: 'Purchase History', onClick: (userData,setMainComponent)=>{
+    setMainComponent();
+  }},
 ];
 
 const employeeLinks = [
@@ -28,16 +32,16 @@ const employeeLinks = [
 
 const medicLinks = [
   { text: 'Edit Medical Records', onClick: (userData,setMainComponent)=>{
-    setMainComponent(<DisplayTable link='\animal_health'/>)
+    setMainComponent(<DisplayTable link='\animal_health' viewLink='\animal_health_view'/>)
   } },
 ]
 
 const managerLinks = [
   { text: 'Edit Animals List', onClick: (userData,setMainComponent)=>{
-    setMainComponent(<DisplayTable link='\animals'/>)
+    setMainComponent(<DisplayTable link='\animals' viewLink='\animals_view'/>)
   } },
   { text: 'Edit Purchases', onClick: (userData,setMainComponent)=>{
-    setMainComponent(<DisplayTable link='\purchases'/>)
+    setMainComponent(<DisplayTable link='\purchases' viewLink='\purchases_view'/>)
   } },
   { text: 'Edit Employee Schedules', onClick: (userData,setMainComponent)=>{
     setMainComponent(<ManagerSchedule link='\employee_schedules'/>)

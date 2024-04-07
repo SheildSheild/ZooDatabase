@@ -1,13 +1,16 @@
 import './customerProfile.css'
 import { getData } from '../../communication';
-import DisplayTable from '../displayTable';
 import React, { useEffect, useState } from 'react';
 
-function CustomerProfile({Customer_ID}) {
+const getToken=()=>localStorage.getItem('token');
+const getRole=()=>localStorage.getItem('role');
+const getID=()=>localStorage.getItem('userId');
+
+export default function CustomerProfile() {
     const [customer, setCustomer] = useState({});
     const [errorMessage,setErrorMessage]=useState('');
     useEffect(()=> {
-        getData('/customers?Customer_ID='+Customer_ID)
+        getData('/customers?Customer_ID='+getID())
         .then(data=>{
             if(!data) {
             setErrorMessage('Failed to fetch data')
@@ -28,10 +31,5 @@ function CustomerProfile({Customer_ID}) {
         <h3>{customer.Email}</h3>
         <h4>{customer.Address}</h4>
         <h4>{customer.Phone}</h4>
-        <center>
-        <h4>Purchase History:</h4>
-        <DisplayTable id={Customer_ID}></DisplayTable> 
-        {/* Purchase History */}
-        </center>
     </>
 }

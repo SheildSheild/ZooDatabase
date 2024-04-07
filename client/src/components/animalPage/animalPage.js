@@ -13,7 +13,6 @@ export default function AnimalPage() {
   if (isLoggedIn) {
       links = [["homepage", "Home"], ["animalPage", "Our Animals"],["portal", "User Portal"],["aboutUsPage", "About Us"]];
   }
-  //const [selectedZone, setSelectedZone] = useState('All');
   const [selectedHabitat, setSelectedHabitat] = useState('All');
   const [animals, setAnimals]=useState([]);
 
@@ -28,18 +27,12 @@ export default function AnimalPage() {
   if(animals.length==0)
     return <>Loading...</>;
 
-  // const handleZoneChange = (event) => {
-  //   setSelectedZone(event.target.value);
-  // };
 
   const handleHabitatChange = (event) => {
     setSelectedHabitat(event.target.value);
   };
 
   const filteredAnimals = animals.filter(animal => {
-    // if (selectedZone !== 'All' && animal.Zone_ID != selectedZone) {
-    //   return false;
-    // }
     if (selectedHabitat !== 'All' && animal.Habitat_ID != selectedHabitat) {
       return false;
     }
