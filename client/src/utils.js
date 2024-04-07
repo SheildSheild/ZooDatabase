@@ -1,6 +1,7 @@
 import html2canvas from 'html2canvas';
 import jsPDF from 'jspdf';
 import DataEntry from './components/dataEntry';
+import schema from './schema';
 import { postData,getData,updateData,deleteData } from './communication';
 
 function formatDate(dateString){
@@ -28,6 +29,16 @@ const parseName=(name)=>{
       up=true;
   }
   return Name.join('');
+};
+
+const parseID=(ID)=>{
+  const name=ID.substring(0,ID.length-3);
+  if(schema[name])
+    return schema[name];
+  name+='s';
+  if(schema[name])
+    return schema[name];
+  throw Error('can\'t parse ID');
 };
 
 const getID=(Name,data)=>{
@@ -95,18 +106,37 @@ function Add(link,setDataEntry,reRender,table,convertData=x=>x){
   reRender();
 }
 
-function fetchNames(IDList,route){
-  const NameID=(Name,ID)=>Name+' ID: '+ID;
-  return getData(route).then(data=>{
-    const out={IDToName:{},NameToID:{}};
-    const [ID,_]=getID(parseName(route.substring(1)))
-    for(let tuple in data){
-      const name=NameID(tuple.Name,tuple[ID]);
-      out.IDToName[tuple[ID]]=name;
-      out.IDToName[name]=tuple[ID];
-    }
-    return out;
-  })
+const getForeignKeys=(props,ID)=>
+  props.filter(val=> val.substring(val.length-3)=='_ID' && val!=ID );
+
+/**
+ * call as so: fetchNames(props,ID).then(map=>{
+ *  map[foreignKeyName].IDToName[foreignID]
+ *  //for example: map['Animal_ID'].IDToName[2] === 'Tam'
+ * })
+ * @param {Array<string>} props list of properties of a table 
+ * @param {string} ID the ID of a table //use getID() if needed
+ * @returns promise which resolves into an object
+ */
+async function fetchNames(props,ID){
+  const NameID=(Name,Id)=>Name+' ID: '+Id;
+  const results=await Promise.all(getForeignKeys(props,ID).map(foreignKey=>{
+    const Name=parseID(foreignKey);
+    const route='/'+Name;
+    return getData(route).then(data=>{
+      const out={IDToName:{},NameToID:{},ID:foreignKey};
+      for(let tuple in data){
+        const name=NameID(tuple.Name,tuple[foreignKey]);
+        out.IDToName[tuple[foreignKey]]=name;
+        out.IDToName[name]=tuple[foreignKey];
+      }
+      return out;
+    });
+  }));
+  const out={};
+  for(let result of results)
+    out[result.ID]=result;
+  return out;
 }
 
 const downloadPDF = (pdfRef) =>{
