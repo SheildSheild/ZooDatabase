@@ -1,13 +1,12 @@
 import './customerProfile.css'
 import { getData } from '../../communication';
 import React, { useEffect, useState } from 'react';
+import user from './user.png';
 
-const getToken=()=>localStorage.getItem('token');
-const getRole=()=>localStorage.getItem('role');
 const getID=()=>localStorage.getItem('userId');
 
 export default function CustomerProfile() {
-    const [customer, setCustomer] = useState({});
+    const [customer, setCustomer] = useState(null);
     const [errorMessage,setErrorMessage]=useState('');
     useEffect(()=> {
         getData('/customers?Customer_ID='+getID())
@@ -21,15 +20,23 @@ export default function CustomerProfile() {
             console.log(data);
         })
         .catch(err=>setErrorMessage('Error: '+err))
-    },{});
-    return <>
-        <center>
-        <h1>{errorMessage}</h1>
-        <h1>My Profile</h1>
-        </center>
-        <h2>{customer.Name}</h2>
-        <h3>{customer.Email}</h3>
-        <h4>{customer.Address}</h4>
-        <h4>{customer.Phone}</h4>
-    </>
+    },[]);
+
+    if(!customer) {
+        return <><center><h1>{errorMessage}</h1></center></>;
+    }
+    else {
+        return <>
+            <div>
+            <center>
+            <h1>My Profile</h1>
+            <img src={user} alt='Default user photo'></img>
+            <h2>Name: {customer[0].Name}</h2>
+            <h3>Email: {customer[0].Email}</h3>
+            <h4>Address: {customer[0].Address}</h4>
+            <h4>Phone: {customer[0].Phone}</h4>
+            </center>
+            </div>
+        </>
+    }
 }
