@@ -1,10 +1,11 @@
 import './table.css'
 import { postData,getData,updateData,deleteData } from '../../communication';
 import React, { useState, useEffect } from 'react';
-import { formatDate,Add,Modify,Delete,getID,parseName } from '../../utils';
+import { formatDate,Add,Modify,Delete,getID,parseName, fetchNames } from '../../utils';
 
 let i=0;
 function DisplayTable({link,viewLink}){
+  viewLink = link;
   const [data, setData] = useState([]);
   const [view,setView] = useState([]);
   const [dataEntry,setDataEntry]=useState(<></>);
@@ -33,6 +34,7 @@ function DisplayTable({link,viewLink}){
     return value;
   };
 
+  fetchNames(dataColumns,ID);
   return <center>
   <section id="outer-table-container">
     <div id="inner-table-container">
@@ -43,7 +45,7 @@ function DisplayTable({link,viewLink}){
         <th className='qth' key={'-'+i}>Delete</th>
         </tr></thead>
         <tbody className='qtbody'>{
-          view.map((val,idx) => <>
+          view &&view.map((val,idx) => <>
             <tr className='qtr' key={data[ID]}>{  
               dataColumns.map((prop)=>
                 <td>{renderCell(val[prop], prop)}</td>)
