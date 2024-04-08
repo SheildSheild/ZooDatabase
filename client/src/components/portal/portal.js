@@ -7,6 +7,7 @@ import EmployeeSchedule from '../employeeSchedule';
 import ManagerSchedule from '../managerSchedule';
 import Report from '../report';
 import CustomerProfile from '../customerProfile'
+import TicketsPage from '../ticketsPage/ticketsPage';
 
 const getToken=()=>localStorage.getItem('token');
 const getRole=()=>localStorage.getItem('role');
@@ -14,10 +15,10 @@ const getID=()=>localStorage.getItem('userId');
 
 const customerLinks = [
   { text: 'View Profile', onClick: (userData,setMainComponent)=>{
-    setMainComponent(<CustomerProfile></CustomerProfile>);
+    setMainComponent(<CustomerProfile/>);
   }},
   { text: 'Buy Tickets', onClick: (userData,setMainComponent)=>{
-    setMainComponent();
+    setMainComponent(<TicketsPage/>);
   }},
   { text: 'Purchase History', onClick: (userData,setMainComponent)=>{
     setMainComponent();
