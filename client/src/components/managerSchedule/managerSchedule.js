@@ -15,9 +15,10 @@ function ManagerSchedule({link}){
   const Name=parseName(link.substring(1));
   const ID=getID(Name);
 
-  const add=()=>()=>Add(link,setDataEntry,reRender,eventList,data=>convertEventForCalendar(data,ID,state.idx));
-  const modify=()=>Modify(link,convertEventForDB(state.current,ID),setDataEntry,reRender,eventList,state.idx,data=>convertEventForCalendar(data,ID,state.idx));
-  const remove=()=>Delete(link,convertEventForDB(state.current,ID),setDataEntry,reRender,eventList,state.idx);
+  const convertEventForDisplay=(data,idx)=>convertEventForCalendar(data,ID,idx);
+  const add=()=>console.log('h',Add(link,setDataEntry,reRender,eventList,state.idx,convertEventForDisplay));
+  const modify=()=>Modify(link,convertEventForDataEntry(state.current,ID),setDataEntry,reRender,eventList,state.idx,convertEventForDisplay);
+  const remove=()=>Delete(link,convertEventForDataEntry(state.current,ID),setDataEntry,reRender,eventList,state.idx);
   const onSelect=(event)=>{
     console.log(event)
     state.current=event;
@@ -78,7 +79,7 @@ function toDBTime(date){
   return date.toISOString().slice(0, 19).replace('T', ' ');
 }
 
-function convertEventForDB(event,ID){
+function convertEventForDataEntry(event,ID){
   return {
     [ID]:event.id,
     Start_Time:toDBTime(event.from),

@@ -4,6 +4,8 @@ const schema={
     Habitat_ID: {type:"number",text:"Habitat ID:"},
     Weight: {type:"number",text:"Weight:"},
     Height: {type:"number",text:"Height:"},
+    Father_ID: {type:"number",text:"Father:"}, 
+    Mother_ID: {type:"number",text:"Mother:"}, 
     Species: {type:"text",text:"Species:"},
     Birth_Date: {type:"date",text:"Birth Date:"},
   },
@@ -58,6 +60,11 @@ const schema={
     Name: {type: "text",text:"Name:"},
     Status: {type: "text",text:"Status:"},
   },
+  Shops:{
+    Zone_ID: {type: "number", text:"Zone ID:"},
+    Name: {type: "text",text:"Name:"},
+    Status: {type: "text",text:"Status:"},
+  },
   Purchases:{
     Item_ID:{type:"number",text:"Item ID:"},
     Shop_ID:{type:"number",text:"Shop ID:"},
@@ -95,13 +102,10 @@ const schema={
     Start_Time: {type:"datetime-local",text: "Start Time:"},
     End_Time: {type:"datetime-local",text:"End Time:"},
   },
-  Father:{
-    ForeignKey: "True",
-    Table:"Animals"
-  },
-  Mother:{
-    ForeignKey: "True",
-    Table:"Animals"
+  Foreign_Keys:{
+    Father_ID:{from:"Animals",to:"Animals"},
+    Mother_ID:{from:"Animals",to:"Animals"},
+    Primary_Doctor_ID:{from:"Animal_Health",to:"Employees"},
   }
 }
 

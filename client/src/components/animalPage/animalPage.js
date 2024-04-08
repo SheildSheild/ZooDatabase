@@ -9,7 +9,7 @@ export default function AnimalPage() {
   // check if logged in!
 
   // let links = ["homepage", "customerSignUp", "customerHome", "animalPage", "aboutUsPage"];
-  var links = [["homepage", "Home"], ["customerSignUp", "Sign Up"], ["login", "Login"], ["animalPage", "Our Animals"], ["aboutUsPage", "About Us"]];
+  let links = [["homepage", "Home"], ["customerSignUp", "Sign Up"], ["login", "Login"], ["animalPage", "Our Animals"], ["aboutUsPage", "About Us"]];
   if (isLoggedIn) {
       links = [["homepage", "Home"], ["animalPage", "Our Animals"],["portal", "User Portal"],["aboutUsPage", "About Us"]];
   }

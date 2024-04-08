@@ -1,23 +1,9 @@
-/* Poppins Font */
-@import url("https://fonts.googleapis.com/css2?family=Crimson+Pro:ital,wght@0,300;0,400;0,500;0,600;0,700;0,800;0,900;1,200;1,300;1,400;1,500;1,600;1,700;1,800;1,900&family=Inter:wght@100;200;300;400;500;600;700;800;900&family=Poppins:ital,wght@0,100;0,200;0,300;0,400;0,500;0,600;0,700;0,800;0,900;1,100;1,200;1,300;1,400;1,500;1,600;1,700;1,800;1,900&family=Vesper+Libre:wght@400;500;700;900&display=swap");
-
-body {
-  color: var(--light);
-  background: var(--background);
-}
-
-main {
-  width: min(90%, 90rem);
-  margin-inline: auto;
-  padding: 4rem 0;
-}
-
 #outer-table-container:not(:first-of-type) {
   margin-top: 0.5rem;
 }
 
 #outer-table-container {
-  background: var(--darkI);
+  background: var(--lightI);
   border-radius: 1.5rem;
   padding: 0.5rem;
   overflow: auto;
@@ -30,7 +16,7 @@ main {
 }
 
 .quote-table {
-  border-collapse: collapse;
+  /* border-collapse: collapse; */
   text-align: left;
   width: 100%;
   font-weight: 300;
@@ -60,7 +46,7 @@ main {
 }
 
 .qthead .qtr {
-  background: var(--darkIV);
+  background: var(--lightIV);
 }
 
 .qtbody .qtr:hover {
@@ -74,11 +60,11 @@ main {
 }
 
 .qtbody .qtr:nth-child(odd) {
-  background-color: var(--darkI);
+  background-color: var(--lightI);
 }
 
 .qtbody .qtr:nth-child(even) {
-  background-color: var(--darkII);
+  background-color: var(--lightII);
 }
 
 .qtbody {

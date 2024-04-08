@@ -29,7 +29,7 @@ export default function Homepage(){
 
     return <>
         <Navbar links={links}/>
-        <h1><center><strong>Weclome to the <em>Cougar Zoo</em> Database!</strong></center></h1>
+        <h1><center><strong>Welcome to the <em>Cougar Zoo</em> Database!</strong></center></h1>
         <h2><center><img src={cougar} alt="cougar at our Zoo"></img></center></h2>
         {isLoggedIn ? (
             <h4><center><button onClick={handleLogout}>Logout</button></center></h4>    

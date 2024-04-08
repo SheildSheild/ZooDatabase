@@ -15,6 +15,11 @@ function formatDate(dateString){
   return `${year}-${month}-${day}`;
 }
 
+/**
+ * converts route name to schema name, ex.:animal_health-> Animal_Health
+ * @param {string} name 
+ * @returns schema version of name
+ */
 const parseName=(name)=>{
   const Name=[];
   let up=true;
@@ -31,22 +36,31 @@ const parseName=(name)=>{
   return Name.join('');
 };
 
+/**
+ * converts a key to the name of the table
+ * @param {string} ID 
+ * @returns table name
+ */
 const parseID=(ID)=>{
+  if(schema.Foreign_Keys[ID])
+    return schema.Foreign_Keys[ID].to.toLowerCase();
+  
   let name=ID.substring(0,ID.length-3);
-  if(schema[name] && schema[name].ForeignKey == "True"){
-    name = schema[name].Table;
+  if(schema[name])
     return name.toLowerCase();
-  }
-  if(schema[name]){
-    return name.toLowerCase();
-  }
   name +='s'
-  if(schema[name]){
+  if(schema[name])
     return name.toLowerCase();
-  }
-  throw Error('can\'t parse ID');
+  
+  throw Error('can\'t parse ID:'+ID+' to '+name);
 };
 
+/**
+ * gets name of table primary key from table name and optionally also get data[ID]
+ * @param {string} Name 
+ * @param {Array} data (optional)  
+ * @returns name of the primary key of table and optionally the value the primary key at a certain row(data)
+ */
 const getID=(Name,data)=>{
   let ID;
   if(Name[Name.length-1]=='s')
@@ -58,30 +72,76 @@ const getID=(Name,data)=>{
   return ID;
 };
 
-function Modify(link,val,setDataEntry,reRender,table,idx,convertData=x=>x) {
+const getForeignKeys=(props,ID)=>
+  props.filter(val=> val.substring(val.length-3)=='_ID' && val!=ID);
+
+/**
+ * call as so: fetchNames(props).then(map=>{
+ *  map[foreignKeyName].IDToName[foreignID]
+ *  //for example: map['Animal_ID'].IDToName[2] === 'Tam'
+ * })
+ * @param {Array<string>} props list of properties of a table 
+ * @returns promise which resolves into an object
+ */
+async function fetchNames(props,ID){
+  const NameID=(Name,Id)=>Name+' ID: '+Id;
+  const results=await Promise.all(getForeignKeys(props,ID).map(foreignKey=>{
+    const name=parseID(foreignKey);
+    const route='/'+ name;
+    const actualKey=getID(parseName(name));
+    return getData(route).then(data=>{
+      const out={IDToName:{},NameToID:{},ID:foreignKey};
+      out.IDToName[null]=null;
+      out.NameToID[null]=null;
+      //console.log(foreignKey,actualKey,data)
+      for(let tuple of data){
+        if(tuple[actualKey]==null)
+          continue;
+        const name=NameID(tuple.Name,tuple[actualKey]);
+        out.IDToName[tuple[actualKey]]=name;
+        out.NameToID[name]=tuple[actualKey];
+      }
+      return out;
+    });
+  }));
+  const out={};
+  for(let result of results)
+    out[result.ID]=result;
+  //console.log(out);
+  return out;
+}
+
+// receives val converted for data entry, 
+// then converts data entry output for DB, 
+// then on success converts output to Display updated table
+//
+
+function Modify(link,val,setDataEntry,reRender,table,idx,convertDataForDisplay=x=>x,convertDataForDB=x=>x,map) {
   const Name=parseName(link.substring(1));
-  setDataEntry(<DataEntry title="Modify Data" name={Name} onSubmit={data=>{
-    updateData(link,...getID(Name,data),data).then(val=>{
-      if(!val){
-        setDataEntry(<>Failed to Modify</>);
+  const ID=getID(Name,val);
+
+  setDataEntry(<DataEntry title="Modify Data" name={Name} preFilled={val} enums={map} onSubmit={data=>{
+    data=convertDataForDB(data);
+    updateData(link,...ID,data).then(val=>{
+      if(!val||val.status){
+        setDataEntry(<>Failed to Modify! Error: {val.message}</>);
         reRender();
         return;
       }
       setDataEntry(<>Successfully Modified</>);
-      table[idx]=convertData(data);
+      table[idx]=convertDataForDisplay(data,idx);
       reRender();
     });
     setDataEntry(<>Modifying...</>);
-  }} preFilled={val}/>);
+  }}/>);
   reRender();
 }
 
 function Delete(link,val,setDataEntry,reRender,table,idx) {
   const Name=parseName(link.substring(1));
   deleteData(link,...getID(Name,val)).then(val=>{
-    console.log(val)
-    if(!val){
-      setDataEntry(<>Failed to Delete</>);
+    if(!val||val.status){
+      setDataEntry(<>Failed to Delete! Error: {val.message}</>);
       reRender();
       return;
     }
@@ -93,56 +153,24 @@ function Delete(link,val,setDataEntry,reRender,table,idx) {
   reRender();
 }
 
-function Add(link,setDataEntry,reRender,table,convertData=x=>x){
+function Add(link,setDataEntry,reRender,table,convertDataForDisplay=x=>x,convertDataForDB=x=>x,map){
   const Name=parseName(link.substring(1));
-  setDataEntry(<DataEntry title="Enter Data" name={Name} onSubmit={data=>{
+  setDataEntry(<DataEntry title="Enter Data" name={Name} enums={map} onSubmit={data=>{
+    data=convertDataForDB(data);
     postData(link,data).then(val=>{
-      if(!val){
-        setDataEntry(<>Failed to Add</>);
+      if(!val||val.status){
+        setDataEntry(<>Failed to Add! Error: {val.message}</>);
         reRender();
         return;
       }
       setDataEntry(<>Successfully Added</>);
-      table.push(convertData(data));
+      table.push(convertDataForDisplay(data));
       reRender();
     });
     setDataEntry(<>Adding...</>);
     reRender();
   }}/>);
   reRender();
-}
-
-const getForeignKeys=(props,ID)=>
-  props.filter(val=> val.substring(val.length-3)=='_ID' && val!=ID );
-
-/**
- * call as so: fetchNames(props,ID).then(map=>{
- *  map[foreignKeyName].IDToName[foreignID]
- *  //for example: map['Animal_ID'].IDToName[2] === 'Tam'
- * })
- * @param {Array<string>} props list of properties of a table 
- * @param {string} ID the ID of a table //use getID() if needed
- * @returns promise which resolves into an object
- */
-async function fetchNames(props,ID){
-  const NameID=(Name,Id)=>Name+' ID: '+Id;
-  const results=await Promise.all(getForeignKeys(props,ID).map(foreignKey=>{
-    const Name=parseID(foreignKey);
-    const route='/'+ Name;
-    return getData(route).then(data=>{
-      const out={IDToName:{},NameToID:{},ID:foreignKey};
-      for(let tuple in data){
-        const name=NameID(data[tuple].Name,data[tuple][foreignKey]);
-        out.IDToName[data[tuple][foreignKey]]=name;
-        out.NameToID[name]=data[tuple][foreignKey];
-      }
-      return out;
-    });
-  }));
-  const out={};
-  for(let result of results)
-    out[result.ID]=result;
-  return out;
 }
 
 const downloadPDF = (pdfRef) =>{
