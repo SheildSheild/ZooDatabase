@@ -5,6 +5,13 @@ header {
 em {
   color: rgb(223, 70, 70);
 }
+
+em2 {
+  color:crimson
+}
+em3 {
+  color: #f3f3f3;
+}
 img {
   width: 400px;
   height: auto;
@@ -12,4 +19,69 @@ img {
 
 .link{
   color:blue;
+}
+
+.video-container {
+  display: flex;
+  align-items: center;
+  justify-content: flex-start;
+  position: relative;
+  width: 100%;
+  height: auto;
+}
+
+.main-container {
+  display: flex;
+  height: 100vh;
+}
+
+.login-container, .animal-image-container {
+  background-color: rgb(255, 242, 223);
+  flex: 1;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  flex-direction: column;
+  font-size: 1.5vw;
+}
+
+.animal-image-container img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+}
+
+.background-video {
+  width: 100%;
+  height: auto;
+}
+
+.overlay-content {
+  font-size: 4vw;
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-100%, -65%);
+  text-align: left;
+  text-shadow: -0.5px -0.5px 0 #000, 0.5px -0.5px 0 #000, -0.5px 1px 0 #000, 0.5px 0.5px 0 #000;
+}
+
+.zoo-logo {
+  width: 3vw;
+  max-width: 300px;
+  margin: auto;
+  margin-bottom: 20px;
+  display: block;
+  position: static;
+  text-shadow: -1.5px -1.5px 0 #000, 1.5px -1.5px 0 #000, -1.5px 1.5px 0 #000, 1.5px 1.5px 0 #000;
+}
+
+.gif-pointing {
+  width: 3vw;
+  max-width: 300px;
+  margin: auto;
+  margin-bottom: 20px;
+  display: block;
+  position: static;
+  text-shadow: -1.5px -1.5px 0 #000, 1.5px -1.5px 0 #000, -1.5px 1.5px 0 #000, 1.5px 1.5px 0 #000;
 }
