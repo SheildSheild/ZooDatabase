@@ -198,4 +198,24 @@ const downloadPDF = (pdfRef) =>{
 });
 }
 
-export {formatDate,getID,parseName,downloadPDF,fetchNames,Add,Delete,Modify,handleLogout}
+
+async function fetchEmployeeDetailsForAnimal(animalId) {
+  try {
+    const attendsToData = await getData('/attends_to');
+    const employeeDetailsPromises = attendsToData
+      .filter(row => row.Animal_ID === animalId)
+      .map(async row => {
+        const employeeDetailResponse = await getData(`/employees?Employee_ID=${row.Employee_ID}`);
+        const employeeDetail = employeeDetailResponse[0]; 
+        return { ...employeeDetail, Responsibility: row.Responsibility };
+      });
+
+    const employeeDetails = await Promise.all(employeeDetailsPromises);
+    return employeeDetails;
+  } catch (error) {
+    console.error('Error fetching employee details:', error);
+    return [];
+  }
+}
+
+export {formatDate,getID,parseName,downloadPDF,fetchNames,Add,Delete,Modify,handleLogout, fetchEmployeeDetailsForAnimal}
