@@ -1,13 +1,13 @@
 import './homepage.css';
-import cougar from './cougar.png';
+import cougar from '../imageFiles/cougar.png';
 import Navbar from '../navBar/navBar';
 import { Link } from 'react-router-dom';
 import dayjs from 'dayjs';
 import { useState } from 'react';
-import zooVideo from './Zoo_Homepage.mp4';
-import cougarLogo from './Cougar_Logo.png';
-import HappyCoug from './happyCoug.jpeg';
-import pointAnimal from './pointingelephant.gif';
+import zooVideo from '../imageFiles/Zoo_Homepage.mp4';
+import cougarLogo from '../imageFiles/Cougar_Logo.png';
+import HappyCoug from '../imageFiles/happyCoug.jpeg';
+import pointAnimal from '../imageFiles/pointingelephant.gif';
 
 export default function Homepage(){
     const [renderCnt,render]=useState(1);

@@ -1,0 +1,79 @@
+.backdrop1 {
+    background-size: cover;
+    background-position: top center;
+    position: fixed;
+    width: 105%;
+    height: 100%;
+    transform: translateY(-1.5%);
+}
+
+.login-box {
+    position: relative;
+    top: 60%;
+    left: 55%;
+    transform: translate(-10%, 60%);
+    width: 30%; /* Adjust width as necessary */
+    padding: 20px;
+    background: #ffffff;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+    z-index: 2; /* Ensures login box is above the overlay */
+    border-radius: 8px; /* Optional: for rounded corners */
+}
+
+.error-message {
+    color: red; /* Style error message */
+    margin-bottom: 10px;
+}
+
+.login-box form div {
+    margin-bottom: 20px;
+}
+
+.login-box label {
+    display: block;
+    margin-bottom: 3px;
+}
+
+.login-box input[type="email"],
+.login-box input[type="password"] {
+    width: calc(100% - 20px);
+    box-sizing: border-box;
+    border: 1px solid #5a5757;
+    border-radius: 4px; /* Optional: for rounded input fields */
+}
+
+.login-box input[type="submit"] {
+    width: calc(100% - 20px);
+    border: 1px solid #ddd;
+    border-radius: 10px; /* Optional: for rounded input fields */
+}
+
+.login-box input[type="submit"] {
+    background-color: #f54646; /* Adjust button color */
+    color: white;
+    cursor: pointer;
+}
+
+/* Optional: Enhance focus state for accessibility */
+.login-box input[type="email"]:focus,
+.login-box input[type="password"]:focus {
+    border-color: #ff5757;
+    outline:#000;
+}
+
+.overlay-content2 {
+    font-size: 4vw;
+    position: absolute;
+    top: 55%;
+    left: 40%;
+    transform: translate(-100%, -65%);
+    text-align: left;
+    text-shadow: -0.5px -0.5px 0 #000, 0.5px -0.5px 0 #000, -0.5px 1px 0 #000, 0.5px 0.5px 0 #000;
+  }
+
+.dancing-gif {
+    position: absolute;
+    width: 30%;
+    right: -5%;
+    bottom: 91%;
+}
