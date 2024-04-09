@@ -1,4 +1,4 @@
-const e=['Employee','Medic','Manager'],m=['Manager'], em=['Medic','Manager'], c=['Customer'], a='All', n=[];
+const m=['Manager'], em=['Medic',...m],e=['Employee',...em], c=['Customer'], cm=[...c,...m], a='All', n=[];
 function access(v,m,c){
   return {
     view:v,
@@ -22,7 +22,7 @@ module.exports={
     "employees":access(m,m),
     "animal_health":access(em,em),
     "items":access(e,m),
-    "customers":access(c,a),
+    "customers":access(cm,a),
     "lost_items":access(e,e),
     "complaints":access(m,c),
     "schedule_types":access(m,m),

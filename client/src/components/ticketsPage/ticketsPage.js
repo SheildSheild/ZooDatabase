@@ -1,7 +1,9 @@
+import { postData } from '../../communication';
 import './ticketsPage.css';
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 
 const getID=()=>localStorage.getItem('userId');
+
 
 export default function TicketsPage(){
     const [formVisible, setFormVisible] = useState(false);
@@ -10,11 +12,31 @@ export default function TicketsPage(){
         setFormVisible(!formVisible);
     };
 
-    const handleSubmit = (ev) => {
+    const HandleSubmit = (ev) => {
+        const [errorMessage,setErrorMessage]=useState('');
         ev.preventDefault();
         const form = ev.target;
         const data = {};
-        console.log('RECIEVED');
+        data['elderCount'] = form['elderCount'].value;
+        data['adultCount'] = form['adultCount'].value;
+        data['childrenCount'] = form['childrenCount'].value;
+        data['customerID'] = getID();
+        data['Date_Issued'] = Date();
+        //console.log(data);
+        useEffect(()=> {
+            postData('/tickets',data)
+            .then(data=>{
+                if(!data) {
+                    setErrorMessage('Failed to post data');
+                }
+                else {
+                    alert('Success');
+                }
+                console.log(data);
+            })
+            .catch(err=>setErrorMessage('Error: '+err))
+        },[]);
+        form.reset();
     }
 
     return(
@@ -34,17 +56,17 @@ export default function TicketsPage(){
                     <br/>
                     <br/>
                     {formVisible && (
-                        <form id="form1" onSubmit={handleSubmit}>
+                        <form id="form1" onSubmit={HandleSubmit}>
                             <label><b>How Many Elders? </b></label>
-                            <input type="number"></input>
+                            <input type="number" name="elderCount" id="elderCount"></input>
                             <br/>
                             <br/>
                             <label><b>How Many Adults? </b></label>
-                            <input type="number"></input>
+                            <input type="number" name="adultCount" id="adultCount"></input>
                             <br/>
                             <br/>
                             <label><b>How Many Children? </b></label>
-                            <input type="number"></input>
+                            <input type="number" name="childrenCount" id="childrenCount"></input>
                             <br/>
                             <br/>
                             <label><b>Card Number: </b></label>
