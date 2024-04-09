@@ -7,18 +7,12 @@ const {routes}=require('./routes');
 const hostname = '0.0.0.0';
 const port = 3301;
 
-const db = mysql.createConnection({
+const db = mysql.createPool({
+    connectionLimit: 96,
     host: "localhost",
     user: "root",
     password: "rasjeN-hibdix-1puzka", 
     database: "Cougar_Zoo"
-});
-
-db.connect(err => {
-    if (err) 
-        console.error('Database connection failed: ' + err.stack);
-    else
-        console.log('Connected to database.');
 });
 
 const server = http.createServer((req, res) => {
