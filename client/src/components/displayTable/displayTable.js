@@ -4,7 +4,7 @@ import React, { useState, useEffect } from 'react';
 import { formatDate,Add,Modify,Delete,getID,parseName, fetchNames } from '../../utils';
 
 let i=0;
-function DisplayTable({link, hasDataEntry}){
+function DisplayTable({route, hasDataEntry}){
   hasDataEntry=true;
   const [data, setData] = useState([]);
   const [dataColumns,_] = useState([]);
@@ -14,7 +14,7 @@ function DisplayTable({link, hasDataEntry}){
   const reRender=()=>render(renderCnt+1);
 
 
-  const Name=parseName(link.substring(1));
+  const Name=parseName(route.substring(1));
   const ID=getID(Name);
 
   const NameToID=(name)=>
@@ -48,8 +48,11 @@ function DisplayTable({link, hasDataEntry}){
 
   useEffect(() => {
     (async ()=>{
-      const newData=await getData(link);
-      console.log(newData);
+      const newData=await getData(route);
+      if(newData.status){
+        setDataEntry('Error: '+newData.message);
+        return;
+      }
       dataColumns.length=0;
       for(let prop in newData[0])
         dataColumns.push(prop);
@@ -89,8 +92,8 @@ function DisplayTable({link, hasDataEntry}){
                 <td>{renderCell(val[prop], prop)}</td>)
             }
             {hasDataEntry&&<>
-              <td><button onClick={()=>Modify(link,data[idx],setDataEntry,reRender,data,idx,val=>convertDataForDisplay(val,map),convertDataForDB,map)}>Modify</button></td>
-              <td><button onClick={()=>Delete(link,data[idx],setDataEntry,reRender,data,idx)}>Delete</button></td>
+              <td><button onClick={()=>Modify(route,data[idx],setDataEntry,reRender,data,idx,val=>convertDataForDisplay(val,map),convertDataForDB,map)}>Modify</button></td>
+              <td><button onClick={()=>Delete(route,data[idx],setDataEntry,reRender,data,idx)}>Delete</button></td>
             </>}
             </tr>
           </>)
@@ -99,7 +102,7 @@ function DisplayTable({link, hasDataEntry}){
     </div>
   </section>
   {hasDataEntry&&<>
-    <button className='add-button' onClick={()=>Add(link,setDataEntry,reRender,data,val=>convertDataForDisplay(val,map),convertDataForDB,map)}>Add</button>
+    <button className='add-button' onClick={()=>Add(route,setDataEntry,reRender,data,val=>convertDataForDisplay(val,map),convertDataForDB,map)}>Add</button>
   </>}
   <br/><br/>
   {dataEntry}

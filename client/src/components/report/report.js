@@ -5,14 +5,14 @@ import ReportDisplay from './reportDisplay';
 import { downloadPDF } from '../../utils';
 import { getData } from '../../communication';
 
-function Report({path,title}){
+function Report({route,title}){
   const [reportConfig, setReportConfig] = useState(null);
   const [reportData, setReportData] = useState(null);
   const [errorMessage,setErrorMessage] = useState('');
   const pdfRef = useRef();
 
   useEffect(()=>{
-    getData(path)
+    getData(route)
       .then(data=>setReportData(data))
       .catch(err=>setErrorMessage(err));
   },[]);

@@ -13,7 +13,6 @@ import AnimalPage from './components/animalPage';
 import TicketsPage from './components/ticketsPage';
 import DataEntry from './components/dataEntry';
 import AboutUsPage from './components/aboutUsPage';
-import EmployeeSchedule from './components/employeeSchedule';
 import Report from './components/report';
 import Portal from './components/portal';
 import DisplayTable from './components/displayTable';
@@ -56,10 +55,6 @@ const router = createHashRouter([
   {
     path :"/aboutUsPage",
     element: <AboutUsPage/>,
-  },
-  {
-    path:"/employeeSchedule",
-    element: <EmployeeSchedule/>
   },
   {
     path:"/reportRevenue",

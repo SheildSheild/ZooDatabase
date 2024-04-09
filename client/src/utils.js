@@ -15,6 +15,14 @@ function formatDate(dateString){
   return `${year}-${month}-${day}`;
 }
 
+function handleLogout(reRender) {
+  localStorage.removeItem('token');
+  localStorage.removeItem('role'); 
+  localStorage.removeItem('userId'); 
+  localStorage.removeItem('expirationDate');
+  reRender&&reRender();
+}
+
 /**
  * converts route name to schema name, ex.:animal_health-> Animal_Health
  * @param {string} name 
@@ -190,4 +198,4 @@ const downloadPDF = (pdfRef) =>{
 });
 }
 
-export {formatDate,getID,parseName,downloadPDF,fetchNames,Add,Delete,Modify}
+export {formatDate,getID,parseName,downloadPDF,fetchNames,Add,Delete,Modify,handleLogout}
