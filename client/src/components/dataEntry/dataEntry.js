@@ -2,10 +2,10 @@ import './dataEntry.css';
 import { formatDate } from '../../utils';
 import schema from '../../schema'
 
-const renderEnum=(options)=><>
-  <select name="gender" required>
+const renderEnum=(key,options,startingVal)=><>
+  <select name={key} required>
     <option value="">--Please choose an option--</option>
-    {options.map((option,i)=><option value={i}>{option}</option>)}
+    {options.map((option,i)=><option value={option} defaultValue={startingVal}>{option}</option>)}
   </select>
 </>;
 
@@ -20,16 +20,16 @@ const renderInput=(type,key,startingVal)=><>
   <input key={i++} type={type} name={key} defaultValue={renderCell(startingVal,key)} required/>
 </>;
 
-const mapEach=(name,preFilled)=>{
+const mapEach=(name,preFilled,enums)=>{
   const out=[];
-  const func=(key,data)=>{
+  const func=(key,data,_enum)=>{
     const startingVal=(preFilled&&preFilled[key])||null;
     return <>
       <label>
         {data.text}
         {
-          data.type=='enum'?
-            renderEnum(data.enum,startingVal):
+          data.enum||_enum?
+            renderEnum(key,_enum||data.enum,startingVal):
             renderInput(data.type,key,startingVal)
         }
       </label>
@@ -37,22 +37,27 @@ const mapEach=(name,preFilled)=>{
       <br/>
     </>;
   };
+  // console.log('enum:',enums)
   for(let key in schema[name]){
     const data=schema[name][key];
-    out.push(func(key,data));
+    let _enum;
+    if(enums&&enums[key]){
+      _enum=[]
+      for(let option in enums[key].IDToName)
+        _enum.push(enums[key].IDToName[option])
+    }
+    if(_enum)console.log('e',_enum)
+    out.push(func(key,data,_enum));
   }
   return out;
 }
 
-function DataEntry({title,name,onSubmit,preFilled}){
-  const link='/'+name;
-  // if(name.charAt(name.length-1)=='s')
-  //   name=name.substring(0,name.length-1)
-  console.log(name,preFilled)
+function DataEntry({title,name,onSubmit,preFilled,enums}){
   const handleSubmit = (ev)=>{
     ev.preventDefault();
     const form=ev.target;
     const data={};
+    console.log(form)
     for(let prop in schema[name])
       data[prop]=form[prop].value;
     
@@ -61,7 +66,7 @@ function DataEntry({title,name,onSubmit,preFilled}){
   return (
     <form onSubmit={handleSubmit}>
       <h2><strong>{title}</strong></h2>
-      {mapEach(name,preFilled)}
+      {mapEach(name,preFilled,enums)}
       <button type="submit">Submit</button>
     </form>
   );

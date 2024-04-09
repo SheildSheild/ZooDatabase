@@ -4,7 +4,7 @@ import {
   RouterProvider,
   createHashRouter
 } from "react-router-dom";
-
+import './index.css'
 
 import {CustomerLogin,EmployeeLogin} from './components/login';
 import CustomerSignUp from './components/customerSignUp';
@@ -17,7 +17,6 @@ import EmployeeSchedule from './components/employeeSchedule';
 import Report from './components/report';
 import Portal from './components/portal';
 import DisplayTable from './components/displayTable';
-import MedicalRecords from './components/medicalRecords';
 import LostAndFoundReport from './components/lostAndFoundReport';
 import CustomerProfile from './components/customerProfile'
 
@@ -81,10 +80,6 @@ const router = createHashRouter([
   {
     path:"/displayTable",
     element: <DisplayTable link="/animals"/>
-  },
-  {
-    path:"/medicalRecords",
-    element: <MedicalRecords/>,
   },
   {
     path:"/lostAndFoundReport",
