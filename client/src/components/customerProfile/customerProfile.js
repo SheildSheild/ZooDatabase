@@ -22,7 +22,7 @@ export default function CustomerProfile() {
         .catch(err=>setErrorMessage('Error: '+err))
     },[]);
 
-    if (!customer) {
+    if(!customer) {
         return <><center><h1>{errorMessage}</h1></center></>;
     }
     else {
@@ -31,7 +31,7 @@ export default function CustomerProfile() {
             <center>
             <h1>My Profile</h1>
             <img src={user} alt='Default user photo'></img>
-            <h3>Name: {customer[0].Name}</h3>
+            <h2>Name: {customer[0].Name}</h2>
             <h3>Email: {customer[0].Email}</h3>
             <h4>Address: {customer[0].Address}</h4>
             <h4>Phone: {customer[0].Phone}</h4>

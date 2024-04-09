@@ -6,7 +6,7 @@ import DisplayTable from '../displayTable';
 import EmployeeSchedule from '../employeeSchedule';
 import ManagerSchedule from '../managerSchedule';
 import Report from '../report';
-import CustomerProfile from '../customerProfile/customerProfile';
+import CustomerProfile from '../customerProfile'
 
 const getToken=()=>localStorage.getItem('token');
 const getRole=()=>localStorage.getItem('role');
@@ -14,11 +14,14 @@ const getID=()=>localStorage.getItem('userId');
 
 const customerLinks = [
   { text: 'View Profile', onClick: (userData,setMainComponent)=>{
-    setMainComponent(<CustomerProfile/>);
-  } },
+    setMainComponent(<CustomerProfile></CustomerProfile>);
+  }},
   { text: 'Buy Tickets', onClick: (userData,setMainComponent)=>{
     setMainComponent();
-  } },
+  }},
+  { text: 'Purchase History', onClick: (userData,setMainComponent)=>{
+    setMainComponent();
+  }},
 ];
 
 const employeeLinks = [
