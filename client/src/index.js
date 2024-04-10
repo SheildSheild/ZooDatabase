@@ -18,7 +18,7 @@ import Portal from './components/portal';
 import DisplayTable from './components/displayTable';
 import LostAndFoundReport from './components/lostAndFoundReport';
 import CustomerProfile from './components/customerProfile'
-
+import SignInOut from './components/signInOut'
 const router = createHashRouter([
   {
     path: "/",
@@ -83,6 +83,10 @@ const router = createHashRouter([
   {
     path:"/customerProfile",
     element: <CustomerProfile/>
+  },
+  {
+    path:"/signInOut",
+    element:<SignInOut/>
   }
   
 ]);

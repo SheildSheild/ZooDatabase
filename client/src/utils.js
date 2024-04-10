@@ -165,6 +165,7 @@ function Add(link,setDataEntry,reRender,table,convertDataForDisplay=x=>x,convert
   const Name=parseName(link.substring(1));
   setDataEntry(<DataEntry title="Enter Data" name={Name} enums={map} onSubmit={data=>{
     data=convertDataForDB(data);
+    console.log(data);
     postData(link,data).then(val=>{
       if(!val||val.status){
         setDataEntry(<>Failed to Add! Error: {val.message}</>);

@@ -58,7 +58,6 @@ function DataEntry({title,name,onSubmit,preFilled,enums}){
     ev.preventDefault();
     const form=ev.target;
     const data={};
-    console.log(form)
     for(let prop in schema[name])
       data[prop]=form[prop].value;
     

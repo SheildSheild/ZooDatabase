@@ -2,7 +2,6 @@ import dayjs from "dayjs";
 
 function toDBTime(date){
   const dateTime=date.toISOString().slice(0, 19).replace('T', ' ');
-  console.log(dateTime)
   return dateTime;
 }
 
@@ -32,7 +31,9 @@ function convertEventForDataEntry(event,ID,foreignKey,foreignName,map){
 }
 
 function convertEventForDB(event,ID,foreignKey,foreignName,map){
+  
   return {
+    
     [ID]:event[ID],
     [foreignKey]:map[foreignKey].NameToID[event[foreignName]],
     Start_Time:event.Start_Time,

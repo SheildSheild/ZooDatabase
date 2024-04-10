@@ -17,7 +17,7 @@ function ManageSchedule({route}){
   const Name=parseName(route.substring(1));
   const ID=getID(Name);
   const foreignKey=getForeignKey(ID);
-  const foreignName=foreignKey.substring(0,foreignKey.length-2)+'Name';
+  const foreignName=foreignKey.substring(0,foreignKey.length-2)+'ID';
 
   const convertDataForDisplay=(data,idx)=>convertEventForCalendar(data,ID,idx,foreignKey);
   const convertDataForDataEntry=()=>convertEventForDataEntry(state.current,ID,foreignKey,foreignName,map);
@@ -52,7 +52,6 @@ function ManageSchedule({route}){
       const dataColumns=[]
       for(let prop in newData[0])
         dataColumns.push(prop);
-
       const newMap=await fetchNames(dataColumns,ID);
       setMap(newMap);
       setEventList(newData.map(convertDataForDisplay));
