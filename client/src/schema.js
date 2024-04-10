@@ -73,7 +73,6 @@ const schema={
     Date:{type:"date",text:"Date:"}
   },
   Timesheets:{
-    Description: {type: "text", text:"Description:"},
     Employee_ID: {type: "number",text:"Employee ID:"},
     Start_Time: {type:"datetime-local",text: "Start Time:"},
     End_Time: {type:"datetime-local",text:"End Time:"},

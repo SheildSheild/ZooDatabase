@@ -45,6 +45,9 @@ const managerLinks = [
   { text: 'Edit Purchases', onClick: (userData,setMainComponent)=>{
     setMainComponent(<DisplayTable route='\purchases'/>)
   } },
+  { text: 'Edit TimeSheet', onClick: (userData,setMainComponent)=>{
+    setMainComponent(<DisplayTable route='\timesheets'/>)
+  } },
   { text: 'Edit Employee Schedules', onClick: (userData,setMainComponent)=>{
     setMainComponent(<ManageSchedule route='\employee_schedules'/>)
   } },
