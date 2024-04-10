@@ -1,11 +1,18 @@
 import React from 'react';
 import './lostAndFoundReport.css';
 import { postData } from '../../communication';
+import Navbar from '../navBar/navBar';
 
 
 
 
 function LostAndFoundReport() {
+    const token = localStorage.getItem('token');
+    const getID=()=>localStorage.getItem('userId'); 
+    const isLoggedIn = token != null;
+    let links = [["homepage", "Home"], ["customerSignUp", "Sign Up"], ["login", "Customer Login"], ["employeeLogin", "Employee Login"], ["animalPage", "Our Animals"], ["aboutUsPage", "About Us"], ["makeAComplaint", "Any Complaints?"], ["lostAndFoundReport","Lost somthing?"]];
+    if (isLoggedIn) 
+        links = [["homepage", "Home"], ["animalPage", "Our Animals"],["portal", "User Portal"],["aboutUsPage", "About Us"], ["makeAComplaint", "Any Complaints?"], ["lostAndFoundReport","Lost somthing?"]];
     const handleSubmit = (ev) => {
         ev.preventDefault();
         const form = ev.target;
@@ -19,9 +26,11 @@ function LostAndFoundReport() {
             console.log("Successfully added lost item!")
         })
         // console.log(data);
+        form.reset();
     };
     return (
         <>
+        <Navbar links={links}/>
         <h1>Report Lost Item</h1>
         <center>
         <form onSubmit={handleSubmit}>

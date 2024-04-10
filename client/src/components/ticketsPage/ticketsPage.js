@@ -2,7 +2,7 @@ import { postData } from '../../communication';
 import './ticketsPage.css';
 import React, { useState, useEffect } from 'react';
 
-const getID=()=>localStorage.getItem('userId');
+const getID=()=>localStorage.getItem('userId'); 
 
 
 export default function TicketsPage(){
@@ -23,19 +23,19 @@ export default function TicketsPage(){
         data['customerID'] = getID();
         data['Date_Issued'] = Date();
         //console.log(data);
-        useEffect(()=> {
-            postData('/tickets',data)
-            .then(data=>{
-                if(!data) {
-                    setErrorMessage('Failed to post data');
-                }
-                else {
-                    alert('Success');
-                }
-                console.log(data);
-            })
-            .catch(err=>setErrorMessage('Error: '+err))
-        },[]);
+        
+        postData('/tickets',data)
+        .then(data=>{
+            if(!data) {
+                setErrorMessage('Failed to post data');
+            }
+            else {
+                alert('Success');
+            }
+            console.log(data);
+        })
+        .catch(err=>setErrorMessage('Error: '+err))
+        
         form.reset();
     }
 

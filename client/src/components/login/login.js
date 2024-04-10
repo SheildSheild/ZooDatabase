@@ -8,8 +8,7 @@ import parrotPic from '../imageFiles/parrots.jpg';
 import danceDuck from '../imageFiles/duckdance.gif';
 
 function Login({link}){
-    // const links = ["homepage", "login", "customerSignUp", "animalPage", "aboutUsPage"];
-    const links = [["homepage", "Home"], ["customerSignUp", "Sign Up"], ["login", "Login"], ["animalPage", "Our Animals"], ["aboutUsPage", "About Us"]];
+    const links = [["homepage", "Home"], ["customerSignUp", "Sign Up"], ["login", "Login"], ["animalPage", "Our Animals"], ["aboutUsPage", "About Us"], ["makeAComplaint", "Any Complaints?"], ["lostAndFoundReport","Lost somthing?"]];
     const navigate = useNavigate(); // navigates to next page upon customer login
     const [errorMessage, setErrorMessage] = useState(''); // stores error
 
