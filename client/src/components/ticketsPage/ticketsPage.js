@@ -22,20 +22,19 @@ export default function TicketsPage(){
         data['childrenCount'] = form['childrenCount'].value;
         data['customerID'] = getID();
         data['Date_Issued'] = Date();
-        //console.log(data);
-        
-        postData('/tickets',data)
-        .then(data=>{
-            if(!data) {
-                setErrorMessage('Failed to post data');
-            }
-            else {
-                alert('Success');
-            }
-            console.log(data);
-        })
-        .catch(err=>setErrorMessage('Error: '+err))
-        
+        useEffect(()=> {
+            postData('/tickets',data)
+            .then(data=>{
+                if(!data) {
+                    setErrorMessage('Failed to post data');
+                }
+                else {
+                    alert('Success');
+                }
+                console.log(data);
+            })
+            .catch(err=>setErrorMessage('Error: '+err))
+        },[]);
         form.reset();
     }
 

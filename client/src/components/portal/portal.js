@@ -9,7 +9,7 @@ import Report from '../report';
 import CustomerProfile from '../customerProfile'
 import TicketsPage from '../ticketsPage/ticketsPage';
 import { handleLogout } from '../../utils';
-
+import PayStub from '../payStub/payStub';
 const getToken=()=>localStorage.getItem('token');
 const getRole=()=>localStorage.getItem('role');
 const getID=()=>localStorage.getItem('userId');
@@ -45,11 +45,14 @@ const managerLinks = [
   { text: 'Edit Purchases', onClick: (userData,setMainComponent)=>{
     setMainComponent(<DisplayTable route='\purchases'/>)
   } },
-  { text: 'Edit TimeSheet', onClick: (userData,setMainComponent)=>{
+  { text: 'Employee TimeSheet', onClick: (userData,setMainComponent)=>{
     setMainComponent(<DisplayTable route='\timesheets'/>)
   } },
   { text: 'Edit Employee Schedules', onClick: (userData,setMainComponent)=>{
     setMainComponent(<ManageSchedule route='\employee_schedules'/>)
+  } },
+  { text: 'Employee Paystub', onClick: (userData,setMainComponent)=>{
+    setMainComponent(<PayStub/>)
   } },
   { text: 'View Monthly Ticket Report', onClick: (userData,setMainComponent)=>{
     setMainComponent(<Report route='/ticket_monthly_revenue' title='Monthly Revenue From Tickets'/>)
