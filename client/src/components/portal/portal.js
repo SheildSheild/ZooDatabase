@@ -54,8 +54,8 @@ const managerLinks = [
   { text: 'Employee Paystub', onClick: (userData,setMainComponent)=>{
     setMainComponent(<PayStub/>)
   } },
-  { text: 'View Monthly Ticket Report', onClick: (userData,setMainComponent)=>{
-    setMainComponent(<Report route='/ticket_monthly_revenue' title='Monthly Revenue From Tickets'/>)
+  { text: 'View Revenue Report', onClick: (userData,setMainComponent)=>{
+    setMainComponent(<Report route='/shop_revenue' title='Report Revenue From Shop'/>)
   } },
 ];
 

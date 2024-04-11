@@ -3,6 +3,7 @@ import { jsPDF } from "jspdf";
 import autoTable from 'jspdf-autotable';
 import {getData} from '../../communication';
 import { getFormHelperTextUtilityClasses } from '@mui/material';
+import "./payStub.css"
 function PayStub() {
     const pdfRef = useRef();
     const role = localStorage.getItem('role');
@@ -52,20 +53,23 @@ function PayStub() {
     };
     const employees = Object.values(empData);
     return (
-        <>        
+        <div className='PayStub'>        
         <form onSubmit={handleSubmit}>
         <label>
             From Date:
+            <br/>
             <input required type="date" value={fromDate} onChange={(e) => setFromDate(e.target.value)} />
         </label>
         <br/>
         <label>
             To Date:
+            <br/>
             <input required type="date" value={toDate} onChange={(e) => setToDate(e.target.value)} />
         </label>
         <br/>
         <label>
             ID:
+            <br/>
             {role === 'Manager' ? (
                 <select id="employee" onChange={(e) => setId(e.target.value)}>
                   <option value="" >Select Employee</option>
@@ -109,7 +113,7 @@ function PayStub() {
             </div>
         )}
     </div>
-    </>
+    </div>
 
     );
 }
