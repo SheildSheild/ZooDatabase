@@ -11,13 +11,13 @@ function ViewSchedule({route,ID}){
 
   const Schedule_ID=getID(parseName(route.substring(1)));
   useEffect(()=>{
-    getData(`${route}?${ID[0]}=${ID[1]}`)
+    getData(ID?`${route}?${ID[0]}=${ID[1]}`:route)
     .then(data=>{
       if(!data)
         setErrorMessage('Failed to fetch data')
       else if(data.status)
         setErrorMessage('Error: '+data.message);
-      else{
+      else if(data.map){
         data=data.map(event => {
           return {
             title:event.Description,

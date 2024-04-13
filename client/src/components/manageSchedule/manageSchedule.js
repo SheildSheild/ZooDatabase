@@ -13,7 +13,7 @@ function ManageSchedule({route}){
   const [state,_]=useState({current:null,idx:-1});
   const [renderCnt,render]=useState(1);
   const reRender=()=>render(renderCnt+1);
-  
+
   const Name=parseName(route.substring(1));
   const ID=getID(Name);
   const foreignKey=getForeignKey(ID);
@@ -49,12 +49,16 @@ function ManageSchedule({route}){
         setDataEntry('Error: '+newData.message);
         return;
       }
-      const dataColumns=[]
-      for(let prop in newData[0])
-        dataColumns.push(prop);
-      const newMap=await fetchNames(dataColumns,ID);
+      let columns=[]
+      if(newData.columns)
+        columns=newData.columns;
+      else
+        for(let prop in newData[0])
+          columns.push(prop);
+      const newMap=await fetchNames(columns,ID);
       setMap(newMap);
-      setEventList(newData.map(convertDataForDisplay));
+      if(newData.map)
+        setEventList(newData.map(convertDataForDisplay));
     })().catch(err => setDataEntry(<div>Error: {err.message}</div>))
   },[]);
 
