@@ -20,6 +20,7 @@ import LostAndFoundReport from './components/lostAndFoundReport';
 import CustomerProfile from './components/customerProfile'
 import SignInOut from './components/signInOut'
 import PayStub from './components/payStub/payStub';
+import MakeAComplaint from './components/makeAComplaint';
 const router = createHashRouter([
   {
     path: "/",
@@ -92,6 +93,10 @@ const router = createHashRouter([
   {
     path:"/payStub",
     element:<PayStub/>
+  },
+  {
+    path:"/makeAComplaint",
+    element:<MakeAComplaint/>
   }
   
 ]);
