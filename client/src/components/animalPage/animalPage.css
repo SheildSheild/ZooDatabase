@@ -2,11 +2,34 @@
   display: flex;
   flex-wrap: wrap;
   justify-content: space-around;
+  padding: 20px;
+  border-radius: 10px;
+  margin-bottom: 20px;
 }
 
 .animal {
+  background-color: rgb(255, 245, 240);
   margin: 20px;
   padding: 10px;
   border: 1px solid #ccc;
   border-radius: 8px;
 }  
+
+.select-contain {
+  background-color: rgb(255, 245, 240);
+  margin: 20px;
+  padding: 10px;
+  border: 1px solid #ccc;
+  border-radius: 8px;
+  cursor: pointer;
+  transform: scale(1.05);
+}  
+
+.background-animal-page {
+  background-image: -webkit-linear-gradient(rgb(22, 22, 22), rgb(255, 238, 238));
+  min-height: 100vh;
+}
+
+.g5 {
+  color: rgb(255, 255, 255);
+}

@@ -105,6 +105,10 @@ const schema={
     Father_ID:{from:"Animals",to:"Animals"},
     Mother_ID:{from:"Animals",to:"Animals"},
     Primary_Doctor_ID:{from:"Animal_Health",to:"Employees"},
+  },
+  Many_To_Many:{
+    Animals:{Employees:['Attends_To','Attended By']},
+    Employees:{Animals:['Attends_To','Attends To']},
   }
 }
 

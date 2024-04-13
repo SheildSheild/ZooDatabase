@@ -21,6 +21,7 @@ const renderInput=(type,key,startingVal)=><>
 </>;
 
 const mapEach=(name,preFilled,enums)=>{
+  console.log(preFilled)
   const out=[];
   const func=(key,data,_enum,nameKey)=>{
     const startingVal=(preFilled&&(preFilled[key]||preFilled[nameKey]))||null;
@@ -47,7 +48,6 @@ const mapEach=(name,preFilled,enums)=>{
         _enum.push(enums[key].IDToName[option])
       nameKey=key.substring(0,key.length-2)+'Name';
     }
-    if(_enum)console.log('e',_enum)
     out.push(func(key,data,_enum,nameKey));
   }
   return out;
