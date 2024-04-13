@@ -13,7 +13,7 @@ function ManageSchedule({route}){
   const [state,_]=useState({current:null,idx:-1});
   const [renderCnt,render]=useState(1);
   const reRender=()=>render(renderCnt+1);
-
+  
   const Name=parseName(route.substring(1));
   const ID=getID(Name);
   const foreignKey=getForeignKey(ID);

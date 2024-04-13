@@ -70,6 +70,9 @@ async function handleLogin(res,results,Name,query){
   if(results.length==0)
     return onNotFound(res,'Username');
 
+  if(!query.Password)
+    return onUnauthorized(res,'Missing Password');
+  
   const user=results[0];
   if(!(await bcrypt.compare(query.Password,user.Password)))
         return onUnauthorized(res,'Wrong Password');

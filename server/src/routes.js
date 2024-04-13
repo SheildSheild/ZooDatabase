@@ -36,11 +36,10 @@ module.exports={
     "tickets":access(m,m),
     "login_customers":access(a,c),
     "login_employees":access(a,m),
-    "shop_monthly_revenue":access(m,n),
+    "shop_revenue":access(m,n),
     "ticket_monthly_revenue":access(m,n),
     "pay_stub":access(e,n),
     "monthly_visit":access(m,n),
-    "purchases_view":access(m,n),
     "animals_view":access(m,n),
     "animal_health_view":access(m,n),
   }
