@@ -27,7 +27,6 @@ export default function Homepage(){
     
 
     return <>
-        <Navbar links={links}/>
         <div className="video-container">
             <video autoPlay loop muted className="background-video">
                 <source src={zooVideo} type="video/mp4" />
@@ -40,12 +39,11 @@ export default function Homepage(){
                     <em3><span>Database</span></em3></strong>
                 </h1>
             </div>
+            <Navbar links={links}/>
         </div>
         <div className="main-container">
             <div className="login-container">
-                <br />
                 <h1><center><strong>Welcome to the <em>Cougar Zoo</em> Database!</strong></center></h1>
-                {/* <h2><center><img src={cougar} alt="cougar at our Zoo"></img></center></h2> */}
                 {isLoggedIn ? (
                     <h4><center><button onClick={()=>handleLogout(reRender)}>Logout</button></center></h4>    
                 ) : (<>
