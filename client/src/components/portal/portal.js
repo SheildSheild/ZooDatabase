@@ -10,6 +10,7 @@ import CustomerProfile from '../customerProfile'
 import TicketsPage from '../ticketsPage/ticketsPage';
 import { handleLogout } from '../../utils';
 import PayStub from '../payStub/payStub';
+import PurchaseHistory from '../purchaseHistory';
 const getToken=()=>localStorage.getItem('token');
 const getRole=()=>localStorage.getItem('role');
 const getID=()=>localStorage.getItem('userId');
@@ -22,7 +23,7 @@ const customerLinks = [
     setMainComponent(<TicketsPage/>);
   }},
   { text: 'Purchase History', onClick: (userData,setMainComponent)=>{
-    setMainComponent();
+    setMainComponent(<PurchaseHistory/>);
   }},
 ];
 
