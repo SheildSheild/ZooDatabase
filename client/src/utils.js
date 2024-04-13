@@ -29,6 +29,9 @@ function handleLogout(reRender) {
  * @returns schema version of name
  */
 const parseName=(name)=>{
+  const qidx=name.indexOf('?');
+  if(qidx>0)
+    name=name.substring(0,qidx);
   const Name=[];
   let up=true;
   for(let i=0;i<name.length;i++){
@@ -161,9 +164,9 @@ function Delete(link,val,setDataEntry,reRender,table,idx) {
   reRender();
 }
 
-function Add(link,setDataEntry,reRender,table,convertDataForDisplay=x=>x,convertDataForDB=x=>x,map){
+function Add(link,setDataEntry,reRender,table,convertDataForDisplay=x=>x,convertDataForDB=x=>x,map,defaultValues){
   const Name=parseName(link.substring(1));
-  setDataEntry(<DataEntry title="Enter Data" name={Name} enums={map} onSubmit={data=>{
+  setDataEntry(<DataEntry title="Enter Data" name={Name} enums={map} preFilled={defaultValues} onSubmit={data=>{
     data=convertDataForDB(data);
     postData(link,data).then(val=>{
       if(!val||val.status){
@@ -172,7 +175,9 @@ function Add(link,setDataEntry,reRender,table,convertDataForDisplay=x=>x,convert
         return;
       }
       setDataEntry(<>Successfully Added</>);
-      table.push(convertDataForDisplay(data));
+      data=convertDataForDisplay(data,table.length);
+      data.id=val.Id;
+      table.push(data);
       reRender();
     });
     setDataEntry(<>Adding...</>);
