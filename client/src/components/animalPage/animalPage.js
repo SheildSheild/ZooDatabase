@@ -9,9 +9,9 @@ export default function AnimalPage() {
   // check if logged in!
 
   // let links = ["homepage", "customerSignUp", "customerHome", "animalPage", "aboutUsPage"];
-  let links = [["homepage", "Home"], ["customerSignUp", "Sign Up"], ["login", "Login"], ["animalPage", "Our Animals"], ["aboutUsPage", "About Us"]];
+  let links = [["homepage", "Home"], ["customerSignUp", "Customer Sign Up"], ["login", "Customer Login"], ["employeeLogin", "Employee Login"], ["animalPage", "Our Animals"], ["aboutUsPage", "About Us"], ["makeAComplaint", "Any Complaints?"], ["lostAndFoundReport","Lost somthing?"]];
   if (isLoggedIn) {
-      links = [["homepage", "Home"], ["animalPage", "Our Animals"],["portal", "User Portal"],["aboutUsPage", "About Us"]];
+      links = [["homepage", "Home"], ["animalPage", "Our Animals"],["portal", "User Portal"],["aboutUsPage", "About Us"], ["makeAComplaint", "Any Complaints?"], ["lostAndFoundReport","Lost somthing?"]];
   }
   const [selectedHabitat, setSelectedHabitat] = useState('All');
   const [animals, setAnimals]=useState([]);
