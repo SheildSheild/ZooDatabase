@@ -43,6 +43,7 @@ export default function Homepage(){
         </div>
         <div className="main-container">
             <div className="login-container">
+                <br />
                 <h1><center><strong>Welcome to the <em>Cougar Zoo</em> Database!</strong></center></h1>
                 {/* <h2><center><img src={cougar} alt="cougar at our Zoo"></img></center></h2> */}
                 {isLoggedIn ? (
@@ -52,7 +53,7 @@ export default function Homepage(){
                     <h4><center>Don't have a account yet? <Link className='link' to="/customerSignUp">Sign Up</Link></center></h4>
                 </>
                 )}
-                <img src={pointAnimal} alt="Pointing Elephant Gif" />
+                <img src={pointAnimal} alt="Pointing Elephant Gif" className="gif-pointing"/>
             </div>
             <div className="animal-image-container">
                 <img src={HappyCoug} alt="Cougar Cover Page" />
