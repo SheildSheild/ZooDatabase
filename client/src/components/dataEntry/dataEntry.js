@@ -1,16 +1,16 @@
 import './dataEntry.css';
-import { formatDate } from '../../utils';
 import schema from '../../schema'
+import { formatDate } from '../../utils';
 
 const renderEnum=(key,options,startingVal)=><>
   <select name={key} required>
-    <option value="">--Please choose an option--</option>
-    {options.map((option,i)=><option value={option} defaultValue={startingVal}>{option}</option>)}
+    <option value="" disabled hidden selected={startingVal==undefined}>--Please choose an option--</option>
+    {options.map((option,i)=><option value={option} selected={startingVal==option}>{option}</option>)}
   </select>
 </>;
 
 const renderCell = (value, prop) => {
-  if (prop.includes("Date")||prop.includes("Time")) 
+  if (prop.includes("Date")) 
     return formatDate(value);
   return value;
 };
@@ -22,8 +22,8 @@ const renderInput=(type,key,startingVal)=><>
 
 const mapEach=(name,preFilled,enums)=>{
   const out=[];
-  const func=(key,data,_enum)=>{
-    const startingVal=(preFilled&&preFilled[key])||null;
+  const func=(key,data,_enum,nameKey)=>{
+    const startingVal=(preFilled&&(preFilled[key]||preFilled[nameKey]))||null;
     return <>
       <label>
         {data.text}
@@ -37,17 +37,18 @@ const mapEach=(name,preFilled,enums)=>{
       <br/>
     </>;
   };
-  // console.log('enum:',enums)
   for(let key in schema[name]){
     const data=schema[name][key];
     let _enum;
+    let nameKey;
     if(enums&&enums[key]){
       _enum=[]
       for(let option in enums[key].IDToName)
         _enum.push(enums[key].IDToName[option])
+      nameKey=key.substring(0,key.length-2)+'Name';
     }
     if(_enum)console.log('e',_enum)
-    out.push(func(key,data,_enum));
+    out.push(func(key,data,_enum,nameKey));
   }
   return out;
 }
@@ -57,7 +58,6 @@ function DataEntry({title,name,onSubmit,preFilled,enums}){
     ev.preventDefault();
     const form=ev.target;
     const data={};
-    console.log(form)
     for(let prop in schema[name])
       data[prop]=form[prop].value;
     

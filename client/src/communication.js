@@ -1,20 +1,18 @@
+import { handleLogout } from "./utils";
 
 const apiUrl='http://158.101.102.104:3301/api'
+
+const goHome=()=>window.location.href='/';
 
 const then=[
   res=>{
     if(res.ok)
       return res.json();
     return res.json().then(data=>{
-      if(data.message=='JWT Expired'){
-        localStorage.removeItem('token');
-        localStorage.removeItem('role');
-        localStorage.removeItem('userId');
-        localStorage.removeItem('expirationDate');
-        window.location.href='/';
-      }
+      if(data.message=='JWT Expired')
+        handleLogout(goHome);
       if(data.message=='No JWT')
-        window.location.href='/';
+        goHome();
       return {...data,status:res.status,statusText:res.statusText};
     });
   },

@@ -18,3 +18,7 @@
   margin-left: 20%; /* Same as sidebar width */
   padding: 20px;
 }
+
+.log-out{
+  float: right;
+}

@@ -13,13 +13,14 @@ import AnimalPage from './components/animalPage';
 import TicketsPage from './components/ticketsPage';
 import DataEntry from './components/dataEntry';
 import AboutUsPage from './components/aboutUsPage';
-import EmployeeSchedule from './components/employeeSchedule';
 import Report from './components/report';
 import Portal from './components/portal';
 import DisplayTable from './components/displayTable';
 import LostAndFoundReport from './components/lostAndFoundReport';
 import CustomerProfile from './components/customerProfile'
-
+import SignInOut from './components/signInOut'
+import PayStub from './components/payStub/payStub';
+import MakeAComplaint from './components/makeAComplaint';
 const router = createHashRouter([
   {
     path: "/",
@@ -58,10 +59,6 @@ const router = createHashRouter([
     element: <AboutUsPage/>,
   },
   {
-    path:"/employeeSchedule",
-    element: <EmployeeSchedule/>
-  },
-  {
     path:"/reportRevenue",
     element: <Report path={'/ticket_monthly_revenue'} title='Monthly Revenue From Tickets'/>
   },
@@ -88,6 +85,18 @@ const router = createHashRouter([
   {
     path:"/customerProfile",
     element: <CustomerProfile/>
+  },
+  {
+    path:"/signInOut",
+    element:<SignInOut/>
+  },
+  {
+    path:"/payStub",
+    element:<PayStub/>
+  },
+  {
+    path:"/makeAComplaint",
+    element:<MakeAComplaint/>
   }
   
 ]);

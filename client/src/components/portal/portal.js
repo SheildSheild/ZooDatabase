@@ -1,14 +1,15 @@
 import React, { useEffect, useState } from 'react';
-import { Link, useNavigate } from 'react-router-dom';
+import { useNavigate } from 'react-router-dom';
 import './portal.css';
 import { getData } from '../../communication';
 import DisplayTable from '../displayTable';
-import EmployeeSchedule from '../employeeSchedule';
-import ManagerSchedule from '../managerSchedule';
+import ViewSchedule from '../viewSchedule';
+import ManageSchedule from '../manageSchedule';
 import Report from '../report';
 import CustomerProfile from '../customerProfile'
 import TicketsPage from '../ticketsPage/ticketsPage';
-
+import { handleLogout } from '../../utils';
+import PayStub from '../payStub/payStub';
 const getToken=()=>localStorage.getItem('token');
 const getRole=()=>localStorage.getItem('role');
 const getID=()=>localStorage.getItem('userId');
@@ -27,28 +28,34 @@ const customerLinks = [
 
 const employeeLinks = [
   { text:"View My Schedule", onClick: (userData,setMainComponent)=>{
-    setMainComponent(<EmployeeSchedule Employee_ID={userData.Employee_ID}/>)
+    setMainComponent(<ViewSchedule route='\employee_schedules' ID={['Employee_ID',userData.Employee_ID]}/>)
   }},
 ]
 
 const medicLinks = [
   { text: 'Edit Medical Records', onClick: (userData,setMainComponent)=>{
-    setMainComponent(<DisplayTable link='\animal_health' viewLink='\animal_health_view'/>)
+    setMainComponent(<DisplayTable route='\animal_health'/>)
   } },
 ]
 
 const managerLinks = [
   { text: 'Edit Animals List', onClick: (userData,setMainComponent)=>{
-    setMainComponent(<DisplayTable link='\animals' viewLink='\animals_view'/>)
+    setMainComponent(<DisplayTable route='\animals'/>)
   } },
   { text: 'Edit Purchases', onClick: (userData,setMainComponent)=>{
-    setMainComponent(<DisplayTable link='\purchases' viewLink='\purchases_view'/>)
+    setMainComponent(<DisplayTable route='\purchases'/>)
+  } },
+  { text: 'Employee TimeSheet', onClick: (userData,setMainComponent)=>{
+    setMainComponent(<DisplayTable route='\timesheets'/>)
   } },
   { text: 'Edit Employee Schedules', onClick: (userData,setMainComponent)=>{
-    setMainComponent(<ManagerSchedule link='\employee_schedules'/>)
+    setMainComponent(<ManageSchedule route='\employee_schedules'/>)
   } },
-  { text: 'View Monthly Ticket Report', onClick: (userData,setMainComponent)=>{
-    setMainComponent(<Report path={'/ticket_monthly_revenue'} title='Monthly Revenue From Tickets'/>)
+  { text: 'Employee Paystub', onClick: (userData,setMainComponent)=>{
+    setMainComponent(<PayStub/>)
+  } },
+  { text: 'View Revenue Report', onClick: (userData,setMainComponent)=>{
+    setMainComponent(<Report route='/shop_revenue' title='Report Revenue From Shop'/>)
   } },
 ];
 
@@ -123,6 +130,7 @@ function Portal() {
           </React.Fragment>
         ))}
       </div>
+      <button className="log-out" onClick={()=>handleLogout(()=>window.location.href='/')}>Log Out</button>
       <div className="main-content">
         {renderCnt%2?mainComponent:<div>{mainComponent}</div>}
       </div>

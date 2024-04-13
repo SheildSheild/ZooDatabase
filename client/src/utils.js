@@ -15,6 +15,14 @@ function formatDate(dateString){
   return `${year}-${month}-${day}`;
 }
 
+function handleLogout(reRender) {
+  localStorage.removeItem('token');
+  localStorage.removeItem('role'); 
+  localStorage.removeItem('userId'); 
+  localStorage.removeItem('expirationDate');
+  reRender&&reRender();
+}
+
 /**
  * converts route name to schema name, ex.:animal_health-> Animal_Health
  * @param {string} name 
@@ -190,4 +198,24 @@ const downloadPDF = (pdfRef) =>{
 });
 }
 
-export {formatDate,getID,parseName,downloadPDF,fetchNames,Add,Delete,Modify}
+
+async function fetchEmployeeDetailsForAnimal(animalId) {
+  try {
+    const attendsToData = await getData('/attends_to');
+    const employeeDetailsPromises = attendsToData
+      .filter(row => row.Animal_ID === animalId)
+      .map(async row => {
+        const employeeDetailResponse = await getData(`/employees?Employee_ID=${row.Employee_ID}`);
+        const employeeDetail = employeeDetailResponse[0]; 
+        return { ...employeeDetail, Responsibility: row.Responsibility };
+      });
+
+    const employeeDetails = await Promise.all(employeeDetailsPromises);
+    return employeeDetails;
+  } catch (error) {
+    console.error('Error fetching employee details:', error);
+    return [];
+  }
+}
+
+export {formatDate,getID,parseName,downloadPDF,fetchNames,Add,Delete,Modify,handleLogout, fetchEmployeeDetailsForAnimal}
