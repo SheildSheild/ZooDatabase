@@ -16,9 +16,8 @@ export default function CustomerProfile() {
             }
             else{
                 setCustomer(data);
+                console.log(data);
             }
-            console.log(data);
-            //console.log(customer[0]);
         })
         .catch(err=>setErrorMessage('Error: '+err))
     },[]);

@@ -103,11 +103,6 @@ export default function TicketsPage(){
                 )}
                 <p><b>All purchases are non-refundable!</b></p>
             </div>
-            {/* <div className = "option members">
-                <h2>Cougar Zoo Members</h2>
-                <p>Exclusive access for Cougar Zoo members</p>
-                <button>Member Access</button>
-            </div> */}
         </div>
     </>);
 }
