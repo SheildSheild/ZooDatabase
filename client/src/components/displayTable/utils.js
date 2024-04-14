@@ -19,9 +19,10 @@ const convertDataForDB = (row,map) =>{
 const convertDataForDisplay = (row,map) =>{
   const newRow={};
   for(let val in row){
-    if(map[val])
-      newRow[IDToName(val)]=map[val].IDToName[row[val]];
-    else
+    if(map[val]){
+      if (map[val].IDToName[row[val]]) 
+        newRow[IDToName(val)]=map[val].IDToName[row[val]].replace("undefined","");
+    }else
       newRow[val]=row[val];
   }
   return newRow;
