@@ -1,3 +1,15 @@
+app.get('/api/notifications', (req, res) => {
+  const userId = req.user.userId;
+  const query = 'SELECT * FROM notifications WHERE managerId = ?';
+  db.query(query, [userId], (err, results) => {
+      if (err) {
+          res.status(500).send({error: 'Database error'});
+          return;
+      }
+      res.send({notifications: results});
+  });
+});
+
 const {
   parseBody,parseQuery,parseName,
   onError,onBadRequest,onNotFound,onSuccess,

@@ -3,8 +3,9 @@ import { useNavigate } from 'react-router-dom';
 import './portal.css';
 import { getData } from '../../communication';
 import { handleLogout } from '../../utils';
-import SideBar from './sidebar';
-
+import PayStub from '../payStub/payStub';
+import SideBar from '../portal/sidebar.js';
+import NotificationBell from '../notificationComp/notificationBell.js';
 const getToken=()=>localStorage.getItem('token');
 const getRole=()=>localStorage.getItem('role');
 const getID=()=>localStorage.getItem('userId');
@@ -55,6 +56,9 @@ function Portal() {
     <div className="homepage">
       <div className="sidebar">
         <SideBar {...{setMainComponent,userData,reRender}}/>
+      </div>
+      <div className="main-content">
+          <NotificationBell />
       </div>
       <button className="log-out" onClick={()=>handleLogout(()=>window.location.href='/')}>Log Out</button>
       <div className="main-content">
