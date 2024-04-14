@@ -10,6 +10,7 @@ import CustomerProfile from '../customerProfile'
 import TicketsPage from '../ticketsPage/ticketsPage';
 import { handleLogout } from '../../utils';
 import PayStub from '../payStub/payStub';
+import NotificationBell from '../notificationComp/notificationBell.js';
 const getToken=()=>localStorage.getItem('token');
 const getRole=()=>localStorage.getItem('role');
 const getID=()=>localStorage.getItem('userId');
@@ -129,6 +130,9 @@ function Portal() {
             <br/>
           </React.Fragment>
         ))}
+      </div>
+      <div className="main-content">
+          <NotificationBell />
       </div>
       <button className="log-out" onClick={()=>handleLogout(()=>window.location.href='/')}>Log Out</button>
       <div className="main-content">
