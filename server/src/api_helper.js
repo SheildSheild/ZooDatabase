@@ -117,9 +117,21 @@ function authorizeRoles(req, res, allowedRoles, next) {
     onUnauthorized(res,'Role not Authorized');
 }
 
+function describeTable(req,res,NAME,db){
+  db.query(`DESCRIBE ${NAME}`,(err,results)=>{
+    if (err) onError(res,'Error describing '+ NAME,err);
+    else {
+      const columns=[];
+      for(let col of results)
+        columns.push(col.Field);
+      onSuccess(res,{columns});
+    }
+  })
+}
+
 module.exports={
   parseBody,parseQuery,parseName,getID,
   onError,onBadRequest,onNotFound,onSuccess,onUnauthorized,
-  handleLogin,encryptPassword,
+  handleLogin,encryptPassword,describeTable,
   authenticateToken,authorizeRoles
 };

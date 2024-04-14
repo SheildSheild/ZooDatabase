@@ -13,7 +13,7 @@ app.get('/api/notifications', (req, res) => {
 const {
   parseBody,parseQuery,parseName,
   onError,onBadRequest,onNotFound,onSuccess,
-  handleLogin,encryptPassword,
+  handleLogin,encryptPassword,describeTable,
   authenticateToken,authorizeRoles, getID
 } = require('./api_helper');
 const {routes}=require('./routes');
@@ -44,6 +44,7 @@ function api(req,res,query,body,name,db) {
       db.query(sql,async (err, results) => {
         if (err) onError(res,'Error fetching '+Name,err);
         else if(isLogin) await handleLogin(res,results,Name,query);
+        else if(results.length==0) describeTable(req,res,NAME,db);
         else onSuccess(res,results);
       });
     };
