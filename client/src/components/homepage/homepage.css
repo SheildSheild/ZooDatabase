@@ -40,7 +40,7 @@ img {
 }
 
 .login-container, .animal-image-container {
-  background-color: rgb(255, 242, 223);
+  background-color: rgb(255, 255, 255);
   flex: 1;
   display: flex;
   justify-content: center;
@@ -70,6 +70,16 @@ img {
   text-shadow: -0.5px -0.5px 0 #000, 0.5px -0.5px 0 #000, -0.5px 1px 0 #000, 0.5px 0.5px 0 #000;
 }
 
+.overlay-content2 {
+  font-size: 3.8vw;
+  position: absolute;
+  top: 55%;
+  left: 38%;
+  transform: translate(-100%, -65%);
+  text-align: left;
+  text-shadow: -0.5px -0.5px 0 #000, 0.5px -0.5px 0 #000, -0.5px 1px 0 #000, 0.5px 0.5px 0 #000;
+}
+
 .zoo-logo {
   width: 3vw;
   max-width: 300px;
@@ -81,11 +91,5 @@ img {
 }
 
 .gif-pointing {
-  width: 3vw;
-  max-width: 300px;
-  margin: auto;
-  margin-bottom: 20px;
-  display: block;
-  position: static;
-  text-shadow: -1.5px -1.5px 0 #000, 1.5px -1.5px 0 #000, -1.5px 1.5px 0 #000, 1.5px 1.5px 0 #000;
+  width: 15vw;
 }

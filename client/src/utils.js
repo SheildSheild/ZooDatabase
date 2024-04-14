@@ -29,9 +29,6 @@ function handleLogout(reRender) {
  * @returns schema version of name
  */
 const parseName=(name)=>{
-  const qidx=name.indexOf('?');
-  if(qidx>0)
-    name=name.substring(0,qidx);
   const Name=[];
   let up=true;
   for(let i=0;i<name.length;i++){
@@ -203,24 +200,4 @@ const downloadPDF = (pdfRef) =>{
 });
 }
 
-
-async function fetchEmployeeDetailsForAnimal(animalId) {
-  try {
-    const attendsToData = await getData('/attends_to');
-    const employeeDetailsPromises = attendsToData
-      .filter(row => row.Animal_ID === animalId)
-      .map(async row => {
-        const employeeDetailResponse = await getData(`/employees?Employee_ID=${row.Employee_ID}`);
-        const employeeDetail = employeeDetailResponse[0]; 
-        return { ...employeeDetail, Responsibility: row.Responsibility };
-      });
-
-    const employeeDetails = await Promise.all(employeeDetailsPromises);
-    return employeeDetails;
-  } catch (error) {
-    console.error('Error fetching employee details:', error);
-    return [];
-  }
-}
-
-export {formatDate,getID,parseName,downloadPDF,fetchNames,Add,Delete,Modify,handleLogout, fetchEmployeeDetailsForAnimal}
+export {formatDate,getID,parseName,downloadPDF,fetchNames,Add,Delete,Modify,handleLogout}

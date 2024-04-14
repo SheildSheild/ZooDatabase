@@ -27,7 +27,6 @@ export default function Homepage(){
     
 
     return <>
-        <Navbar links={links}/>
         <div className="video-container">
             <video autoPlay loop muted className="background-video">
                 <source src={zooVideo} type="video/mp4" />
@@ -40,11 +39,11 @@ export default function Homepage(){
                     <em3><span>Database</span></em3></strong>
                 </h1>
             </div>
+            <Navbar links={links}/>
         </div>
         <div className="main-container">
             <div className="login-container">
                 <h1><center><strong>Welcome to the <em>Cougar Zoo</em> Database!</strong></center></h1>
-                {/* <h2><center><img src={cougar} alt="cougar at our Zoo"></img></center></h2> */}
                 {isLoggedIn ? (
                     <h4><center><button onClick={()=>handleLogout(reRender)}>Logout</button></center></h4>    
                 ) : (<>
@@ -52,7 +51,7 @@ export default function Homepage(){
                     <h4><center>Don't have a account yet? <Link className='link' to="/customerSignUp">Sign Up</Link></center></h4>
                 </>
                 )}
-                <img src={pointAnimal} alt="Pointing Elephant Gif" />
+                <img src={pointAnimal} alt="Pointing Elephant Gif" className="gif-pointing"/>
             </div>
             <div className="animal-image-container">
                 <img src={HappyCoug} alt="Cougar Cover Page" />

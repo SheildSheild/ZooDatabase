@@ -1,52 +1,29 @@
 import './table.css'
-import { postData,getData,updateData,deleteData } from '../../communication';
-import React, { useState, useEffect } from 'react';
-import { formatDate,Add,Modify,Delete,getID,parseName, fetchNames, fetchEmployeeDetailsForAnimal } from '../../utils';
-import { Button, Dialog, DialogActions, DialogContent, DialogContentText, Table, TableBody, TableCell, TableContainer, TableHead, TableRow, Paper } from '@mui/material';
-import ManyToManyDialog from '../ManyToManyDialog';
+import { getData } from '../../communication';
+import { useState, useEffect } from 'react';
+import { Add,Modify,Delete,getID,parseName, fetchNames } from '../../utils';
+import { Button, Dialog, DialogActions, DialogContent, Table, TableBody, TableCell, TableContainer, TableHead, TableRow, Paper } from '@mui/material';
+import { convertDataForDB,convertDataForDisplay,IDToName,renderCell,handleDialogOpen } from './utils';
 import schema from '../../schema';
 
 let i=0;
 function DisplayTable({route, hasDataEntry, defaultValues}){
   defaultValues=defaultValues||{};
-  hasDataEntry=true;
-
+  console.log({hasDataEntry})
   const [data, setData] = useState([]);
   const [dataColumns,setDataColumns] = useState([]);
-  const [map,setMap] =useState({});
+  const [foreignKeyMap,setForeignKeyMap] =useState({});
   const [dataEntry,setDataEntry]=useState(false);
   const [dialog, setDialog] = useState(<></>);
-  //console.log("DisplayTable props:", { route, hasDataEntry });
   const [renderCnt,render]=useState(1);
   const reRender=()=>render(renderCnt+1);
 
-  const Name=parseName(route.substring(1));
+  let cleanRoute=route;
+  const qidx=route.indexOf('?');
+  if(qidx>0)
+    cleanRoute=route.substring(0,qidx);
+  const Name=parseName(cleanRoute.substring(1));
   const ID=getID(Name);
-  
-  const NameToID=(name)=>
-    name.substring(0,name.length-2)+'ID';
-  const IDToName=(Id)=>
-    Id.substring(0,Id.length-2)+'Name';
-  const convertDataForDB = row =>{
-    const newRow={};
-    for(let val in row){
-      if(map[val])
-        newRow[val]=map[val].NameToID[row[val]];
-      else
-        newRow[val]=row[val];
-    }
-    return newRow;
-  };
-  const convertDataForDisplay = (row,transform) =>{
-    const newRow={};
-    for(let val in row){
-      if(transform[val])
-        newRow[IDToName(val)]=transform[val].IDToName[row[val]];
-      else
-        newRow[val]=row[val];
-    }
-    return newRow;
-  };
 
   useEffect(() => {
     (async ()=>{
@@ -56,8 +33,11 @@ function DisplayTable({route, hasDataEntry, defaultValues}){
         return;
       }
       let columns=[];
-      for(let prop in newData[0])
-        columns.push(prop);
+      if(newData.columns)
+        columns=newData.columns;
+      else
+        for(let prop in newData[0])
+          columns.push(prop);
 
       const newMap=await fetchNames(columns,ID);
       columns=columns.filter(col=>
@@ -68,27 +48,11 @@ function DisplayTable({route, hasDataEntry, defaultValues}){
       });
       setDataColumns(columns);
       console.log(columns)
-      setMap(newMap);
-      setData(newData.map(val=>convertDataForDisplay(val,newMap)));
+      setForeignKeyMap(newMap);
+      if(newData.map)
+        setData(newData.map(val=>convertDataForDisplay(val,newMap)));
     })().catch(err => setDataEntry(<div>Error: {err.message}</div>))
   },[]);
-
-  const renderCell = (value, prop) => {
-    if (prop.includes("Date")) 
-      return formatDate(value);
-    return value;
-  };
-
-  const handleDialogOpen = (rowData,[destinationTableName,destinationName]) => {
-  console.log(map,ID,map[ID],rowData,rowData[ID])
-    setDialog(<ManyToManyDialog
-      originTableName={Name}
-      originRowID={rowData[ID]} 
-      originRowName={rowData.Name+' ID: '+rowData[ID]}
-      destinationTableName={destinationTableName} 
-      onClose={()=>setDialog(<></>)}
-    />);
-    }
 
   const MToN=schema.Many_To_Many[Name];
   const relationshipTitles=[];
@@ -96,7 +60,7 @@ function DisplayTable({route, hasDataEntry, defaultValues}){
   for(let otherTable in MToN){
     relationshipTitles.push(<TableCell key={otherTable}>{MToN[otherTable][1]}</TableCell>);
     relationships.push((val)=>
-      <TableCell><Button variant="contained" color="error" disableElevation disabled={false} onClick={() => handleDialogOpen(val,MToN[otherTable])}>{MToN[otherTable][1]}</Button></TableCell>);
+      <TableCell><Button variant="contained" color="error" disableElevation disabled={false} onClick={() => handleDialogOpen(val,MToN[otherTable],Name,ID,setDialog)}>{MToN[otherTable][1]}</Button></TableCell>);
   }
   
   return <center>
@@ -120,8 +84,8 @@ function DisplayTable({route, hasDataEntry, defaultValues}){
                 <TableCell>{renderCell(val[prop], prop)}</TableCell>)
             }
             {hasDataEntry&&<>
-              <TableCell><Button onClick={()=>Modify(route,data[idx],setDataEntry,reRender,data,idx,val=>convertDataForDisplay(val,map),convertDataForDB,map)}>Modify</Button></TableCell>
-              <TableCell><Button onClick={()=>Delete(route,data[idx],setDataEntry,reRender,data,idx)}>Delete</Button></TableCell>
+              <TableCell><Button onClick={()=>Modify(cleanRoute,data[idx],setDataEntry,reRender,data,idx,val=>convertDataForDisplay(val,foreignKeyMap),val=>convertDataForDB(val,foreignKeyMap),foreignKeyMap)}>Modify</Button></TableCell>
+              <TableCell><Button onClick={()=>Delete(cleanRoute,data[idx],setDataEntry,reRender,data,idx)}>Delete</Button></TableCell>
               {relationships.map(rel=>rel(val))}
             </>}
             </TableRow>
@@ -131,7 +95,7 @@ function DisplayTable({route, hasDataEntry, defaultValues}){
     </TableContainer>
   </section>}
   {hasDataEntry&&<>
-    <button className='add-Button' onClick={()=>Add(route,setDataEntry,reRender,data,val=>convertDataForDisplay(val,map),convertDataForDB,map,defaultValues)}>Add</button>
+    <button className='add-Button' onClick={()=>Add(cleanRoute,setDataEntry,reRender,data,val=>convertDataForDisplay(val,foreignKeyMap),val=>convertDataForDB(val,foreignKeyMap),foreignKeyMap,defaultValues)}>Add</button>
   </>}
   <br/><br/>
   {<Dialog open={dataEntry} onClose={()=>setDataEntry(false)} maxWidth="md" fullWidth>

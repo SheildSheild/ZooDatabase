@@ -12,6 +12,7 @@
   display: flex;
   justify-content: center;
   flex-direction: row;
+  z-index: 10;
 }
 
 .nav-link {
