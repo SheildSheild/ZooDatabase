@@ -4,6 +4,8 @@ import './portal.css';
 import { getData } from '../../communication';
 import { handleLogout } from '../../utils';
 import PayStub from '../payStub/payStub';
+import SideBar from '../portal/sidebar.js';
+import NotificationBell from '../notificationComp/notificationBell.js';
 const getToken=()=>localStorage.getItem('token');
 const getRole=()=>localStorage.getItem('role');
 const getID=()=>localStorage.getItem('userId');
