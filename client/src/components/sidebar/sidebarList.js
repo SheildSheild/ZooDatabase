@@ -6,7 +6,6 @@ import Report from '../report';
 import CustomerProfile from '../customerProfile'
 import TicketsPage from '../ticketsPage';
 import PayStub from '../payStub';
-import PurchaseHistory from '../purchaseHistory'
 
 const customerLinks = [
   { text: 'View Profile', onClick: (userData,setMainComponent)=>{
@@ -16,7 +15,7 @@ const customerLinks = [
     setMainComponent(<TicketsPage/>);
   }},
   { text: 'Purchase History', onClick: (userData,setMainComponent)=>{
-    setMainComponent(<PurchaseHistory/>);
+    setMainComponent(<DisplayTable route={'/purchases?Customer_ID='+userData.Customer_ID}/>);
   }},
   { group:'Schedules', text:"View Animal Schedules", onClick: (userData,setMainComponent)=>{
     setMainComponent(<ViewSchedule route='\animal_schedules'/>)

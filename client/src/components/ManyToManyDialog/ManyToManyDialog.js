@@ -1,9 +1,8 @@
 import React from 'react';
 import { Button, Dialog, DialogActions, DialogContent, DialogContentText } from '@mui/material';
-import DisplayTable from '../displayTable';
 import { getID } from '../../utils';
 
-function ManyToManyDialog({ onClose, originTableName, originRowID, originRowName, destinationTableName }) {
+function ManyToManyDialog({ onClose, originTableName, originRowID, originRowName, destinationTableName, DisplayTable }) {
   const originID=getID(originTableName);
   const route=`/${destinationTableName.toLowerCase()}?${originID}=${originRowID}`;
   return (

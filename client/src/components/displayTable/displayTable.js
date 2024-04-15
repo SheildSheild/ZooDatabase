@@ -53,7 +53,7 @@ function DisplayTable({route, hasDataEntry, defaultValues}){
       setForeignKeyMap(newMap);
       if(newData.map)
         setData(newData.map(val=>convertDataForDisplay(val,newMap)));
-    })().catch(err => setDataEntry(<div>Error: {err.message}</div>))
+    })().catch(err => console.log(err,setDataEntry(<div>Error: {err.message}</div>)))
   },[]);
 
   const MToN=schema.Many_To_Many[Name];
@@ -62,7 +62,9 @@ function DisplayTable({route, hasDataEntry, defaultValues}){
   for(let otherTable in MToN){
     relationshipTitles.push(<TableCell key={otherTable}>{MToN[otherTable][1]}</TableCell>);
     relationships.push((val)=>
-      <TableCell><Button variant="contained" color="error" disableElevation disabled={false} onClick={() => handleDialogOpen(val,MToN[otherTable],Name,ID,setDialog)}>{MToN[otherTable][1]}</Button></TableCell>);
+      <TableCell><Button variant="contained" color="error" disableElevation disabled={false} onClick={() => 
+        handleDialogOpen(DisplayTable,val,MToN[otherTable],Name,ID,setDialog)}>{MToN[otherTable][1]
+      }</Button></TableCell>);
   }
   
   return <center>
