@@ -60,7 +60,7 @@ function DisplayTable({route, hasDataEntry, defaultValues}){
   const relationshipTitles=[];
   const relationships=[];
   for(let otherTable in MToN){
-    relationshipTitles.push(<TableCell key={otherTable}>{MToN[otherTable][1]}</TableCell>);
+    relationshipTitles.push(<TableCell sx={{ bgcolor: '#fffafa' }}key={otherTable}>{MToN[otherTable][1]}</TableCell>);
     relationships.push((val)=>
       <TableCell><Button variant="contained" color="error" disableElevation disabled={false} onClick={() => 
         handleDialogOpen(DisplayTable,val,MToN[otherTable],Name,ID,setDialog)}>{MToN[otherTable][1]
@@ -69,15 +69,15 @@ function DisplayTable({route, hasDataEntry, defaultValues}){
   
   return <center>
   <h2>{Name}</h2>
-  {(dataColumns.length>0)&&<section id="outer-table-container">
-    <TableContainer component={Paper}>
-      <Table>
-        <TableHead><TableRow>{
-          dataColumns.map(prop=><TableCell key={prop}>{prop+' '}</TableCell>)
+  {(dataColumns.length>0)&&<section>
+    <TableContainer component={Paper} sx={{ maxHeight: '60vh', overflowY: 'auto', bgcolor: '#fffafa' }} elevation={2}>
+      <Table stickyHeader sx={{marginTop: "0px"}}>
+        <TableHead sx={{ bgcolor: '#fffafa' }}><TableRow>{
+          dataColumns.map(prop=><TableCell sx={{ bgcolor: '#fffafa' }} key={prop}>{prop+' '}</TableCell>)
         }
         {hasDataEntry&&<>
-          <TableCell key={'~'+i}>Modify</TableCell>
-          <TableCell key={'-'+i}>Delete</TableCell>
+          <TableCell sx={{ bgcolor: '#fffafa' }} key={'~'+i}>Modify</TableCell>
+          <TableCell sx={{ bgcolor: '#fffafa' }} key={'-'+i}>Delete</TableCell>
           {relationshipTitles}
         </>}
         </TableRow></TableHead>
@@ -98,9 +98,11 @@ function DisplayTable({route, hasDataEntry, defaultValues}){
       </Table>
     </TableContainer>
   </section>}
-  {hasDataEntry&&<>
-    <button className='add-Button' onClick={()=>Add(cleanRoute,setDataEntry,reRender,data,val=>convertDataForDisplay(val,foreignKeyMap),val=>convertDataForDB(val,foreignKeyMap),foreignKeyMap,defaultValues)}>Add</button>
-  </>}
+  {hasDataEntry && <>
+      <Button variant="contained" color="error" sx={{ mt: 2, mb: 1 }} onClick={() => Add(cleanRoute, setDataEntry, reRender, data, val => convertDataForDisplay(val, foreignKeyMap), val => convertDataForDB(val, foreignKeyMap), foreignKeyMap, defaultValues)}>
+        Add
+      </Button>
+    </>}
   <br/><br/>
   {<Dialog open={dataEntry} onClose={()=>setDataEntry(false)} maxWidth="md" fullWidth>
       <DialogContent>

@@ -29,13 +29,13 @@ const employeeLinks = [
 ]
 
 const medicLinks = [
-  { text: 'Edit Medical Records', onClick: (userData,setMainComponent)=>{
+  { group:'Animals',text: 'Edit Medical Records', onClick: (userData,setMainComponent)=>{
     setMainComponent(<DisplayTable route='\animal_health' hasDataEntry/>)
   } },
 ]
 
 const managerLinks = [
-  { text: 'Edit Animals List', onClick: (userData,setMainComponent)=>{
+  { group:'Animals',text: 'Edit Animals List', onClick: (userData,setMainComponent)=>{
     setMainComponent(<DisplayTable route='\animals' hasDataEntry/>)
   } },
   { text: 'Edit Purchases', onClick: (userData,setMainComponent)=>{

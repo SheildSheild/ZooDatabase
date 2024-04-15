@@ -1,24 +1,22 @@
-  /* Sidebar styles */
-.sidebar {
-  background-color: #333; /* Dark grey */
-  color: #fff; /* White text color */
-  height: 100vh; /* Full height of the viewport */
-  width: 20%; /* Sidebar width */
-  position: fixed; /* Fixed sidebar (it will not move when you scroll the page) */
-  overflow-y: auto; /* Add scroll if needed */
-}
-
-.sidebar-item {
-  border-bottom: 1px solid #444; /* Slightly lighter grey for separation */
-  width: 100%;
+.MuiDrawer-paper {
+  background-color: #fffafa;
 }
 
 /* Main content styles */
 .main-content {
-  margin-left: 20%; /* Same as sidebar width */
-  padding: 20px;
+  transition: margin-left 0.3s;
+  padding: 1px;
 }
 
 .log-out{
   float: right;
+}
+
+.notification{
+  background-color: transparent;
+  border: none; 
+  outline: none;
+  color: inherit; 
+  cursor: pointer; 
+  font-size: 24px; 
 }

@@ -1,6 +1,7 @@
 import { useEffect, useRef, useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 import './portal.css';
+import { Container, Box, Button } from '@mui/material';
 import { getData } from '../../communication';
 import { handleLogout } from '../../utils';
 import DisplayTable from '../displayTable/displayTable.js';
@@ -32,7 +33,9 @@ function Portal() {
     else  
       setMainComponent(<PortalHome />,false);
     reRender();
-  }}> 🔔 </button>;
+  }} className='notification'>
+     🔔 
+  </button>;
 
   useEffect(() => {
     if (getToken()) {
@@ -67,21 +70,19 @@ function Portal() {
   },[]);
   
   if (!userData.current) 
-    return <div>{mainComponent||'Loading...'}</div>;
+    return <Container>{mainComponent||'Loading...'}</Container>;
   
   return (
-    <div className="homepage">
-      <div className="sidebar">
-        <SideBar {...{setMainComponent,userData:userData.current,reRender}}/>
-      </div>
-      <div className="log-out">
-        <NotificationBell/>
-        <button onClick={()=>handleLogout(()=>window.location.href='/')}>Log Out</button>    
-      </div>
-      <div className="main-content">
-        {renderCnt%2?mainComponent:<div>{mainComponent}</div>}
-      </div>
-    </div>
+    <Container sx={{ bgcolor: '#fffafa', minHeight: '100vh', minWidth: '100vw', display: 'flex', padding: 0, margin: 0,overflow: 'hidden' }}>
+      <Box display="flex" width="100%">
+        <SideBar {...{ setMainComponent, userData:userData.current, reRender }}/>
+        <Box component="main" flexGrow={1} p={3}>
+          <NotificationBell />
+          <button color="error" variant="container" className='log-out' onClick={() => handleLogout(() => window.location.href='/')}>Log Out</button>
+          <div key={renderCnt}>{mainComponent}</div>
+        </Box>
+      </Box>
+    </Container>
   );
 }
 
