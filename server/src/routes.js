@@ -42,5 +42,6 @@ module.exports={
     "monthly_visit":access(m,n),
     "animals_view":access(m,n),
     "animal_health_view":access(m,n),
+    "alerts":access(m,n)
   }
 }

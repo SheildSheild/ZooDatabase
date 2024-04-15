@@ -25,9 +25,11 @@ function DisplayTable({route, hasDataEntry, defaultValues}){
   const Name=parseName(cleanRoute.substring(1));
   const ID=getID(Name);
 
+
   useEffect(() => {
     (async ()=>{
       const newData=await getData(route);
+      console.log('Hello');
       if(newData.status){
         setDataEntry('Error: '+newData.message);
         return;

@@ -20,7 +20,7 @@ export default function PurchaseHistory() {
             }
             else {
                 setPurchasesData(data);
-                console.log(data);
+                //console.log(data);
                 let dataColumns = [];
                 for(let prop in data[0]) {
                     dataColumns.push(prop);
@@ -47,7 +47,7 @@ export default function PurchaseHistory() {
                 }
                 setTicketData(data);
                 setTicketColumns(dataColumns);
-                console.log(data);
+                //console.log(data);
             }
         })
         .catch(err=>setErrorMessage('Error: '+err));
@@ -85,6 +85,7 @@ export default function PurchaseHistory() {
                             ))}
                         </TableBody>
                     </Table>
+                    {/* <DisplayTable route={'/purchases?Customer_ID='+getID()}/> */}
                 </center>
             </div>
             <br/>
@@ -93,7 +94,7 @@ export default function PurchaseHistory() {
             </div>
             <div className="purchase container">
                 <center>
-                    <Table>
+                    {/* <Table>
                         <TableHead>
                             <TableRow>
                                 {ticketColumns.map((prop, index) => (
@@ -114,7 +115,8 @@ export default function PurchaseHistory() {
                                 </TableRow>
                             ))}
                         </TableBody>
-                    </Table>
+                    </Table> */}
+                    <DisplayTable route={'/tickets?Customer_ID='+getID()}/>
                 </center>
                 
             </div>
