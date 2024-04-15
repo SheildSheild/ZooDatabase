@@ -10,6 +10,5 @@ export default function Navbar({links}){
       </li>
     ))}
   </ul>
-  <br/><br/>
   </>;
 }
