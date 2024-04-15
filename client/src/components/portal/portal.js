@@ -1,6 +1,7 @@
 import { useEffect, useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 import './portal.css';
+import { Container, Box, Button } from '@mui/material';
 import { getData } from '../../communication';
 import { handleLogout } from '../../utils';
 import PayStub from '../payStub/payStub';
@@ -50,21 +51,19 @@ function Portal() {
   },[]);
   
   if (!userData) 
-    return <div>{mainComponent||'Loading...'}</div>;
+    return <Container>{mainComponent||'Loading...'}</Container>;
 
   return (
-    <div className="homepage">
-      <div className="sidebar">
-        <SideBar {...{setMainComponent,userData,reRender}}/>
-      </div>
-      <div className="main-content">
+    <Container sx={{ bgcolor: '#fffafa', minHeight: '100vh', minWidth: '100vw', display: 'flex', padding: 0, margin: 0,overflow: 'hidden' }}>
+      <Box display="flex" width="100%">
+        <SideBar {...{ setMainComponent, userData, reRender }}/>
+        <Box component="main" flexGrow={1} p={3}>
           <NotificationBell />
-      </div>
-      <button className="log-out" onClick={()=>handleLogout(()=>window.location.href='/')}>Log Out</button>
-      <div className="main-content">
-        {renderCnt%2?mainComponent:<div>{mainComponent}</div>}
-      </div>
-    </div>
+          <div key={renderCnt}>{mainComponent}</div>
+          <button color="error" variant="container" onClick={() => handleLogout(() => window.location.href='/')}>Log Out</button>
+        </Box>
+      </Box>
+    </Container>
   );
 }
 

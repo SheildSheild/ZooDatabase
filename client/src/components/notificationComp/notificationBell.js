@@ -6,7 +6,7 @@ export default function NotificationBell() {
 
   return (
     <div>
-      <button onClick={() => setShowNotifications(!showNotifications)}>
+      <button onClick={() => setShowNotifications(!showNotifications)} style={{ backgroundColor: 'transparent', border: 'none', outline: 'none', color: 'inherit', cursor: 'pointer', fontSize: '24px' }}>
         🔔
       </button>
       {showNotifications && <NotificationComponent />}
