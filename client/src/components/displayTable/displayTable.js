@@ -7,9 +7,7 @@ import { convertDataForDB,convertDataForDisplay,IDToName,renderCell,handleDialog
 import schema from '../../schema';
 
 let i=0;
-function DisplayTable({route, hasDataEntry, defaultValues}){
-  defaultValues=defaultValues||{};
-  console.log({hasDataEntry})
+function DisplayTable({route, hasDataEntry, defaultValues={}, columnFilter=()=>true}){
   const [data, setData] = useState([]);
   const [dataColumns,setDataColumns] = useState([]);
   const [foreignKeyMap,setForeignKeyMap] =useState({});
@@ -39,7 +37,8 @@ function DisplayTable({route, hasDataEntry, defaultValues}){
         columns=newData.columns;
       else
         for(let prop in newData[0])
-          columns.push(prop);
+          if(columnFilter(prop))
+            columns.push(prop);
 
       const newMap=await fetchNames(columns,ID);
       columns=columns.filter(col=>

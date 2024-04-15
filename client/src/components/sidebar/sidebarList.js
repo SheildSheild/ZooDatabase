@@ -7,6 +7,8 @@ import CustomerProfile from '../customerProfile'
 import TicketsPage from '../ticketsPage';
 import PayStub from '../payStub';
 
+const passwordFilter=col=>col!='Password';
+
 const customerLinks = [
   { text: 'View Profile', onClick: (userData,setMainComponent)=>{
     setMainComponent(<CustomerProfile/>);
@@ -43,6 +45,9 @@ const managerLinks = [
   } },
   { text: 'Employee TimeSheet', onClick: (userData,setMainComponent)=>{
     setMainComponent(<DisplayTable route='\timesheets' hasDataEntry/>)
+  } },
+  { text: 'Edit Employees', onClick: (userData,setMainComponent)=>{
+    setMainComponent(<DisplayTable route='\employees' hasDataEntry columnFilter={passwordFilter}/>)
   } },
   { group:'Schedules',text: 'Edit Employee Schedules', onClick: (userData,setMainComponent)=>{
     setMainComponent(<ManageSchedule route='\employee_schedules'/>)
