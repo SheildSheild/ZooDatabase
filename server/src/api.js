@@ -77,8 +77,6 @@ function api(req,res,query,body,name,db) {
         });
       };
     break;
-  default:
-    break;
   }
   if(access=='All')
     next();
