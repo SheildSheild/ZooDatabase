@@ -3,9 +3,8 @@
 }
 
 #outer-table-container {
-  background: var(--lightI);
-  border-radius: 1.5rem;
-  padding: 0.5rem;
+  border-radius: 0rem;
+  padding: 0rem;
   overflow: auto;
   max-height: 60vh;
 }

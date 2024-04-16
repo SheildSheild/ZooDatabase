@@ -6,7 +6,8 @@ import Report from '../report';
 import CustomerProfile from '../customerProfile'
 import TicketsPage from '../ticketsPage';
 import PayStub from '../payStub';
-import PurchaseHistory from '../purchaseHistory'
+
+const passwordFilter=col=>col!='Password';
 
 const customerLinks = [
   { text: 'View Profile', onClick: (userData,setMainComponent)=>{
@@ -16,10 +17,19 @@ const customerLinks = [
     setMainComponent(<TicketsPage/>);
   }},
   { text: 'Purchase History', onClick: (userData,setMainComponent)=>{
-    setMainComponent(<PurchaseHistory/>);
+    setMainComponent(<DisplayTable route={'/purchases?Customer_ID='+userData.Customer_ID}/>);
+  }},
+  { text: 'Ticket Purchase History', onClick: (userData,setMainComponent)=>{
+    setMainComponent(<DisplayTable route={'/tickets?Customer_ID='+userData.Customer_ID}/>);
   }},
   { group:'Schedules', text:"View Animal Schedules", onClick: (userData,setMainComponent)=>{
-    setMainComponent(<ViewSchedule route='\animal_schedules'/>)
+    setMainComponent(<ViewSchedule route='\animal_schedules' title='Animal Schedule'/>)
+  }},
+  { group:'Schedules', text:"View Habitat Schedules", onClick: (userData,setMainComponent)=>{
+    setMainComponent(<ViewSchedule route='\habitat_schedules' title='Habitat Schedule'/>)
+  }},
+  { group:'Schedules', text:"View Shop Schedules", onClick: (userData,setMainComponent)=>{
+    setMainComponent(<ViewSchedule route='\shop_schedules' title='Shop Schedule'/>)
   }},
 ];
 
@@ -30,13 +40,13 @@ const employeeLinks = [
 ]
 
 const medicLinks = [
-  { text: 'Edit Medical Records', onClick: (userData,setMainComponent)=>{
+  { group:'Animals',text: 'Edit Medical Records', onClick: (userData,setMainComponent)=>{
     setMainComponent(<DisplayTable route='\animal_health' hasDataEntry/>)
   } },
 ]
 
 const managerLinks = [
-  { text: 'Edit Animals List', onClick: (userData,setMainComponent)=>{
+  { group:'Animals',text: 'Edit Animals List', onClick: (userData,setMainComponent)=>{
     setMainComponent(<DisplayTable route='\animals' hasDataEntry/>)
   } },
   { text: 'Edit Purchases', onClick: (userData,setMainComponent)=>{
@@ -44,6 +54,9 @@ const managerLinks = [
   } },
   { text: 'Employee TimeSheet', onClick: (userData,setMainComponent)=>{
     setMainComponent(<DisplayTable route='\timesheets' hasDataEntry/>)
+  } },
+  { text: 'Edit Employees', onClick: (userData,setMainComponent)=>{
+    setMainComponent(<DisplayTable route='\employees' hasDataEntry columnFilter={passwordFilter}/>)
   } },
   { group:'Schedules',text: 'Edit Employee Schedules', onClick: (userData,setMainComponent)=>{
     setMainComponent(<ManageSchedule route='\employee_schedules'/>)

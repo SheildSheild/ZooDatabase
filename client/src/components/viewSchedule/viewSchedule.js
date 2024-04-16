@@ -5,7 +5,7 @@ import { getData } from "../../communication";
 import { getID, parseName } from "../../utils";
 
 
-function ViewSchedule({route,ID}){
+function ViewSchedule({route,title,ID}){
   const [eventList,setEventList]=useState([]);
   const [errorMessage,setErrorMessage]=useState('');
 
@@ -33,7 +33,11 @@ function ViewSchedule({route,ID}){
     .catch(err=>setErrorMessage('Error: '+err))
   },[]);
   return <center>
+    <br/>
     <h1>{errorMessage}</h1>
+    <div className="banner">
+      <h1>{title}</h1>
+    </div>
     <MyCalendar events={eventList}/>
   </center>;
 }

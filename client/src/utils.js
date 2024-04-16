@@ -101,7 +101,10 @@ async function fetchNames(props,ID){
       const out={IDToName:{},NameToID:{},ID:foreignKey};
       out.IDToName[null]=null;
       out.NameToID[null]=null;
-      //console.log(foreignKey,actualKey,data)
+      if(data.status)
+        throw Error((data?.message||"failed to fetch Names of ids")+" for foreign key: "+foreignKey);
+      if(data.columns)
+        return out;
       for(let tuple of data){
         if(tuple[actualKey]==null)
           continue;

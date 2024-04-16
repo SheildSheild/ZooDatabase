@@ -1,5 +1,6 @@
 import ManyToManyDialog from "../ManyToManyDialog";
 import { formatDate } from "../../utils";
+import DisplayTable from "./displayTable";
 
 const NameToID=(name,map)=>
   name.substring(0,name.length-2)+'ID';
@@ -34,8 +35,9 @@ const renderCell = (value, prop) => {
   return value;
 };
 
-const handleDialogOpen = (rowData,destination,Name,ID,setDialog) => 
+const handleDialogOpen = (DisplayTable,rowData,destination,Name,ID,setDialog) => 
   setDialog(<ManyToManyDialog
+    DisplayTable={DisplayTable}
     originTableName={Name}
     originRowID={rowData[ID]} 
     originRowName={rowData.Name+' ID: '+rowData[ID]}

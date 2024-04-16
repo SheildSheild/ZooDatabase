@@ -8,9 +8,9 @@
 
 .login-box {
     position: relative;
-    top: 60%;
+    /* top: 60%;
     left: 55%;
-    transform: translate(-10%, 60%);
+    transform: translate(-10%, 60%); */
     width: 30%; /* Adjust width as necessary */
     padding: 20px;
     background: #ffffff;
@@ -33,39 +33,38 @@
     margin-bottom: 3px;
 }
 
-.login-box input[type="email"],
-.login-box input[type="password"] {
-    width: calc(100% - 20px);
-    box-sizing: border-box;
-    border: 1px solid #5a5757;
-    border-radius: 4px; /* Optional: for rounded input fields */
+.login-form input[type="email"],
+.login-form input[type="password"],
+.signup-form input[type="text"],
+.signup-form input[type="email"],
+.signup-form input[type="tel"],
+.signup-form input[type="password"] {
+    width: 100%; /* Full width */
+    padding: 8px 10px; /* Adequate padding */
+    margin: 8px 0; /* Spacing between fields */
+    display: block;
+    border: 1px solid #ccc; /* Subtle border */
+    box-sizing: content-box; /* Include padding and border in the element's total width and height */
+    border-radius: 4px; /* Rounded corners */
 }
 
-.login-box input[type="submit"] {
-    width: calc(100% - 20px);
-    border: 1px solid #ddd;
-    border-radius: 10px; /* Optional: for rounded input fields */
-}
-
-.login-box input[type="submit"] {
-    background-color: #f54646; /* Adjust button color */
+.signup-form input[type="submit"],
+.login-form input[type="submit"] {
+    width: 80%; /* Ensure submit button also spans full width */
+    padding: 10px; /* Comfortable click area */
+    background-color: #cd4848; /* A nice green */
     color: white;
+    border: none;
+    border-radius: 4px;
     cursor: pointer;
-}
-
-/* Optional: Enhance focus state for accessibility */
-.login-box input[type="email"]:focus,
-.login-box input[type="password"]:focus {
-    border-color: #ff5757;
-    outline:#000;
 }
 
 .overlay-content2 {
     font-size: 4vw;
     position: absolute;
-    top: 55%;
+    /* top: 55%;
     left: 40%;
-    transform: translate(-100%, -65%);
+    transform: translate(-100%, -65%); */
     text-align: left;
     text-shadow: -0.5px -0.5px 0 #000, 0.5px -0.5px 0 #000, -0.5px 1px 0 #000, 0.5px 0.5px 0 #000;
   }
@@ -75,4 +74,51 @@
     width: 30%;
     right: -5%;
     bottom: 91%;
+}
+
+.form-container {
+    position: absolute;
+    width: 360px;
+    margin: 100px auto;
+    background: white;
+    padding: 20px;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+    border-radius: 8px;
+    transition: all 0.3s ease;
+    left: 70%;
+    top: 20%; /* Adjust the top percentage to where you want the top of the box to start */
+    transform: translateX(-50%);
+}
+
+.toggle-buttons {
+    display: flex;
+    justify-content: space-around; /* Evenly space the buttons */
+    margin-bottom: 20px;
+}
+
+.toggle-buttons button {
+    padding: 10px 20px;
+    cursor: pointer;
+    border: none;
+    background-color: #414141;
+    border-radius: 5px;
+}
+
+.toggle-buttons .active {
+    background-color: #f54646;
+    color: white;
+}
+
+.arrow-pointing {
+    position: absolute;
+    width: 80%;
+    right: 16%;
+    bottom: 95%;
+   }
+
+.arrow-pointing2 {
+position: absolute;
+width: 80%;
+right: 12%;
+bottom: 97%;
 }
