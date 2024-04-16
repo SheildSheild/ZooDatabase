@@ -36,32 +36,39 @@ export default function CustomerSignUp() {
     <>
     <Navbar links={links} />
     <br></br>
+    <br/>
+    <br/>
         <center>
-            <h1><strong>Customer Sign Up</strong></h1>
-            {errorMessage && <p className="error">{errorMessage}</p>}
-            <form onSubmit={handleSubmit}>
-                <label for="name">Name: </label>
-                <input type="text" id="name" name="Name" required />
-                <br />
-                <br />
-                <label for="Email">Email: </label>
-                <input type="email" id="Email" name="Email" required />
-                <br />
-                <br />
-                <label for="Address">Address: </label>
-                <input type="address" id="address" name="Address" required/>
-                <br />
-                <br />
-                <label for="Phone">Phone Number: </label>
-                <input type="phone" id="Phone" name="Phone" required/>
-                <br />
-                <br />
-                <label for="Password">Password: </label>
-                <input type="password" id="Password" name="Password" required />
-                <br />
-                <br />
-                <input type="submit" value="Go!" />
+            <div className='banner'>
+                <h1><strong>Customer Sign Up</strong></h1>
+            </div>
+            
+            <div className='option container'>
+                {errorMessage && <p className="error">{errorMessage}</p>}
+                <form onSubmit={handleSubmit}>
+                    <label for="name">Name: </label>
+                    <input type="text" id="name" name="Name" required />
+                    <br />
+                    <br />
+                    <label for="Email">Email: </label>
+                    <input type="email" id="Email" name="Email" required />
+                    <br />
+                    <br />
+                    <label for="Address">Address: </label>
+                    <input type="address" id="address" name="Address" required/>
+                    <br />
+                    <br />
+                    <label for="Phone">Phone Number: </label>
+                    <input type="phone" id="Phone" name="Phone" required/>
+                    <br />
+                    <br />
+                    <label for="Password">Password: </label>
+                    <input type="password" id="Password" name="Password" required />
+                    <br />
+                    <br />
+                    <input type="submit" value="Go!" />
                 </form>
+            </div>
         </center>
     </>
     )

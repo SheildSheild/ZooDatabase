@@ -17,31 +17,39 @@ function LostAndFoundReport() {
         ev.preventDefault();
         const form = ev.target;
         const data = {};
+        if (getID() !== null) {
+            data['Customer_ID'] = getID();
+        }
         data["Description"] = form["Description"].value;
-        // onSubmit(data);
         postData('/lost_items', data).then(val=>{
             if (!val) {
                 console.error('Unable to add lost item');
             }
             else {
                 console.log("Successfully added lost item!");
+                // console.log(val);
             }
         })
-        // console.log(data);
         form.reset();
     };
     return (
         <>
         <Navbar links={links}/>
         <center>
-        <h1>Report Lost Item</h1>
-        <form onSubmit={handleSubmit}>
-        <label htmlFor="Description"></label>
-        <input type="text" name="Description"></input>
-        <br/>
-        <br/>
-        <button type="submit">Submit</button>
-        </form>
+            <br/>
+            <br/>
+            <div className = "banner">
+                <h2>Report Lost Item</h2>
+            </div>
+            <div className='option container'>
+                <form onSubmit={handleSubmit}>
+                <label htmlFor="Description"></label>
+                <input type="text" name="Description"></input>
+                <br/>
+                <br/>
+                <button type="submit">Submit</button>
+                </form>
+            </div>
         </center>
         </>
     )

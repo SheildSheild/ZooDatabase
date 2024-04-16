@@ -77,7 +77,7 @@ function Portal() {
       <Box display="flex" width="100%">
         <SideBar {...{ setMainComponent, userData:userData.current, reRender }}/>
         <Box component="main" flexGrow={1} p={3} sx={{overflow:'hidden',height:'100%'}}>
-          <NotificationBell />
+          {getRole() === 'Manager' && <NotificationBell/>}
           <button color="error" variant="container" className='log-out' onClick={() => handleLogout(() => window.location.href='/')}>Log Out</button>
           <div key={renderCnt}>{mainComponent}</div>
         </Box>

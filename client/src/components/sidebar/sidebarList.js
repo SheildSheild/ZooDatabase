@@ -19,8 +19,17 @@ const customerLinks = [
   { text: 'Purchase History', onClick: (userData,setMainComponent)=>{
     setMainComponent(<DisplayTable route={'/purchases?Customer_ID='+userData.Customer_ID}/>);
   }},
+  { text: 'Ticket Purchase History', onClick: (userData,setMainComponent)=>{
+    setMainComponent(<DisplayTable route={'/tickets?Customer_ID='+userData.Customer_ID}/>);
+  }},
   { group:'Schedules', text:"View Animal Schedules", onClick: (userData,setMainComponent)=>{
-    setMainComponent(<ViewSchedule route='\animal_schedules'/>)
+    setMainComponent(<ViewSchedule route='\animal_schedules' title='Animal Schedule'/>)
+  }},
+  { group:'Schedules', text:"View Habitat Schedules", onClick: (userData,setMainComponent)=>{
+    setMainComponent(<ViewSchedule route='\habitat_schedules' title='Habitat Schedule'/>)
+  }},
+  { group:'Schedules', text:"View Shop Schedules", onClick: (userData,setMainComponent)=>{
+    setMainComponent(<ViewSchedule route='\shop_schedules' title='Shop Schedule'/>)
   }},
 ];
 

@@ -39,6 +39,8 @@ export default function TicketsPage(){
     }
 
     return(<>
+        <br/>
+        <br/>
         <div className = "banner">
             <h1>Welcome to the Cougar Zoo!</h1>
         </div>

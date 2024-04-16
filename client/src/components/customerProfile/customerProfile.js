@@ -27,16 +27,21 @@ export default function CustomerProfile() {
     }
     else {
         return <>
-            <div>
-            <center>
-            <h1>My Profile</h1>
-            <img src={user} alt='Default user photo'></img>
-            <h2>Name: {customer[0].Name}</h2>
-            <h3>Email: {customer[0].Email}</h3>
-            <h4>Address: {customer[0].Address}</h4>
-            <h4>Phone: {customer[0].Phone}</h4>
-            </center>
+            <br/>
+            <br/>
+            <div className='banner'>
+                <h1>Welcome {customer[0].Name}!</h1>
             </div>
+            <center className='option container'>
+                <div>
+                <img src={user} alt='Default user photo'></img>
+                <h2>Name: {customer[0].Name}</h2>
+                <h3>Email: {customer[0].Email}</h3>
+                <h4>Address: {customer[0].Address}</h4>
+                <h4>Phone: {customer[0].Phone}</h4>
+                </div>
+            </center>
+            
         </>
     }
 }
