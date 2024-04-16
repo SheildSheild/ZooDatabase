@@ -7,7 +7,7 @@ export default function AboutUsPage() {
     // check if logged in!
 
     // var links = ["homepage", "customerSignUp", "login", "animalPage", "aboutUsPage"];
-    var links = [["homepage", "Home"], ["customerSignUp", "Customer Sign Up"], ["login", "Customer Login"], ["employeeLogin", "Employee Login"], ["animalPage", "Our Animals"], ["aboutUsPage", "About Us"], ["makeAComplaint", "Any Complaints?"], ["lostAndFoundReport", "Lost somthing?"]];
+    var links = [["homepage", "Home"], ["customerSignUp", "Login"], ["animalPage", "Our Animals"], ["aboutUsPage", "About Us"], ["makeAComplaint", "Any Complaints?"], ["lostAndFoundReport", "Lost somthing?"]];
     if (isLoggedIn) {
         links = [["homepage", "Home"], ["animalPage", "Our Animals"],["portal","User Portal"],["aboutUsPage", "About Us"], ["makeAComplaint", "Any Complaints?"], ["lostAndFoundReport", "Lost somthing?"]];
     }
