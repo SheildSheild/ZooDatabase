@@ -19,7 +19,7 @@ module.exports={
     "animals":access(a,m),
     "shops":access(a,m),
     "restaurants":access(a,m),
-    "employees":access(m,m),
+    "employees":access(e,e),
     "animal_health":access(em,em),
     "items":access(ce,m,cm),
     "customers":access(cm,a),

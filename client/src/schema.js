@@ -10,13 +10,15 @@ const schema={
     Birth_Date: {type:"date",text:"Birth Date:"},
   },
   Employees:{
-    Fname: {type:"number",text:"Employee Name:"},
-    Lname: {type:"number",text:"Employee Name:"},
+    Role: {type:"enum",text:"Role", enum:['Employee','Manager','Medic']},
+    Name: {type:"text",text:"Employee Name:"},
     Email: {type:"email",text:"Employee Email:"},
+    Address: {type:"text",text: "Employee Address:"},
     Start_Date: {type:"date",text:"Employee Start Date:"},
     Birth_Date: {type:"date",text:"Employee Birth Date:"},
     SSN: {type:"number",text:"Employee SSN:"},
-    Gender: {type:"enum", text:"Select Gender:", enum:['Male','Female','Other']}
+    Gender: {type:"enum", text:"Select Gender:", enum:['Male','Female','Other']},
+    Password: {type:"text",text:"Employee Password"}
   },
   Animal_Health:{
     Primary_Doctor_ID: {type:"number",text:"Primary Doctor:"},
