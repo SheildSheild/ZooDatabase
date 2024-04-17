@@ -58,6 +58,9 @@ const managerLinks = [
   { text: 'Edit Employees', onClick: (userData,setMainComponent)=>{
     setMainComponent(<DisplayTable route='\employees' hasDataEntry columnFilter={passwordFilter}/>)
   } },
+  { text: 'Edit Restaurants', onClick: (userData,setMainComponent)=>{
+    setMainComponent(<DisplayTable route='\restaurants' hasDataEntry/>)
+  } },
   { group:'Schedules',text: 'Edit Employee Schedules', onClick: (userData,setMainComponent)=>{
     setMainComponent(<ManageSchedule route='\employee_schedules'/>)
   } },
@@ -73,8 +76,11 @@ const managerLinks = [
   { text: 'Employee Paystub', onClick: (userData,setMainComponent)=>{
     setMainComponent(<PayStub/>)
   } },
-  { text: 'View Revenue Report', onClick: (userData,setMainComponent)=>{
+  { text: 'View Shop Revenue Report', onClick: (userData,setMainComponent)=>{
     setMainComponent(<Report route='/shop_revenue' title='Report Revenue From Shop'/>)
+  } },
+  { text: 'View Ticket Revenue Report', onClick: (userData,setMainComponent)=>{
+    setMainComponent(<Report route='/ticket_monthly_revenue' title='Report Revenue From Tickets'/>)
   } },
 ];
 

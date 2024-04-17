@@ -4,6 +4,7 @@ import './makeAComplaint.css'
 import Navbar from '../navBar/navBar';
 
 export default function MakeAComplaint() {
+    const [errorMessage, setErrorMessage] = useState(null);
     const token = localStorage.getItem('token');
     const getID=()=>localStorage.getItem('userId'); 
     const isLoggedIn = token != null;
@@ -20,15 +21,20 @@ export default function MakeAComplaint() {
         data['Description'] = form['Description'].value;
         data['Date_Created'] = new Date().toISOString().slice(0, 19).replace('T', ' ');
         postData('/complaints', data).then(val=>{
-            if (!val) {
+            if (val['message'] === 'Error adding Complaints') {
                 console.error('Unable to add complaint');
+                setErrorMessage('Unable to add complaint: Message too long.')
             }
             else {
                 console.log('Successfully added complaint');
-                // console.log(val);
+                console.log(val);
+                form.reset();
             }
-        })
-        form.reset();
+        }).catch((error) => {
+            setErrorMessage('An error occurred during submission. Please try again.'); // Set error message in case of promise rejection
+            console.log('hello');
+        });
+        
     }
     return (
     <>
@@ -45,6 +51,7 @@ export default function MakeAComplaint() {
                 <br/>
                 <br/>
                 <button type='submit'><b>Submit</b></button>
+                {errorMessage && <p className="error-message">{errorMessage}</p>}
             </form>
         </div>
         </center>
