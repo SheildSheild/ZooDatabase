@@ -94,6 +94,7 @@ function Portal() {
         <SideBar {...{ setMainComponent, userData:userData.current, reRender, editProfile }}/>
         <Box component="main" flexGrow={1} p={3} sx={{overflow:'hidden',height:'100%'}}>
           {getRole() === 'Manager' && <NotificationBell/>}
+          {getRole() === 'Customer' && <button onClick={editProfile}>Edit Profile</button>}
           <button onClick={editProfile}>Edit Profile</button>
           <button color="error" variant="container" className='log-out' onClick={() => handleLogout(() => window.location.href='/')}>Log Out</button>
           <div key={renderCnt}>{mainComponent}</div>
