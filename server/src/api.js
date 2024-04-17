@@ -1,8 +1,8 @@
 const {
-  parseBody,parseQuery,parseName,
+  parseBody,parseQuery,parseName, getID,
   onError,onBadRequest,onNotFound,onSuccess,
   handleLogin,encryptPassword,describeTable,
-  authenticateToken,authorizeRoles, getID
+  authenticateToken,authorizeRoles, cleanSQLInput
 } = require('./api_helper');
 const {routes}=require('./routes');
 
@@ -15,6 +15,10 @@ function api(req,res,query,body,name,db) {
   }
   const NAME=name.toUpperCase();
   const Name=parseName(name);
+  const cleanedQuery={};
+  for(let param in query)
+    cleanedQuery[cleanSQLInput(param)]=cleanSQLInput(query[param]);
+  query=cleanedQuery;
 
   let next=()=>{};
 
@@ -40,6 +44,7 @@ function api(req,res,query,body,name,db) {
   case 'POST':
     next=()=>{
       req.on('end', async () => {
+        body.forEach((val,i,arr)=>arr[i]=cleanSQLInput(val));
         const {dataNames,dataValues}=parseBody(body);
         if(name=='customers'||name=='employees') await encryptPassword(dataNames,dataValues);
         const sql = `INSERT INTO ${NAME}(${dataNames}) VALUES (${dataValues})`;
@@ -67,6 +72,7 @@ function api(req,res,query,body,name,db) {
     else
       next=()=>{
         req.on('end', () => {
+          body.forEach((val,i,arr)=>arr[i]=cleanSQLInput(val));
           const values=parseQuery(JSON.parse(body.join('')));
           const sql = `UPDATE ${NAME} SET ${values} WHERE ${ID} = ${query[ID]}`;
           db.query(sql, (err, result) => {

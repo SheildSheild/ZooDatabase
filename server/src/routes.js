@@ -33,7 +33,7 @@ module.exports={
     "timesheets":access(e,m),
     "attends_to":access(e,m),
     "purchases":access(cm,m),
-    "tickets":access(cm,m),
+    "tickets":access(cm,a),
     "login_customers":access(a,c),
     "login_employees":access(a,m),
     "shop_revenue":access(m,n),

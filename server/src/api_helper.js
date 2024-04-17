@@ -129,9 +129,23 @@ function describeTable(req,res,NAME,db){
   })
 }
 
+function cleanSQLInput(string){
+  const cleaned=[];
+  for(let c of string){
+    if(c=="'")
+      cleaned.push("\\\\'")
+    else if(c=="\\")
+      cleaned.push("\\\\")
+    else
+      cleaned.push(c)
+  }
+  console.log(`prev: ${string}, cleaned: ${cleaned.join('')}`)
+  return cleaned.join('');
+}
+
 module.exports={
   parseBody,parseQuery,parseName,getID,
   onError,onBadRequest,onNotFound,onSuccess,onUnauthorized,
   handleLogin,encryptPassword,describeTable,
-  authenticateToken,authorizeRoles
+  authenticateToken,authorizeRoles,cleanSQLInput
 };
