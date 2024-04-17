@@ -6,7 +6,6 @@ import { getData} from '../../communication';
 import { handleLogout } from '../../utils';
 import DisplayTable from '../displayTable/displayTable.js';
 import SideBar from '../sidebar';
-import UserProfileForm from './editUserProfile.js';
 
 const getToken=()=>localStorage.getItem('token');
 const getRole=()=>localStorage.getItem('role');
@@ -27,21 +26,6 @@ function Portal() {
   const PortalHome=()=><>
     <h1>Welcome back, {userData.current.Email}!</h1>
   </>;
-
-  
-  const handleProfileUpdateSuccess = (message) => {
-    console.log('Update success:', message);
-    alert(`test: ${message}`);
-    setMainComponent(<PortalHome />);
-  };
-
-  const handleProfileUpdateError = (errorMessage) => {
-    alert(`Failed to update proile: ${errorMessage}`);
-  };
-
-  const editProfile = () => {
-    setMainComponent(<UserProfileForm userData={userData.current} onSuccess={handleProfileUpdateSuccess} onError={handleProfileUpdateError} />);
-  };
 
   const NotificationBell=()=><button onClick={() => {
     if(!showNotifications)
@@ -91,10 +75,9 @@ function Portal() {
   return (
     <Container sx={{ bgcolor: '#fffafa', minHeight: '100vh', minWidth: '100vw', display: 'flex', padding: 0, margin: 0,overflow: 'hidden' }}>
       <Box display="flex" width="100%">
-        <SideBar {...{ setMainComponent, userData:userData.current, reRender, editProfile }}/>
+        <SideBar {...{ setMainComponent, userData:userData.current, reRender}}/>
         <Box component="main" flexGrow={1} p={3} sx={{overflow:'hidden',height:'100%'}}>
           {getRole() === 'Manager' && <NotificationBell/>}
-          <button onClick={editProfile}>Edit Profile</button>
           <button color="error" variant="container" className='log-out' onClick={() => handleLogout(() => window.location.href='/')}>Log Out</button>
           <div key={renderCnt}>{mainComponent}</div>
         </Box>
