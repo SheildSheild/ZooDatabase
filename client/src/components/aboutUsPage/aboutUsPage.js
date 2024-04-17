@@ -27,7 +27,7 @@ export default function AboutUsPage() {
                     through accessible, accurate, and engaging information.</h4>
                 <br/>
                 <h3>Our Story:</h3>
-                <h4>Founded in 2020 by a group of wildlife enthusiasts and data scientists, 
+                <h4>Founded in 2023 by a group of wildlife enthusiasts and data scientists, 
                     The Cougar Zoo Database began as a small project aimed at cataloging the diverse 
                     species housed in our local zoo. Today, it has grown into a comprehensive resource, 
                     offering detailed information on thousands of animals from zoos around the world, 
@@ -36,7 +36,7 @@ export default function AboutUsPage() {
                 <h3>Meet the Team:</h3>
                 <h4>Behind The Cougar Zoo Database Database is a team of dedicated professionals ranging from zoologists
                     to software engineers, all united by a shared passion for wildlife conservation. 
-                    Meet Jane Doe, our lead zoologist, who has spent over a decade studying African 
+                    Meet Sebastian, Quang, Talha, Arshia, and Keean our lead zoologists, who has spent over a decade studying African 
                     elephants in the wild, and John Smith, our chief technology officer, who ensures 
                     our database runs smoothly and securely.</h4>
                 <br/>

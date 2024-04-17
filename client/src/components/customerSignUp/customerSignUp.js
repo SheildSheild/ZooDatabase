@@ -45,9 +45,6 @@ function ToggleForm() {
                                     <button onClick={() => setIsLogin(false)} className={!isLogin ? "active" : ""}>Sign Up</button>
                                 </>
                             )}
-                            {userType === 'employees' && (
-                                <button onClick={() => setIsLogin(true)} className="active">Login</button>
-                            )}
                         </div>
                         {isLogin ? <LoginForm link={userType} /> : userType === 'customers' && <SignUpForm link={userType} />}
                     </>
@@ -121,7 +118,7 @@ function SignUpForm() {
         })
         .then((data) => {
             if (data&&data.message&&data.message?.endsWith('successfully')) 
-                navigate('/login'); // Redirect on success
+                navigate('/homepage'); // Redirect on success
             else 
                 setErrorMessage('Failed to register. Please try again.');
         })
@@ -134,7 +131,7 @@ function SignUpForm() {
     return     (
         
     <>
-    <Navbar links={links} />
+    
     <br></br>
     <br/>
     <br/>

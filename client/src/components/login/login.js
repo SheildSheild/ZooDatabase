@@ -1,14 +1,60 @@
-import "./login.css"
+import "../login/login.css"
 import Navbar from '../navBar/navBar';
 import { getData } from "../../communication";
-import { useNavigate } from 'react-router-dom'
+import { postData } from '../../communication';
+import { useNavigate } from 'react-router-dom';
 import { useState } from 'react';
 import dayjs from "dayjs";
 import parrotPic from '../imageFiles/parrots.jpg';
 import danceDuck from '../imageFiles/duckdance.gif';
+import arrowSignIn from '../imageFiles/arrow2.png';
+import arrowLogin from '../imageFiles/arrow3.png';
 
-function Login({link}){
+function ToggleForm() {
+    const [isLogin, setIsLogin] = useState(true);
+    const [userType, setUserType] = useState(null); // null initially, 'customers' or 'employees'
     const links = [["homepage", "Home"], ["customerSignUp", "Login"], ["animalPage", "Our Animals"], ["aboutUsPage", "About Us"], ["makeAComplaint", "Any Complaints?"], ["lostAndFoundReport","Lost somthing?"]];
+    
+    return (
+        <>
+            <Navbar links={links}/>
+            <br/>
+            <img src={parrotPic} className="backdrop1" alt="Parrot Background" />
+            <div className="overlay-content2">
+                <h2>
+                    <strong><em3><span>Welcome</span></em3><br />
+                    <em4>Back!</em4></strong>
+                </h2>
+            </div>
+            <div className="form-container">
+                {!userType ? (
+                    <div className="user-selection">
+                        <h2>Please select your login type:</h2>
+                        <button onClick={() => setUserType('customers')}>Customer</button>
+                        <button onClick={() => setUserType('employees')}>Employee</button>
+                    </div>
+                ) : (
+                    <>
+                    <img src={danceDuck} className="dancing-gif" alt="Dancing Duck" />
+                    {userType === 'customers' && isLogin && <img src={arrowSignIn} className="arrow-pointing" alt="Pointing arrow" />}
+                    {userType === 'customers' && !isLogin && <img src={arrowLogin} className="arrow-pointing2" alt="Pointing arrow" />}
+                        <div className="toggle-buttons">
+                            {userType === 'customers' && (
+                                <>
+                                    <button onClick={() => setIsLogin(true)} className={isLogin ? "active" : ""}>Login</button>
+                                    <button onClick={() => setIsLogin(false)} className={!isLogin ? "active" : ""}>Sign Up</button>
+                                </>
+                            )}
+                        </div>
+                        {isLogin ? <LoginForm link={userType} /> : userType === 'customers' && <SignUpForm link={userType} />}
+                    </>
+                )}
+            </div>
+        </>
+    );
+}
+
+function LoginForm({link}) {
     const navigate = useNavigate(); // navigates to next page upon customer login
     const [errorMessage, setErrorMessage] = useState(''); // stores error
 
@@ -36,40 +82,97 @@ function Login({link}){
         });
     };
 
-    return <>
-        <div className="navbar-comp">
-            <Navbar links={links}/>
-        </div>
-        <br/>
-        <img src={parrotPic} className="backdrop1" alt="Parrot Background" />
-        <div className="overlay-content2">
-            <h2>
-                <strong><em3><span>Welcome</span></em3><br />
-                <em4>Back!</em4></strong>
-            </h2>
-        </div>
-        <div className="login-box">
-        <h1><strong>Login</strong></h1>
-        <form onSubmit={handleLogin}>
+    return (
+        <form onSubmit={handleLogin} className="login-form">
             <div>
                 <label htmlFor="Email">Email:</label>
                 <input type="email" name="Email" id="Email" required />
             </div>
-            <br/> <br/>
             <div>
                 <label htmlFor="Password">Password:</label>
-                <input type="password" name="Password" id="Password" required/>
+                <input type="password" name="Password" id="Password" required />
             </div>
-            <br/> <br/>
-            <input type="submit" value="Go! "/>
+            <div>
+                <input type="submit" value="Login" />
+            </div>
             {errorMessage && <p className="error-message">{errorMessage}</p>}
         </form>
-            <img src={danceDuck} className="dancing-gif" alt="Dancing Duck" />
-        </div>
-    </>;
+    );
+    
 }
 
-const CustomerLogin=()=><Login link='customers'/>
-const EmployeeLogin=()=><Login link='employees'/>
+function SignUpForm() {
+    const navigate = useNavigate();
+    const [errorMessage, setErrorMessage] = useState('');
 
-export {EmployeeLogin,CustomerLogin};
+    const handleSubmit = (event) => {
+        event.preventDefault();
+        const { Name, Email, Address, Phone, Password } = event.target.elements;
+        
+        postData('/customers', {
+            Name: Name.value,
+            Address: Address.value,
+            Phone: Phone.value,
+            Email: Email.value, // Assuming email as username
+            Password: Password.value,
+        })
+        .then((data) => {
+            if (data&&data.message&&data.message?.endsWith('successfully')) 
+                navigate('/login'); // Redirect on success
+            else 
+                setErrorMessage('Failed to register. Please try again.');
+        })
+        .catch((error) => {
+            console.error('Registration error:', error);
+            setErrorMessage('An error occurred during registration.');
+        });
+    };
+    
+    return     (
+        
+    <>
+    
+    <br></br>
+    <br/>
+    <br/>
+        <center>
+            <div className='banner'>
+                <h1><strong>Customer Sign Up</strong></h1>
+            </div>
+            
+            <div className='option container'>
+                {errorMessage && <p className="error">{errorMessage}</p>}
+                <form onSubmit={handleSubmit}>
+                    <label for="name">Name: </label>
+                    <input type="text" id="name" name="Name" required />
+                    <br />
+                    <br />
+                    <label for="Email">Email: </label>
+                    <input type="email" id="Email" name="Email" required />
+                    <br />
+                    <br />
+                    <label for="Address">Address: </label>
+                    <input type="address" id="address" name="Address" required/>
+                    <br />
+                    <br />
+                    <label for="Phone">Phone Number: </label>
+                    <input type="phone" id="Phone" name="Phone" required/>
+                    <br />
+                    <br />
+                    <label for="Password">Password: </label>
+                    <input type="password" id="Password" name="Password" required />
+                    <br />
+                    <br />
+                    <input type="submit" value="Go!" />
+                </form>
+            </div>
+        </center>
+    </>
+    )
+}
+
+// export default ToggleForm;
+const CustomerLogin=()=><LoginForm link='customers'/>
+const EmployeeLogin=()=><LoginForm link='employees'/>
+
+export {ToggleForm,EmployeeLogin,CustomerLogin};
