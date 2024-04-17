@@ -19,12 +19,12 @@ module.exports={
     "animals":access(a,m),
     "shops":access(a,m),
     "restaurants":access(a,m),
-    "employees":access(m,m),
+    "employees":access(e,e),
     "animal_health":access(em,em),
-    "items":access(e,m,cm),
+    "items":access(ce,m,cm),
     "customers":access(cm,a),
-    "lost_items":access(e,e),
-    "complaints":access(m,c),
+    "lost_items":access(e,a),
+    "complaints":access(m,a),
     "schedule_types":access(m,m),
     "employee_schedules":access(e,m),
     "animal_schedules":access(ce,m),
@@ -42,6 +42,6 @@ module.exports={
     "monthly_visit":access(m,n),
     "animals_view":access(m,n),
     "animal_health_view":access(m,n),
-    "alerts":access(m,n)
+    "alerts":access(a,n)
   }
 }

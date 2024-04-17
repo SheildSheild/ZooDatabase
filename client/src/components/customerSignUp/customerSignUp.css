@@ -1,0 +1,41 @@
+.banner {
+    background-color: #c23535;
+    color: white;
+    text-align: center;
+    padding: 20px 0;
+}
+
+.purchase.container {
+    display: flex;
+    justify-content: space-around;
+    padding: 20px;
+}
+
+.purchase {
+    flex-basis: 45%;
+    padding: 20px;
+    box-shadow: 0 4px 8px 0 rgba(0,0,0,0.2);
+    transition: 0.3s;
+}
+
+.purchase:hover {
+    box-shadow: 0 8px 16px 0 rgba(0,0,0,0.2);
+}
+
+.purchase h2, .option p {
+    margin: 0;
+    padding: 10px 0;
+}
+
+.purchase button {
+    cursor: pointer;
+    padding: 10px 20px;
+    background-color: #961c1c;
+    color: white;
+    border: none;
+    border-radius: 5px;
+}
+
+.purchase button:hover {
+    background-color: #c52b2b;
+}

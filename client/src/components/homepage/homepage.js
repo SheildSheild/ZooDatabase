@@ -1,11 +1,9 @@
 import './homepage.css';
-import cougar from '../imageFiles/cougar.png';
 import Navbar from '../navBar/navBar';
 import { Link } from 'react-router-dom';
 import dayjs from 'dayjs';
 import { useState } from 'react';
 import zooVideo from '../imageFiles/Zoo_Homepage.mp4';
-import cougarLogo from '../imageFiles/Cougar_Logo.png';
 import HappyCoug from '../imageFiles/happyCoug.jpeg';
 import pointAnimal from '../imageFiles/pointingelephant.gif';
 import { handleLogout } from '../../utils';
@@ -21,7 +19,7 @@ export default function Homepage(){
     const isLoggedIn = token != null;
     
 
-    let links = [["homepage", "Home"], ["customerSignUp", "Customer Sign Up"], ["login", "Customer Login"], ["employeeLogin", "Employee Login"], ["animalPage", "Our Animals"], ["aboutUsPage", "About Us"], ["makeAComplaint", "Any Complaints?"], ["lostAndFoundReport","Lost somthing?"]];
+    let links = [["homepage", "Home"], ["customerSignUp", "Login"], ["animalPage", "Our Animals"], ["aboutUsPage", "About Us"], ["makeAComplaint", "Any Complaints?"], ["lostAndFoundReport","Lost somthing?"]];
     if (isLoggedIn) 
         links = [["homepage", "Home"], ["animalPage", "Our Animals"],["portal", "User Portal"],["aboutUsPage", "About Us"], ["makeAComplaint", "Any Complaints?"], ["lostAndFoundReport","Lost somthing?"]];
     
@@ -32,7 +30,6 @@ export default function Homepage(){
                 <source src={zooVideo} type="video/mp4" />
             </video>
             <div className="overlay-content">
-                {/* <img src={cougarLogo} alt="Cougar Zoo Logo" className="zoo-logo" /> */}
                 <h1>
                     <strong><em3><span>The</span></em3><br />
                     <em2>Cougar Zoo</em2><br />
@@ -47,7 +44,7 @@ export default function Homepage(){
                 {isLoggedIn ? (
                     <h4><center><button onClick={()=>handleLogout(reRender)}>Logout</button></center></h4>    
                 ) : (<>
-                    <h4><center>Returning user? <Link className='link' to='/login'>Login</Link></center></h4>
+                    <h4><center>Returning user? <Link className='link' to='/customerSignUp'>Login</Link></center></h4>
                     <h4><center>Don't have a account yet? <Link className='link' to="/customerSignUp">Sign Up</Link></center></h4>
                 </>
                 )}

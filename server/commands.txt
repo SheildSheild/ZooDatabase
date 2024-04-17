@@ -1,0 +1,15 @@
+  //sql password
+rasjeN-hibdix-1puzka
+
+  // access sql
+mysql -u root -p
+
+  // dump sql
+  // make sure you're in ZooDatabase
+mysqldump -u root -p Cougar_Zoo > Cougar_Zoo.sql
+
+  // access process running api server
+screen -r myscreen -d
+
+  // access process running react server
+screen -r myserve -d

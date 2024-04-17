@@ -1,8 +1,8 @@
 import { useEffect, useRef, useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 import './portal.css';
-import { Container, Box, Button } from '@mui/material';
-import { getData } from '../../communication';
+import { Container, Box} from '@mui/material';
+import { getData} from '../../communication';
 import { handleLogout } from '../../utils';
 import DisplayTable from '../displayTable/displayTable.js';
 import SideBar from '../sidebar';
@@ -75,9 +75,9 @@ function Portal() {
   return (
     <Container sx={{ bgcolor: '#fffafa', minHeight: '100vh', minWidth: '100vw', display: 'flex', padding: 0, margin: 0,overflow: 'hidden' }}>
       <Box display="flex" width="100%">
-        <SideBar {...{ setMainComponent, userData:userData.current, reRender }}/>
+        <SideBar {...{ setMainComponent, userData:userData.current, reRender}}/>
         <Box component="main" flexGrow={1} p={3} sx={{overflow:'hidden',height:'100%'}}>
-          <NotificationBell />
+          {getRole() === 'Manager' && <NotificationBell/>}
           <button color="error" variant="container" className='log-out' onClick={() => handleLogout(() => window.location.href='/')}>Log Out</button>
           <div key={renderCnt}>{mainComponent}</div>
         </Box>

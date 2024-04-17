@@ -19,8 +19,17 @@ const customerLinks = [
   { text: 'Purchase History', onClick: (userData,setMainComponent)=>{
     setMainComponent(<DisplayTable route={'/purchases?Customer_ID='+userData.Customer_ID}/>);
   }},
+  { text: 'Ticket Purchase History', onClick: (userData,setMainComponent)=>{
+    setMainComponent(<DisplayTable route={'/tickets?Customer_ID='+userData.Customer_ID}/>);
+  }},
   { group:'Schedules', text:"View Animal Schedules", onClick: (userData,setMainComponent)=>{
-    setMainComponent(<ViewSchedule route='\animal_schedules'/>)
+    setMainComponent(<ViewSchedule route='\animal_schedules' title='Animal Schedule'/>)
+  }},
+  { group:'Schedules', text:"View Habitat Schedules", onClick: (userData,setMainComponent)=>{
+    setMainComponent(<ViewSchedule route='\habitat_schedules' title='Habitat Schedule'/>)
+  }},
+  { group:'Schedules', text:"View Shop Schedules", onClick: (userData,setMainComponent)=>{
+    setMainComponent(<ViewSchedule route='\shop_schedules' title='Shop Schedule'/>)
   }},
 ];
 
@@ -49,6 +58,9 @@ const managerLinks = [
   { text: 'Edit Employees', onClick: (userData,setMainComponent)=>{
     setMainComponent(<DisplayTable route='\employees' hasDataEntry columnFilter={passwordFilter}/>)
   } },
+  { text: 'Edit Restaurants', onClick: (userData,setMainComponent)=>{
+    setMainComponent(<DisplayTable route='\restaurants' hasDataEntry/>)
+  } },
   { group:'Schedules',text: 'Edit Employee Schedules', onClick: (userData,setMainComponent)=>{
     setMainComponent(<ManageSchedule route='\employee_schedules'/>)
   } },
@@ -65,7 +77,7 @@ const managerLinks = [
     setMainComponent(<PayStub/>)
   } },
   { text: 'View Shop Revenue Report', onClick: (userData,setMainComponent)=>{
-    setMainComponent(<Report route='/shop_revenue' title='Report Revenue From Shops'/>)
+    setMainComponent(<Report route='/shop_revenue' title='Report Revenue From Shop'/>)
   } },
   { text: 'View Ticket Revenue Report', onClick: (userData,setMainComponent)=>{
     setMainComponent(<Report route='/ticket_monthly_revenue' title='Report Revenue From Tickets'/>)
