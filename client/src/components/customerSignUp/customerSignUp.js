@@ -65,12 +65,13 @@ function LoginForm({link}) {
 
         getData(`/login_${link}?Email=${email}&Password=${password}`)
         .then((response) => {
+            console.log('stored token and role',response);
             if (response&&response.user&&response.token&&response.userId) {
                 localStorage.setItem('token',response.token);
                 localStorage.setItem('role', response.user.Role);
                 localStorage.setItem('userId',response.userId);
                 localStorage.setItem('expirationDate',dayjs().add(1,'hour').format());
-                console.log('stored token and role');
+                console.log('stored token and role',response);
                 navigate('/portal'); // Redirect only on successful login
             } 
             else 
@@ -104,6 +105,7 @@ function LoginForm({link}) {
 function SignUpForm() {
     const navigate = useNavigate();
     const [errorMessage, setErrorMessage] = useState('');
+    // const links = [["homepage", "Home"], ["customerSignUp", "Login"], ["animalPage", "Our Animals"], ["aboutUsPage", "About Us"], ["makeAComplaint", "Any Complaints?"], ["lostAndFoundReport","Lost somthing?"]];
 
     const handleSubmit = (event) => {
         event.preventDefault();
@@ -131,10 +133,10 @@ function SignUpForm() {
     return     (
         
     <>
-    
-    <br></br>
+    {/* <Navbar links={links} /> */}
+    {/* <br></br>
     <br/>
-    <br/>
+    <br/> */}
         <center>
             <div className='banner'>
                 <h1><strong>Customer Sign Up</strong></h1>
@@ -171,8 +173,7 @@ function SignUpForm() {
     )
 }
 
-export default ToggleForm;
 const CustomerLogin=()=><LoginForm link='customers'/>
 const EmployeeLogin=()=><LoginForm link='employees'/>
-
+export default ToggleForm;
 export {EmployeeLogin,CustomerLogin};

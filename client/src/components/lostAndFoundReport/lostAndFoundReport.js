@@ -1,4 +1,4 @@
-import React from 'react';
+import React, {useState, useEffect} from 'react';
 import './lostAndFoundReport.css';
 import { postData } from '../../communication';
 import Navbar from '../navBar/navBar';
@@ -6,7 +6,9 @@ import Navbar from '../navBar/navBar';
 
 
 
+
 function LostAndFoundReport() {
+    const [errorMessage, setErrorMessage] = useState(null);
     const token = localStorage.getItem('token');
     const getID=()=>localStorage.getItem('userId'); 
     const isLoggedIn = token != null;
@@ -22,15 +24,19 @@ function LostAndFoundReport() {
         }
         data["Description"] = form["Description"].value;
         postData('/lost_items', data).then(val=>{
-            if (!val) {
+            if (val['message'] === 'Error adding Lost_Items') {
                 console.error('Unable to add lost item');
+                setErrorMessage('Unable to add lost item: Message too long');
             }
             else {
                 console.log("Successfully added lost item!");
-                // console.log(val);
+                console.log(val);
+                form.reset();
             }
-        })
-        form.reset();
+        }).catch((error) => {
+            setErrorMessage('An error occurred during submission. Please try again.'); // Set error message in case of promise rejection
+        });
+        
     };
     return (
         <>
@@ -48,6 +54,7 @@ function LostAndFoundReport() {
                 <br/>
                 <br/>
                 <button type="submit">Submit</button>
+                {errorMessage && <p className="error-message">{errorMessage}</p>}
                 </form>
             </div>
         </center>
