@@ -7,7 +7,7 @@ import { convertDataForDB,convertDataForDisplay,IDToName,renderCell,handleDialog
 import schema from '../../schema';
 
 let i=0;
-function DisplayTable({route, hasDataEntry, defaultValues={}, columnFilter=()=>true}){
+function DisplayTable({route, hasDataEntry, defaultValues={}, columnFilter=()=>true, preloadedData}){
   const [data, setData] = useState([]);
   const [dataColumns,setDataColumns] = useState([]);
   const [foreignKeyMap,setForeignKeyMap] =useState({});
@@ -16,8 +16,8 @@ function DisplayTable({route, hasDataEntry, defaultValues={}, columnFilter=()=>t
   const [renderCnt,render]=useState(1);
   const reRender=()=>render(renderCnt+1);
 
-  let cleanRoute=route;
-  const qidx=route.indexOf('?');
+  let cleanRoute=route?route:'';
+  const qidx=cleanRoute.indexOf('?');
   if(qidx>0)
     cleanRoute=route.substring(0,qidx);
   const Name=parseName(cleanRoute.substring(1));
@@ -26,8 +26,15 @@ function DisplayTable({route, hasDataEntry, defaultValues={}, columnFilter=()=>t
 
   useEffect(() => {
     (async ()=>{
-      const newData=await getData(route);
-      console.log('Hello');
+      let newData;
+      
+      if(preloadedData)
+        newData=preloadedData;
+      else if(route)
+        newData=await getData(route);
+      else
+        return;
+
       if(newData.status){
         setDataEntry('Error: '+newData.message);
         return;
@@ -103,14 +110,14 @@ function DisplayTable({route, hasDataEntry, defaultValues={}, columnFilter=()=>t
       </Button>
     </>}
   <br/><br/>
-  {<Dialog open={dataEntry} onClose={()=>setDataEntry(false)} maxWidth="md" fullWidth>
-      <DialogContent>
-        {dataEntry}
-      </DialogContent>
-      <DialogActions>
-        <Button onClick={()=>setDataEntry(false)}>Close</Button>
-      </DialogActions>
-    </Dialog>}
+  <Dialog open={dataEntry} onClose={()=>setDataEntry(false)} maxWidth="md" fullWidth>
+    <DialogContent>
+      {dataEntry}
+    </DialogContent>
+    <DialogActions>
+      <Button onClick={()=>setDataEntry(false)}>Close</Button>
+    </DialogActions>
+  </Dialog>
   {MToN&&dialog}
   </center>
 }

@@ -15,18 +15,27 @@ import {
   registerables,
 } from 'chart.js';
 import { Line } from 'react-chartjs-2';
+import DisplayTable from '../displayTable';
 
 function Report({route,title}){
   ChartJS.register(...registerables);
   const [errorMessage,setErrorMessage] = useState('');
-  const [reportData, setReportData]=useState('');
+  const [reportData, setReportData]=useState(null);
+  const [reportTable,setReportTable]=useState(<></>);
   const [fromDate, setFromDate] = useState('');
   const [toDate, setToDate] = useState('');
   const [isFormSubmitted, setIsFormSubmitted] = useState(false);
   const [graph, setGraph] = useState('');
   const pdfRef = useRef();
   useEffect(()=>{
-    getData(route).then(data => setReportData(data)).catch(err => console.log(err.message));
+    getData(route)
+      .then(data => {
+        if(data.status)
+          setErrorMessage(data.message);
+        else if(!data.columns)
+          setReportData(data);
+      })
+      .catch(err => setErrorMessage(err.message));
   },[])
   const handleSubmit = (event) => {
     event.preventDefault();
@@ -37,16 +46,17 @@ function Report({route,title}){
       return;
     }
     const filteredData = reportData[0] && reportData.filter(item => {
-      const itemDate = new Date(item.date);
+      const itemDate = new Date(item.Date);
       return itemDate >= fromDateObj && itemDate <= toDateObj;
     });
     if(filteredData){
+      setReportTable(<DisplayTable preloadedData={filteredData}/>)
       setGraph({
-         labels: filteredData.map(item => item.date),
+         labels: filteredData.map(item => item.Date),
          datasets: [
            {
              label: title.toUpperCase(),
-             data: filteredData.map(item => item.revenue),
+             data: filteredData.map(item => item.Revenue),
              fill: false,
              backgroundColor: 'rgb(75, 192, 192)',
              borderColor: 'rgba(75, 192, 192, 0.2)',
@@ -56,7 +66,6 @@ function Report({route,title}){
     setErrorMessage('');
     setIsFormSubmitted(true);
   };
-  console.log(graph)
   const handleReset = () => {
     setFromDate('');
     setToDate('');
@@ -93,7 +102,8 @@ function Report({route,title}){
 
       </form>
     <div style={{width:'80%', height:'50%'}}ref = {pdfRef} >
-    {graph && <Line data={graph} options= {config} />}
+      {graph && <Line data={graph} options= {config} />}
+      {reportTable}
     </div>
     <button  onClick={()=>downloadPDF(pdfRef)}>Download</button>
   </center>;
