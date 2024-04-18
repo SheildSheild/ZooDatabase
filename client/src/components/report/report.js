@@ -39,18 +39,19 @@ function Report({route,title}){
   },[])
   const handleSubmit = (event) => {
     event.preventDefault();
+    if (!reportData)
+      return setErrorMessage('No data');
     const fromDateObj = new Date(fromDate);
     const toDateObj = new Date(toDate);
-    if (toDateObj <= fromDateObj) {
-      setErrorMessage('The "To Date" must be later than the "From Date".');
-      return;
-    }
+    if (toDateObj <= fromDateObj) 
+      return setErrorMessage('The "To Date" must be later than the "From Date".');
+    
     const filteredData = reportData[0] && reportData.filter(item => {
       const itemDate = new Date(item.Date);
       return itemDate >= fromDateObj && itemDate <= toDateObj;
     });
     if(filteredData){
-      setReportTable(<DisplayTable preloadedData={filteredData}/>)
+      setReportTable(<DisplayTable preloadedData={filteredData} route={route} removeHeader/>)
       setGraph({
          labels: filteredData.map(item => item.Date),
          datasets: [
@@ -86,21 +87,19 @@ function Report({route,title}){
     }
   };
   return <center>
-    {errorMessage && <p>{errorMessage}</p>}
-  
-      <form onSubmit={handleSubmit}>
-        <label>
-          From Date:
-          <input type="date" required value={fromDate} onChange={e => setFromDate(e.target.value)} />
-        </label>
-        <label>
-          To Date:
-          <input type="date" required value={toDate} onChange={e => setToDate(e.target.value)} />
-        </label>
-        <button type="submit">Submit</button>
-        <button onClick={handleReset}>Reset</button>
-
-      </form>
+    {errorMessage && <h3>{errorMessage}</h3>}
+    <form onSubmit={handleSubmit}>
+      <label>
+        From Date:
+        <input type="date" required value={fromDate} onChange={e => setFromDate(e.target.value)} />
+      </label>
+      <label>
+        To Date:
+        <input type="date" required value={toDate} onChange={e => setToDate(e.target.value)} />
+      </label>
+      <button type="submit">Submit</button>
+      <button onClick={handleReset}>Reset</button>
+    </form>
     <div style={{width:'80%', height:'50%'}}ref = {pdfRef} >
       {graph && <Line data={graph} options= {config} />}
       {reportTable}

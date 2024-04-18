@@ -1,4 +1,3 @@
-import './dataEntry.css';
 import schema from '../../schema'
 import { formatDate } from '../../utils';
 

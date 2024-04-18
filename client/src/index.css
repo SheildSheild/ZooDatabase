@@ -75,6 +75,25 @@ button:hover {
   background-color: #b71c1c; /* Darker shade of red on hover */
 }
 
+form {
+  width: 50%;
+  margin-bottom: 20px;
+}
+
+label {
+  display: block;
+  margin-bottom: 10px;
+}
+
+input[type="date"],
+select {
+  width: calc(100% - 16px); /* Subtract padding and border width */
+  padding: 8px;
+  border: 1px solid #ccc;
+  border-radius: 4px;
+  box-sizing: border-box;
+}
+
 code {
   font-family: source-code-pro, Menlo, Monaco, Consolas, 'Courier New',
     monospace;
