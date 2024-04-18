@@ -38,6 +38,7 @@ module.exports={
     "login_employees":access(a,m),
     "shop_revenue":access(m,n),
     "ticket_monthly_revenue":access(m,n),
+    "animal_health_statistics":access(em,n),
     "pay_stub":access(e,n),
     "monthly_visit":access(m,n),
     "animals_view":access(m,n),

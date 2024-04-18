@@ -682,6 +682,7 @@ CREATE TABLE `TICKETS` (
   `Adult_Count` int DEFAULT '0',
   `Child_Count` int DEFAULT '0',
   `Elder_Count` int DEFAULT '0',
+  'Admission_Date' date NOT NULL;
   `Price` int GENERATED ALWAYS AS ((((15 * `Adult_Count`) + (10 * `Elder_Count`)) + (5 * `Child_Count`))) STORED,
   PRIMARY KEY (`Ticket_ID`),
   KEY `fk_TICKETS_CUSTOMERS1_idx` (`Customer_ID`),
