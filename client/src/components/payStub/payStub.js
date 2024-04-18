@@ -2,12 +2,13 @@ import React, { useEffect, useRef,useState } from 'react';
 import { jsPDF } from "jspdf";
 import autoTable from 'jspdf-autotable';
 import {getData} from '../../communication';
-import { getFormHelperTextUtilityClasses } from '@mui/material';
 import "./payStub.css"
+import DisplayTable from '../displayTable';
 function PayStub() {
     const pdfRef = useRef();
     const role = localStorage.getItem('role');
     const empID = localStorage.getItem('userId');
+    const [errorMessage,setErrorMessage] = useState('');
     const [fromDate, setFromDate] = useState('');
     const [empData, setEmpData] = useState('')
     const [id,setId]=useState('')
@@ -18,12 +19,31 @@ function PayStub() {
 
     
     useEffect(()=>{
-        getData('/pay_stub').then(data => setData(data)).catch(err => console.log(err.message));
+        let payStubRoute='/pay_stub?Employee_ID='+empID;
+        if(role==="Manager"){
+            payStubRoute='/pay_stub';
+            getData('/employees')
+                .then(data => {
+                    if(data.status)
+                        setErrorMessage(data.message);
+                    else if(data.columns)
+                        setErrorMessage('no employees')
+                    else
+                        setEmpData(data)
+                })
+                .catch(err => setErrorMessage(err.message));
+        }
+        getData(payStubRoute)
+            .then(data => {
+                if(data.status)
+                    setErrorMessage(data.message);
+                else if(data.columns)
+                    setErrorMessage('no pay stubs')
+                else
+                    setData(data)
+            })
+            .catch(err => setErrorMessage(err.message));
     },[])
-    useEffect(()=>{
-        getData('/employees').then(data => setEmpData(data)).catch(err => console.log(err.message));
-    },[])
-    const idsForManager = ['1', '2', '3'];
 
     const downloadPdf = () => {
         const doc = new jsPDF();
@@ -38,7 +58,7 @@ function PayStub() {
         const endDate = new Date(toDate);
         const result = data.filter(item =>{
             const date = new Date(item.Date);
-            return (item['Employee ID'] == id && date >= startDate && date <= endDate);
+            return (item.Employee_ID == id && date >= startDate && date <= endDate);
         });
         setFilteredData(result);
         setIsFormSubmitted(true);
@@ -49,7 +69,6 @@ function PayStub() {
         setId('');
         setFilteredData([]);
         setIsFormSubmitted(false);
-        window.location.reload();
     };
     const employees = Object.values(empData);
     return (
@@ -75,7 +94,7 @@ function PayStub() {
                   <option value="" >Select Employee</option>
                   {employees.map((employee) => (
                     <option key={employee.Employee_ID} value={employee.Employee_ID}>
-                        {"Employee ID: " + employee.Employee_ID + " Name: "+ employee.Name}
+                        {employee.Name + " ID: " + employee.Employee_ID}
                     </option>
                   ))}
                 </select>
@@ -85,36 +104,18 @@ function PayStub() {
         </label>
         <br/>
         <button type="submit">Submit</button>
-
         <button type="button" onClick={handleReset}>Reset</button>
     </form>
         <div>
-        {isFormSubmitted && filteredData.length !== 0 && (
-            <div>
-                <table ref={pdfRef}>
-                    <thead>
-                        <tr>
-                            {Object.keys(filteredData[0]).map((key) => (
-                                <th key={key}>{key}</th>
-                            ))}
-                        </tr>
-                    </thead>
-                    <tbody>
-                        {filteredData.map((row, i) => (
-                            <tr key={i}>
-                                {Object.values(row).map((val, i) => (
-                                    <td key={i}>{val}</td>
-                                ))}
-                            </tr>
-                        ))}
-                    </tbody>
-                </table>
-                <button onClick={downloadPdf}>Download PDF</button>
+        {isFormSubmitted && filteredData.length !== 0 && <>
+            <div ref={pdfRef}>
+                <DisplayTable preloadedData={filteredData} route='/employees' removeHeader/>
             </div>
-        )}
+            <button onClick={downloadPdf}>Download PDF</button>
+        </>}
     </div>
+    <h1>{errorMessage}</h1>
     </div>
-
     );
 }
 

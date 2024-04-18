@@ -6,6 +6,7 @@ import Report from '../report';
 import CustomerProfile from '../customerProfile'
 import TicketsPage from '../ticketsPage';
 import PayStub from '../payStub';
+import SignInOut from '../signInOut';
 
 const passwordFilter=col=>col!='Password';
 
@@ -37,29 +38,56 @@ const employeeLinks = [
   { group:'Schedules',text:"View My Schedule", onClick: (userData,setMainComponent)=>{
     setMainComponent(<ViewSchedule route='\employee_schedules' ID={['Employee_ID',userData.Employee_ID]}/>)
   }},
+  { group: 'Customers', text:"Lost and Found", onClick: (userData,setMainComponent)=>{
+    setMainComponent(<DisplayTable route='\lost_items' hasDataEntry/>)
+  }},
+  { group: 'Customers', text:"Complaints", onClick: (userData,setMainComponent)=>{
+    setMainComponent(<DisplayTable route='\complaints'/>)
+  }},
+  { group: 'Reports', text: 'Employee Paystub', onClick: (userData,setMainComponent)=>{
+    setMainComponent(<PayStub/>)
+  } },
+  { text: 'Clock in/Clock out', onClick: (userData,setMainComponent)=>{
+    setMainComponent(<SignInOut/>)
+  } },
 ]
 
 const medicLinks = [
   { group:'Animals',text: 'Edit Medical Records', onClick: (userData,setMainComponent)=>{
     setMainComponent(<DisplayTable route='\animal_health' hasDataEntry/>)
   } },
+  { group: 'Reports', text: 'View Monthly Animal Health Report', onClick: (userData,setMainComponent)=>{
+    setMainComponent(<Report route='/animal_health_statistics' title='Report Health of Animals'/>)
+  } },
 ]
 
 const managerLinks = [
-  { group:'Animals',text: 'Edit Animals List', onClick: (userData,setMainComponent)=>{
+  { group: 'Animals',text: 'Edit Animals List', onClick: (userData,setMainComponent)=>{
     setMainComponent(<DisplayTable route='\animals' hasDataEntry/>)
   } },
-  { text: 'Edit Purchases', onClick: (userData,setMainComponent)=>{
+  { group: 'Items' ,text: 'Edit Items', onClick: (userData,setMainComponent)=>{
+    setMainComponent(<DisplayTable route='\items' hasDataEntry/>)
+  } },
+  { group: 'Customers', text: 'Edit Purchases', onClick: (userData,setMainComponent)=>{
     setMainComponent(<DisplayTable route='\purchases' hasDataEntry/>)
   } },
-  { text: 'Employee TimeSheet', onClick: (userData,setMainComponent)=>{
+  { group: 'Employees', text: 'Employee TimeSheet', onClick: (userData,setMainComponent)=>{
     setMainComponent(<DisplayTable route='\timesheets' hasDataEntry/>)
   } },
-  { text: 'Edit Employees', onClick: (userData,setMainComponent)=>{
+  { group: 'Employees', text: 'Edit Employees', onClick: (userData,setMainComponent)=>{
     setMainComponent(<DisplayTable route='\employees' hasDataEntry columnFilter={passwordFilter}/>)
   } },
-  { text: 'Edit Restaurants', onClick: (userData,setMainComponent)=>{
+  { group: 'Locations', text: 'Edit Restaurants', onClick: (userData,setMainComponent)=>{
     setMainComponent(<DisplayTable route='\restaurants' hasDataEntry/>)
+  } },
+  { group: 'Locations', text: 'Edit Shops', onClick: (userData,setMainComponent)=>{
+    setMainComponent(<DisplayTable route='\shops' hasDataEntry/>)
+  } },
+  { group: 'Locations', text: 'Edit Zones', onClick: (userData,setMainComponent)=>{
+    setMainComponent(<DisplayTable route='\zones' hasDataEntry/>)
+  } },
+  { group: 'Customers', text: 'View Customers', onClick: (userData,setMainComponent)=>{
+    setMainComponent(<DisplayTable route='\customers' hasDataEntry columnFilter={passwordFilter}/>)
   } },
   { group:'Schedules',text: 'Edit Employee Schedules', onClick: (userData,setMainComponent)=>{
     setMainComponent(<ManageSchedule route='\employee_schedules'/>)
@@ -73,13 +101,10 @@ const managerLinks = [
   { group:'Schedules',text: 'Edit Animal Schedules', onClick: (userData,setMainComponent)=>{
     setMainComponent(<ManageSchedule route='\animal_schedules'/>)
   } },
-  { text: 'Employee Paystub', onClick: (userData,setMainComponent)=>{
-    setMainComponent(<PayStub/>)
-  } },
-  { text: 'View Shop Revenue Report', onClick: (userData,setMainComponent)=>{
+  { group: 'Reports', text: 'View Shop Revenue Report', onClick: (userData,setMainComponent)=>{
     setMainComponent(<Report route='/shop_revenue' title='Report Revenue From Shop'/>)
   } },
-  { text: 'View Ticket Revenue Report', onClick: (userData,setMainComponent)=>{
+  { group: 'Reports', text: 'View Monthly Ticket Revenue Report', onClick: (userData,setMainComponent)=>{
     setMainComponent(<Report route='/ticket_monthly_revenue' title='Report Revenue From Tickets'/>)
   } },
 ];

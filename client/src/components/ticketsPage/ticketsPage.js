@@ -7,35 +7,48 @@ const getID=()=>localStorage.getItem('userId');
 
 export default function TicketsPage(){
     const [formVisible, setFormVisible] = useState(false);
+    const [errorMessage,setErrorMessage]=useState('');
+    const [successMessage, setSuccessMessage] = useState('');
 
     const handleClick = () => {
         setFormVisible(!formVisible);
     };
 
+    const handleMessagesTimeout = () => {
+        setTimeout(() => {
+            setErrorMessage('');
+            setSuccessMessage('');
+        }, 4000);
+    };
+
     const HandleSubmit = (ev) => {
-        const [errorMessage,setErrorMessage]=useState('');
         ev.preventDefault();
         const form = ev.target;
         const data = {};
-        data['elderCount'] = form['elderCount'].value;
-        data['adultCount'] = form['adultCount'].value;
-        data['childrenCount'] = form['childrenCount'].value;
-        data['customerID'] = getID();
-        data['Date_Issued'] = Date();
-        useEffect(()=> {
-            postData('/tickets',data)
-            .then(data=>{
-                if(!data) {
-                    setErrorMessage('Failed to post data');
-                }
-                else {
-                    alert('Success');
-                }
-                console.log(data);
-            })
-            .catch(err=>setErrorMessage('Error: '+err))
-        },[]);
-        form.reset();
+        data['Elder_Count'] = form['Elder_Count'].value;
+        data['Adult_Count'] = form['Adult_Count'].value;
+        data['Child_Count'] = form['Child_Count'].value;
+        data['Customer_ID'] = getID();
+        data['Date_Issued'] = new Date().toISOString().slice(0, 19).replace('T', ' ');
+        postData('/tickets', data).then(val=>{
+            if (val['message'] === 'Error adding Tickets') {
+                console.log(val);
+                console.error('Unable to add purchase ticket');
+                setErrorMessage('Unable to purchase ticket: Please try again!');
+            }
+            else {
+                console.log("Successfully added lost item!");
+                console.log(val);
+                setErrorMessage(null);
+                setSuccessMessage('Tickets purchased successfully!');
+                form.reset();
+            }
+        }).catch((error) => {
+            setErrorMessage('An error occurred during submission. Please try again.'); // Set error message in case of promise rejection
+        })
+        .finally(() => {
+            handleMessagesTimeout();
+        });
     }
 
     return(<>
@@ -58,15 +71,15 @@ export default function TicketsPage(){
                 {formVisible && (
                     <form id="form1" onSubmit={HandleSubmit}>
                         <label><b>How Many Elders? </b></label>
-                        <input type="number" name="elderCount" id="elderCount"></input>
+                        <input type="number" name="Elder_Count" id="Elder_Count"></input>
                         <br/>
                         <br/>
                         <label><b>How Many Adults? </b></label>
-                        <input type="number" name="adultCount" id="adultCount"></input>
+                        <input type="number" name="Adult_Count" id="Adult_Count"></input>
                         <br/>
                         <br/>
                         <label><b>How Many Children? </b></label>
-                        <input type="number" name="childrenCount" id="childrenCount"></input>
+                        <input type="number" name="Child_Count" id="Child_Count"></input>
                         <br/>
                         <br/>
                         <label><b>Card Number: </b></label>
@@ -101,6 +114,8 @@ export default function TicketsPage(){
                         <br/>
                         <br/>
                         <button type='submit'><b>Pay Now!</b></button>
+                        {errorMessage && <p className="error-message">{errorMessage}</p>}
+                        {successMessage && <p className="success-message">{successMessage}</p>}
                     </form>
                 )}
                 <p><b>All purchases are non-refundable!</b></p>
