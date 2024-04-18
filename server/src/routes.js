@@ -15,7 +15,7 @@ function access(v,m,c){
 module.exports={
   routes:{
     "zones":access(e,m),
-    "habitats":access(e,m),
+    "habitats":access(a,m),
     "animals":access(a,m),
     "shops":access(a,m),
     "restaurants":access(a,m),
@@ -37,12 +37,15 @@ module.exports={
     "login_customers":access(a,c),
     "login_employees":access(a,m),
     "shop_revenue":access(m,n),
-    "ticket_monthly_revenue":access(m,n),
+    "ticket_revenue":access(m,n),
     "animal_health_statistics":access(em,n),
     "pay_stub":access(e,n),
     "monthly_visit":access(m,n),
     "animals_view":access(m,n),
     "animal_health_view":access(m,n),
-    "alerts":access(a,n)
+    "alerts":access(a,m),
+    "alert_active_count":access(a,n),
+    "visit_count":access(m,n),
+    "profit":access(m,n),
   }
 }

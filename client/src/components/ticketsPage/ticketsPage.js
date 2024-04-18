@@ -33,7 +33,7 @@ export default function TicketsPage(){
         data['Admission_Date'] = form['Admission_Date'].value;
         const admissionDate = new Date(data['Admission_Date']);
         const currentDate = new Date();
-        if (admissionDate > currentDate) {
+        if (admissionDate < currentDate) {
             setErrorMessage('The "Admission Date" must be later than or equal the "Date Issued".');
             return;
         }
@@ -44,7 +44,7 @@ export default function TicketsPage(){
                 setErrorMessage('Unable to purchase ticket: Please try again!');
             }
             else {
-                console.log("Successfully added lost item!");
+                console.log("Successfully purchased tickets!");
                 console.log(val);
                 setErrorMessage(null);
                 setSuccessMessage('Tickets purchased successfully!');
