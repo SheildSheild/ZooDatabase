@@ -9,6 +9,15 @@ import Navbar from '../navBar/navBar';
 
 function LostAndFoundReport() {
     const [errorMessage, setErrorMessage] = useState(null);
+    const [successMessage, setSuccessMessage] = useState('');
+
+    const handleMessagesTimeout = () => {
+        setTimeout(() => {
+            setErrorMessage('');
+            setSuccessMessage('');
+        }, 4000);
+    };
+
     const token = localStorage.getItem('token');
     const getID=()=>localStorage.getItem('userId'); 
     const isLoggedIn = token != null;
@@ -31,10 +40,15 @@ function LostAndFoundReport() {
             else {
                 console.log("Successfully added lost item!");
                 console.log(val);
+                setErrorMessage(null);
+                setSuccessMessage('Lost item added!');
                 form.reset();
             }
         }).catch((error) => {
             setErrorMessage('An error occurred during submission. Please try again.'); // Set error message in case of promise rejection
+        })
+        .finally(() => {
+            handleMessagesTimeout();
         });
         
     };
@@ -55,6 +69,7 @@ function LostAndFoundReport() {
                 <br/>
                 <button type="submit">Submit</button>
                 {errorMessage && <p className="error-message">{errorMessage}</p>}
+                {successMessage && <p className="success-message">{successMessage}</p>}
                 </form>
             </div>
         </center>

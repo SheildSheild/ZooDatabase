@@ -31,9 +31,8 @@ function convertEventForDataEntry(event,ID,foreignKey,foreignName,map){
 }
 
 function convertEventForDB(event,ID,foreignKey,foreignName,map){
-  
   return {
-    
+
     [ID]:event[ID],
     [foreignKey]:map[foreignKey].NameToID[event[foreignName]],
     Start_Time:event.Start_Time,

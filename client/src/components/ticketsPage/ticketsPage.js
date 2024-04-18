@@ -39,6 +39,17 @@ export default function TicketsPage(){
             setSuccessMessage('');
         }, 4000);
     };
+    const formatDate = (date) => {
+        const year = date.getFullYear();
+        let month = date.getMonth() + 1;
+        let day = date.getDate();
+    
+        // Pad month and day with leading zeros if needed
+        month = month < 10 ? '0' + month : month;
+        day = day < 10 ? '0' + day : day;
+    
+        return `${year}-${month}-${day}`;
+    };
 
     const HandleSubmit = (ev) => {
         ev.preventDefault();
@@ -48,11 +59,12 @@ export default function TicketsPage(){
         data['Adult_Count'] = form['Adult_Count'].value;
         data['Child_Count'] = form['Child_Count'].value;
         data['Customer_ID'] = getID();
-        data['Date_Issued'] = new Date().toISOString().slice(0, 19).replace('T', ' ');
+        data['Date_Issued'] = formatDate(new Date()); // Format current date
         data['Admission_Date'] = form['Admission_Date'].value;
-        const admissionDate = new Date(data['Admission_Date']);
-        const currentDate = new Date();
-        if (admissionDate > currentDate) {
+        const admissionDate = data['Admission_Date'];
+        const currentDate = data['Date_Issued'];
+        
+        if (admissionDate < currentDate) {
             setErrorMessage('The "Admission Date" must be later than or equal the "Date Issued".');
             return;
         }
@@ -63,7 +75,7 @@ export default function TicketsPage(){
                 setErrorMessage('Unable to purchase ticket: Please try again!');
             }
             else {
-                console.log("Successfully added lost item!");
+                console.log("Successfully purchased tickets!");
                 console.log(val);
                 setErrorMessage(null);
                 setSuccessMessage('Tickets purchased successfully!');
