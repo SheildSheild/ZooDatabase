@@ -3,6 +3,7 @@ import jsPDF from 'jspdf';
 import DataEntry from './components/dataEntry';
 import schema from './schema';
 import { postData,getData,updateData,deleteData } from './communication';
+import autoTable from 'jspdf-autotable';
 
 function formatDate(dateString){
   if (!dateString) return '';
@@ -186,7 +187,7 @@ function Add(link,setDataEntry,reRender,table,convertDataForDisplay=x=>x,convert
   reRender();
 }
 
-const downloadPDF = (pdfRef) =>{
+const downloadPDFGraph = (pdfRef) =>{
   const input = pdfRef.current;
   html2canvas(input,{
     allowTaint:true,
@@ -201,9 +202,18 @@ const downloadPDF = (pdfRef) =>{
     const ratio = Math.min(pdfWidth/imgWidth, pdfHeight/imgHeight);
     const imgX = (pdfWidth-imgWidth * ratio)/2;
     const imgY = 30
+    const currentDate = new Date().toJSON().slice(0, 10);
+    const title = "Report Downloaded "+currentDate+".pdf"
     pdf.addImage(imgData, 'PNG',imgX,imgY,imgWidth*ratio, imgHeight*ratio );
-    pdf.save('report.pdf');
+    pdf.save(title);
 });
-}
 
-export {formatDate,getID,parseName,downloadPDF,fetchNames,Add,Delete,Modify,handleLogout}
+}
+const downloadPDFTable = (pdfRef)=>{
+  const doc = new jsPDF();
+  const currentDate = new Date().toJSON().slice(0, 10);
+  const title = "Table Downloaded "+currentDate+".pdf"
+  autoTable(doc, { html: pdfRef.current });
+  doc.save(title);
+}
+export {formatDate,getID,parseName,downloadPDFGraph,fetchNames,Add,Delete,Modify,handleLogout,downloadPDFTable}

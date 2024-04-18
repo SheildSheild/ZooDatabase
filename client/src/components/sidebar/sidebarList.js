@@ -108,7 +108,7 @@ const managerLinks = [
     setMainComponent(<Report route='/shop_revenue' title='Report Revenue From Shop'/>)
   } },
   { group: 'Reports', text: 'View Monthly Ticket Revenue Report', onClick: (userData,setMainComponent)=>{
-    setMainComponent(<Report route='/ticket_monthly_revenue' title='Report Revenue From Tickets'/>)
+    setMainComponent(<Report route='/ticket_revenue' title='Report Revenue From Tickets'/>)
   } },
 ];
 

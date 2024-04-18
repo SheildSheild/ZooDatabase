@@ -1,7 +1,7 @@
 
 import { useState,useRef, useEffect } from 'react';
-
-import { downloadPDF } from '../../utils';
+import autoTable from 'jspdf-autotable';
+import { downloadPDFGraph,downloadPDFTable } from '../../utils';
 import { getData } from '../../communication';
 import {
   Chart as ChartJS,
@@ -26,7 +26,9 @@ function Report({route,title}){
   const [toDate, setToDate] = useState('');
   const [isFormSubmitted, setIsFormSubmitted] = useState(false);
   const [graph, setGraph] = useState('');
-  const pdfRef = useRef();
+  const graphRef = useRef();
+  const tableRef = useRef();
+
   useEffect(()=>{
     getData(route)
       .then(data => {
@@ -51,7 +53,7 @@ function Report({route,title}){
       return itemDate >= fromDateObj && itemDate <= toDateObj;
     });
     if(filteredData){
-      setReportTable(<DisplayTable preloadedData={filteredData} route={route} removeHeader/>)
+      setReportTable(<DisplayTable preloadedData={filteredData} route={route} removeHeader pdf={tableRef}/>)
       setGraph({
          labels: filteredData.map(item => item.Date),
          datasets: [
@@ -67,6 +69,7 @@ function Report({route,title}){
     setErrorMessage('');
     setIsFormSubmitted(true);
   };
+
   const handleReset = () => {
     setFromDate('');
     setToDate('');
@@ -100,11 +103,14 @@ function Report({route,title}){
       <button type="submit">Submit</button>
       <button onClick={handleReset}>Reset</button>
     </form>
-    <div style={{width:'80%', height:'50%'}}ref = {pdfRef} >
-      {graph && <Line data={graph} options= {config} />}
-      {reportTable}
+    <div style={{width:'80%', height:'50%'}}ref = {graphRef} >
+      {graph && <Line data={graph} options= {config}  />}
     </div>
-    <button  onClick={()=>downloadPDF(pdfRef)}>Download</button>
+    <button  onClick={()=>downloadPDFGraph(graphRef)}>Save Graph</button>
+    {reportTable}
+    <button  onClick={()=>downloadPDFTable(tableRef)}>Save Table</button>
+
+
   </center>;
   };
 
