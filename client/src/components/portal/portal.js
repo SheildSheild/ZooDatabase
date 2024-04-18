@@ -38,7 +38,7 @@ function Portal() {
       setMainComponent(<PortalHome />,false);
     reRender();
   }} className='notification'>
-     🔔 {bellCount[0].Count}
+     🔔 {bellCount[0]&&bellCount[0].Count}
   </button>;
 
   useEffect(() => {
