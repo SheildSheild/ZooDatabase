@@ -7,7 +7,7 @@ import { convertDataForDB,convertDataForDisplay,IDToName,renderCell,handleDialog
 import schema from '../../schema';
 
 let i=0;
-function DisplayTable({route, hasDataEntry, defaultValues={}, columnFilter=()=>true, preloadedData}){
+function DisplayTable({route, hasDataEntry, defaultValues={}, columnFilter=()=>true, preloadedData, removeHeader}){
   const [data, setData] = useState([]);
   const [dataColumns,setDataColumns] = useState([]);
   const [foreignKeyMap,setForeignKeyMap] =useState({});
@@ -16,7 +16,7 @@ function DisplayTable({route, hasDataEntry, defaultValues={}, columnFilter=()=>t
   const [renderCnt,render]=useState(1);
   const reRender=()=>render(renderCnt+1);
 
-  let cleanRoute=route?route:'';
+  let cleanRoute=route||'';
   const qidx=cleanRoute.indexOf('?');
   if(qidx>0)
     cleanRoute=route.substring(0,qidx);
@@ -74,11 +74,13 @@ function DisplayTable({route, hasDataEntry, defaultValues={}, columnFilter=()=>t
   }
   
   return <>
-  <br/>
-  <br/>
-  <div className='banner'>
-    <h2>{Name}</h2>
-  </div>
+  {!removeHeader&&<>
+    <br/>
+    <br/>
+    <div className='banner'>
+      <h2>{Name}</h2>
+    </div>
+  </>}
   <div>
     <center>
       {(dataColumns.length>0)&&<section>
@@ -100,8 +102,8 @@ function DisplayTable({route, hasDataEntry, defaultValues={}, columnFilter=()=>t
                     <TableCell>{renderCell(val[prop], prop)}</TableCell>)
                 }
                 {hasDataEntry&&<>
-                  <TableCell><Button onClick={()=>Modify(cleanRoute,data[idx],setDataEntry,reRender,data,idx,val=>convertDataForDisplay(val,foreignKeyMap),val=>convertDataForDB(val,foreignKeyMap),foreignKeyMap)}>Modify</Button></TableCell>
-                  <TableCell><Button onClick={()=>Delete(cleanRoute,data[idx],setDataEntry,reRender,data,idx)}>Delete</Button></TableCell>
+                  <TableCell><button onClick={()=>Modify(cleanRoute,data[idx],setDataEntry,reRender,data,idx,val=>convertDataForDisplay(val,foreignKeyMap),val=>convertDataForDB(val,foreignKeyMap),foreignKeyMap)}>Modify</button></TableCell>
+                  <TableCell><button onClick={()=>Delete(cleanRoute,data[idx],setDataEntry,reRender,data,idx)}>Delete</button></TableCell>
                   {relationships.map(rel=>rel(val))}
                 </>}
                 </TableRow>

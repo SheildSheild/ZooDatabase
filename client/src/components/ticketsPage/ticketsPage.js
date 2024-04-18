@@ -30,6 +30,13 @@ export default function TicketsPage(){
         data['Child_Count'] = form['Child_Count'].value;
         data['Customer_ID'] = getID();
         data['Date_Issued'] = new Date().toISOString().slice(0, 19).replace('T', ' ');
+        data['Admission_Date'] = form['Admission_Date'].value;
+        const admissionDate = new Date(data['Admission_Date']);
+        const currentDate = new Date();
+        if (admissionDate > currentDate) {
+            setErrorMessage('The "Admission Date" must be later than or equal the "Date Issued".');
+            return;
+        }
         postData('/tickets', data).then(val=>{
             if (val['message'] === 'Error adding Tickets') {
                 console.log(val);
@@ -111,6 +118,10 @@ export default function TicketsPage(){
                             <option value="24">2028</option>
                         </select>
                         <input type="hidden" name="expiryDetails" id="expiryDetails" maxLength="4"/>
+                        <br/>
+                        <br/>
+                        <label><b>When do you want to go?</b></label>
+                        <input type="date" name="Admission_Date" id="Admission_Date"/>
                         <br/>
                         <br/>
                         <button type='submit'><b>Pay Now!</b></button>
