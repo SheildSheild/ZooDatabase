@@ -84,20 +84,29 @@ function LoginForm({link}) {
     };
 
     return (
-        <form onSubmit={handleLogin} className="login-form">
-            <div>
-                <label htmlFor="Email">Email:</label>
-                <input type="email" name="Email" id="Email" required />
-            </div>
-            <div>
-                <label htmlFor="Password">Password:</label>
-                <input type="password" name="Password" id="Password" required />
-            </div>
-            <div>
-                <input type="submit" value="Login" />
-            </div>
-            {errorMessage && <p className="error-message">{errorMessage}</p>}
-        </form>
+        <>
+            <center>
+                <div className='banner'>
+                    <h1><strong>Login</strong></h1>
+                </div>
+                <div className='option container'>
+                {errorMessage && <p className="error-message">{errorMessage}</p>}
+                <form onSubmit={handleLogin} className="login-form">
+                    <div>
+                        <label htmlFor="Email">Email:</label>
+                        <input type="email" name="Email" id="Email" required />
+                    </div>
+                    <div>
+                        <label htmlFor="Password">Password:</label>
+                        <input type="password" name="Password" id="Password" required />
+                    </div>
+                    <div>
+                        <input type="submit" value="Login" />
+                    </div>
+                </form>
+                </div>
+            </center>
+        </>
     );
     
 }
@@ -139,7 +148,7 @@ function SignUpForm() {
     <br/> */}
         <center>
             <div className='banner'>
-                <h1><strong>Customer Sign Up</strong></h1>
+                <h1><strong>Sign Up</strong></h1>
             </div>
             
             <div className='option container'>

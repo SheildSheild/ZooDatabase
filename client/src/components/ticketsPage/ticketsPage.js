@@ -1,4 +1,4 @@
-import { postData } from '../../communication';
+import { postData, getData } from '../../communication';
 import './ticketsPage.css';
 import React, { useState, useEffect } from 'react';
 
@@ -9,6 +9,25 @@ export default function TicketsPage(){
     const [formVisible, setFormVisible] = useState(false);
     const [errorMessage,setErrorMessage]=useState('');
     const [successMessage, setSuccessMessage] = useState('');
+    const [closedHabitats, setClosedHabitats] = useState([]);
+
+    useEffect(() => {
+        getData('/habitats?status=Close')  // Ensure the status matches your database exactly.
+            .then(data => {
+                console.log('Habitats data:', data);  // Log to see what is actually returned
+                if (data && data.length >= 0) {
+                    const closedHabitatNames = data.map(habitat => habitat.Name);
+                    setClosedHabitats(closedHabitatNames);
+                    console.log('Closed habitats:', closedHabitatNames);
+                } else {
+                    console.log('No closed habitats found or empty data returned');
+                }
+            })
+            .catch(error => {
+                console.error('Error fetching closed habitats:', error);
+            });
+    }, []);
+    
 
     const handleClick = () => {
         setFormVisible(!formVisible);
@@ -130,6 +149,12 @@ export default function TicketsPage(){
                     </form>
                 )}
                 <p><b>All purchases are non-refundable!</b></p>
+                <br />
+                {closedHabitats.length > 0 && (
+                    <div>
+                        <strong>Disclaimer:</strong> The following habitats are currently closed: {closedHabitats.join(', ')}
+                    </div>
+                )}
             </div>
         </div>
     </>);
