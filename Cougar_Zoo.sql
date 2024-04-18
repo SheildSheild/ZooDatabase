@@ -683,6 +683,7 @@ CREATE TABLE `TICKETS` (
   `Child_Count` int DEFAULT '0',
   `Elder_Count` int DEFAULT '0',
   `Price` int GENERATED ALWAYS AS ((((15 * `Adult_Count`) + (10 * `Elder_Count`)) + (5 * `Child_Count`))) STORED,
+  `Admission_Date` date NOT NULL,
   PRIMARY KEY (`Ticket_ID`),
   KEY `fk_TICKETS_CUSTOMERS1_idx` (`Customer_ID`),
   CONSTRAINT `fk_TICKETS_CUSTOMERS1` FOREIGN KEY (`Customer_ID`) REFERENCES `CUSTOMERS` (`Customer_ID`) ON DELETE SET NULL ON UPDATE CASCADE
