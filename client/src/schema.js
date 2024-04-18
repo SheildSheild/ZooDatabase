@@ -50,8 +50,9 @@ const schema={
     Responsibility: {type:"text", text:"Responsibility:"},
   },
   Items:{
-    Shop_ID: {type:"number",text:"Shop ID:"},
-    Quantity: {type:"number",text:"Quantity:"},
+    Name: {type:"text",text:"Name:"},
+    Stock: {type:"number",text:"Stock:"},
+    Price: {type:"number",text:"Price:"},
   },
   Lost_Items:{
     Customer_ID: {type: "number", text:"Customer ID:"},
@@ -113,6 +114,12 @@ const schema={
   Many_To_Many:{
     Animals:{Employees:['Attends_To','Attended By']},
     Employees:{Animals:['Attends_To','Attends To']},
+  },
+  Tickets:{
+    Elder_Count: {type:"number",text:"Elder Count:"},
+    Adult_Count: {type:"number",text:"Adult Count:"},
+    Child_Count: {type:"number",text:"Child Count:"},
+    Admission_Date: {type:"datetime-local",text:"Admission Date:"}
   }
 }
 
