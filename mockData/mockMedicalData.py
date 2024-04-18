@@ -36,5 +36,5 @@ for i in range(50):
     description = random.choice(descriptions)
     date_of_examination = (datetime.now() + timedelta(days=random.randint(-365, 0))).date()
 
-    print(f"INSERT INTO ANIMAL_HEALTH (Animal_ID, Primary_Doctor, Description, Date_of_Examination) VALUES ({animal_id}, '{primary_doctor}', '{description}', '{date_of_examination}');")
+    print(f"INSERT INTO ANIMAL_HEALTH (Animal_ID, Primary_Doctor_ID, Description, Date_of_Examination) VALUES ({animal_id}, '{primary_doctor}', '{description}', '{date_of_examination}');")
 

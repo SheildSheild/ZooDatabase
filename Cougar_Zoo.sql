@@ -27,7 +27,7 @@ CREATE TABLE `ALERTS` (
   `Description` varchar(255) NOT NULL,
   `Date_Created` datetime NOT NULL,
   PRIMARY KEY (`Alert_ID`)
-) ENGINE=InnoDB AUTO_INCREMENT=7 DEFAULT CHARSET=utf8mb3;
+) ENGINE=InnoDB AUTO_INCREMENT=8 DEFAULT CHARSET=utf8mb3;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -36,7 +36,7 @@ CREATE TABLE `ALERTS` (
 
 LOCK TABLES `ALERTS` WRITE;
 /*!40000 ALTER TABLE `ALERTS` DISABLE KEYS */;
-INSERT INTO `ALERTS` VALUES (1,'Error: Working hours for Employee 2 this week exceed 40.','2024-03-23 20:23:42'),(2,'Animal with ID 0 has been added to a habitat at full capacity.','2024-03-23 20:38:28'),(3,'Animal with ID 0 has been added to a habitat at full capacity.','2024-04-10 14:30:26'),(4,'Animal with ID 0 has been added to a habitat at full capacity.','2024-04-10 14:34:22'),(5,'Animal with ID 0 has been added to a habitat at full capacity.','2024-04-16 21:34:40'),(6,'Animal with ID 0 has been added to a habitat at full capacity.','2024-04-16 21:35:40');
+INSERT INTO `ALERTS` VALUES (1,'Error: Working hours for Employee 2 this week exceed 40.','2024-03-23 20:23:42'),(2,'Animal with ID 0 has been added to a habitat at full capacity.','2024-03-23 20:38:28'),(3,'Animal with ID 0 has been added to a habitat at full capacity.','2024-04-10 14:30:26'),(4,'Animal with ID 0 has been added to a habitat at full capacity.','2024-04-10 14:34:22'),(5,'Animal with ID 0 has been added to a habitat at full capacity.','2024-04-16 21:34:40'),(6,'Animal with ID 0 has been added to a habitat at full capacity.','2024-04-16 21:35:40'),(7,'Animal with ID 0 has been added to a habitat at full capacity.','2024-04-17 20:19:53');
 /*!40000 ALTER TABLE `ALERTS` ENABLE KEYS */;
 UNLOCK TABLES;
 
@@ -64,7 +64,7 @@ CREATE TABLE `ANIMALS` (
   CONSTRAINT `fk_ANIMALS_FATHER_ANIMALS1` FOREIGN KEY (`Father_ID`) REFERENCES `ANIMALS` (`Animal_ID`) ON DELETE RESTRICT ON UPDATE CASCADE,
   CONSTRAINT `fk_ANIMALS_HABITATS1` FOREIGN KEY (`Habitat_ID`) REFERENCES `HABITATS` (`Habitat_ID`) ON DELETE SET NULL ON UPDATE CASCADE,
   CONSTRAINT `fk_ANIMALS_MOTHER_ANIMALS1` FOREIGN KEY (`Mother_ID`) REFERENCES `ANIMALS` (`Animal_ID`) ON DELETE RESTRICT ON UPDATE CASCADE
-) ENGINE=InnoDB AUTO_INCREMENT=343 DEFAULT CHARSET=utf8mb3;
+) ENGINE=InnoDB AUTO_INCREMENT=344 DEFAULT CHARSET=utf8mb3;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -246,7 +246,7 @@ CREATE TABLE `CUSTOMERS` (
   `Password` varchar(63) DEFAULT NULL,
   PRIMARY KEY (`Customer_ID`),
   UNIQUE KEY `Email` (`Email`)
-) ENGINE=InnoDB AUTO_INCREMENT=21 DEFAULT CHARSET=utf8mb3;
+) ENGINE=InnoDB AUTO_INCREMENT=23 DEFAULT CHARSET=utf8mb3;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -255,7 +255,7 @@ CREATE TABLE `CUSTOMERS` (
 
 LOCK TABLES `CUSTOMERS` WRITE;
 /*!40000 ALTER TABLE `CUSTOMERS` DISABLE KEYS */;
-INSERT INTO `CUSTOMERS` VALUES (2,'John Doe','123 Example St','555-5555','john.doe@example.com',NULL),(3,'Sebastian De La Espriella','3207 canyon links dr','7138155588','lseabasol@gmail.com','$2b$10$1AcgnC9Psrpk8u3FnSfpNuLde.7siyyLLyU.OQ28RuNbmo43NSr76'),(4,'Sebastian De La Espriella','3207 canyon links dr','7138155588','lseabaso@gmail.com','$2b$10$moSg94AZJLC3.OpNae.raO/TfJQf6GpThLJcGHtOoEjIv8rsZ/cGC'),(5,'Sebastian De La Espriella','3207 canyon links dr','7138155588','lseabas@gmail.com','$2b$10$PmzrJQnE0Bu5LSlnCpu1b.ZjttKhN1yvOw7.OajIiWAOXxxMOGKY6'),(6,'Sebastian De La Espriella','3207 canyon links dr','7138155588','lseaba@gmail.com','$2b$10$LrCWpx/TE19CXRPYN72Br.X.KL85xqJ5d43IiL55OBNYZeVYseEIC'),(7,'Sebastian De La Espriella','3207 canyon links dr','7138155588','lseabasol1@gmail.com','$2b$10$utYkzkfr8gCGnoiZDPI1f.fQ2pEoncHhgUdh4a9lWZgMdaG.dRhZy'),(8,'Sebastian De La Espriella','3207 canyon links dr','7138155588','lseabasol2@gmail.com','$2b$10$9rTUZUUNWhFfHpIrGZqA2eZOc3A8RxWn3lnARBmPa86ElqcaGz2hC'),(9,'Talha Mohammed','1923 Kelliwood Trails Dr.','2819053751','mohammedtalha290@gmail.com','$2b$10$vEjWvIqIqbfpUCKGhYbpO.F1at1Xi5bUk2mb/.LJK5XwLdXh337V.'),(12,'Sebastian De La Espriella','3207 canyon links dr','7138155588','lseabasol@gmail.com2','$2b$10$xu2SXH2K7RkzET831B8L2.lxoh8BL/kStPzntGKNFrclyPXVKwUFC'),(13,'Test Customer','test customers home','8327908392','testcustomer@gmail.com','$2b$10$JjM5Rbhh9mVoLt2eiwdd1u6ZIz4mPtJSai3rzQCoE9uaIMuWtlYwu'),(14,'<script>alert(\"Hi\");</script>','<script>alert(\"Hi\");</script>','1234567890','hi@hi.hi','$2b$10$w7feWzleKlgO4ujUJ17jEOXPkrv/Ys8VHpWBkHDSCg7S0M18Yr30i'),(15,'keekee','1289 jkaja lane','1234567890','kee@gmail.com','$2b$10$8MMGu0lTPw3/o.bysnjWxe7h6yHMa6oEYIXcY/jWMA4GuAg2bPU4W'),(16,'keekee1','1289 niofsnio ioo','1234567890','kee1@gmail.com','$2b$10$.goYBo5j3fz6w9mm1811cOJN7yzQlykNiUfP2IjM1Vb6Um7FKqdaK'),(19,'keekee2','1289 niofsnio ioo','1234567890','kee2@gmail.com','$2b$10$JOTDQoq3D6RBu/J5PSAx7uu9rvj9jOhHQ8F25dWDa83L0yiZl7iaK'),(20,'keekee3','123 stnioewif','1234567891','kee3@gmail.com',NULL);
+INSERT INTO `CUSTOMERS` VALUES (2,'John Doe','123 Example St','555-5555','john.doe@example.com',NULL),(3,'Sebastian De La Espriella','3207 canyon links dr','7138155588','lseabasol@gmail.com','$2b$10$1AcgnC9Psrpk8u3FnSfpNuLde.7siyyLLyU.OQ28RuNbmo43NSr76'),(4,'Sebastian De La Espriella','3207 canyon links dr','7138155588','lseabaso@gmail.com','$2b$10$moSg94AZJLC3.OpNae.raO/TfJQf6GpThLJcGHtOoEjIv8rsZ/cGC'),(5,'Sebastian De La Espriella','3207 canyon links dr','7138155588','lseabas@gmail.com','$2b$10$PmzrJQnE0Bu5LSlnCpu1b.ZjttKhN1yvOw7.OajIiWAOXxxMOGKY6'),(6,'Sebastian De La Espriella','3207 canyon links dr','7138155588','lseaba@gmail.com','$2b$10$LrCWpx/TE19CXRPYN72Br.X.KL85xqJ5d43IiL55OBNYZeVYseEIC'),(7,'Sebastian De La Espriella','3207 canyon links dr','7138155588','lseabasol1@gmail.com','$2b$10$utYkzkfr8gCGnoiZDPI1f.fQ2pEoncHhgUdh4a9lWZgMdaG.dRhZy'),(8,'Sebastian De La Espriella','3207 canyon links dr','7138155588','lseabasol2@gmail.com','$2b$10$9rTUZUUNWhFfHpIrGZqA2eZOc3A8RxWn3lnARBmPa86ElqcaGz2hC'),(9,'Talha Mohammed','1923 Kelliwood Trails Dr.','2819053751','mohammedtalha290@gmail.com','$2b$10$vEjWvIqIqbfpUCKGhYbpO.F1at1Xi5bUk2mb/.LJK5XwLdXh337V.'),(12,'Sebastian De La Espriella','3207 canyon links dr','7138155588','lseabasol@gmail.com2','$2b$10$xu2SXH2K7RkzET831B8L2.lxoh8BL/kStPzntGKNFrclyPXVKwUFC'),(13,'Test Customer','test customers home','8327908392','testcustomer@gmail.com','$2b$10$JjM5Rbhh9mVoLt2eiwdd1u6ZIz4mPtJSai3rzQCoE9uaIMuWtlYwu'),(14,'<script>alert(\"Hi\");</script>','<script>alert(\"Hi\");</script>','1234567890','hi@hi.hi','$2b$10$w7feWzleKlgO4ujUJ17jEOXPkrv/Ys8VHpWBkHDSCg7S0M18Yr30i'),(15,'keekee','1289 jkaja lane','1234567890','kee@gmail.com','$2b$10$8MMGu0lTPw3/o.bysnjWxe7h6yHMa6oEYIXcY/jWMA4GuAg2bPU4W'),(16,'keekee1','1289 niofsnio ioo','1234567890','kee1@gmail.com','$2b$10$.goYBo5j3fz6w9mm1811cOJN7yzQlykNiUfP2IjM1Vb6Um7FKqdaK'),(19,'kiin','2534rudrud','1234567891','qwertyui@asxdf.com','$2b$10$JOTDQoq3D6RBu/J5PSAx7uu9rvj9jOhHQ8F25dWDa83L0yiZl7iaK'),(20,'keekee3','123 stnioewif','1234567891','kee3@gmail.com',NULL),(21,'lmaotest','12386audhfhefiow','1234567891','lmaotest@gmail.com','$2b$10$45uj4cEZGiVwB9TgCqdum.zZXfOoQFcsqYVAze2p1N7BdmIrSeHq2'),(22,'donesh','132 donesh','1234567891','donesh@donesh.com','$2b$10$4IhabtVCiRPT.0GUPEHNUerAityT3DG8S6Dd0e7dN.4aEF1ukHho2');
 /*!40000 ALTER TABLE `CUSTOMERS` ENABLE KEYS */;
 UNLOCK TABLES;
 
@@ -635,8 +635,8 @@ DROP TABLE IF EXISTS `SHOP_REVENUE`;
 SET @saved_cs_client     = @@character_set_client;
 /*!50503 SET character_set_client = utf8mb4 */;
 /*!50001 CREATE VIEW `SHOP_REVENUE` AS SELECT 
- 1 AS `date`,
- 1 AS `revenue`*/;
+ 1 AS `Date`,
+ 1 AS `Revenue`*/;
 SET character_set_client = @saved_cs_client;
 
 --
@@ -686,7 +686,7 @@ CREATE TABLE `TICKETS` (
   PRIMARY KEY (`Ticket_ID`),
   KEY `fk_TICKETS_CUSTOMERS1_idx` (`Customer_ID`),
   CONSTRAINT `fk_TICKETS_CUSTOMERS1` FOREIGN KEY (`Customer_ID`) REFERENCES `CUSTOMERS` (`Customer_ID`) ON DELETE SET NULL ON UPDATE CASCADE
-) ENGINE=InnoDB AUTO_INCREMENT=11 DEFAULT CHARSET=utf8mb3;
+) ENGINE=InnoDB AUTO_INCREMENT=19 DEFAULT CHARSET=utf8mb3;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -695,7 +695,7 @@ CREATE TABLE `TICKETS` (
 
 LOCK TABLES `TICKETS` WRITE;
 /*!40000 ALTER TABLE `TICKETS` DISABLE KEYS */;
-INSERT INTO `TICKETS` (`Ticket_ID`, `Date_Issued`, `Customer_ID`, `Adult_Count`, `Child_Count`, `Elder_Count`) VALUES (1,'2024-03-23',2,0,0,0),(2,'2024-04-23',2,0,0,0),(3,'2024-04-23',2,0,0,0),(4,'2024-04-13',9,0,0,0),(5,'2024-04-13',9,0,0,0),(6,'2024-04-13',9,0,0,0),(7,'2024-04-13',9,0,0,0),(8,'2024-04-13',9,0,0,0),(9,'2024-04-13',9,0,0,0),(10,'2024-04-13',9,0,0,0);
+INSERT INTO `TICKETS` (`Ticket_ID`, `Date_Issued`, `Customer_ID`, `Adult_Count`, `Child_Count`, `Elder_Count`) VALUES (1,'2024-03-23',2,0,0,0),(2,'2024-04-23',2,0,0,0),(3,'2024-04-23',2,0,0,0),(4,'2024-04-13',9,0,0,0),(5,'2024-04-13',9,0,0,0),(6,'2024-04-13',9,0,0,0),(7,'2024-04-13',9,0,0,0),(8,'2024-04-13',9,0,0,0),(9,'2024-04-13',9,0,0,0),(10,'2024-04-13',9,0,0,0),(11,'2024-04-17',9,2,3,2),(12,'2024-04-17',9,3,0,2),(13,'2024-04-17',9,3,0,2),(14,'2024-04-17',9,3,0,3),(15,'2024-04-17',9,2,2,2),(16,'2024-04-17',9,2,3,2),(17,'2024-04-17',9,2,0,2),(18,'2024-04-17',9,2,2,2);
 /*!40000 ALTER TABLE `TICKETS` ENABLE KEYS */;
 UNLOCK TABLES;
 
@@ -708,8 +708,8 @@ DROP TABLE IF EXISTS `TICKET_MONTHLY_REVENUE`;
 SET @saved_cs_client     = @@character_set_client;
 /*!50503 SET character_set_client = utf8mb4 */;
 /*!50001 CREATE VIEW `TICKET_MONTHLY_REVENUE` AS SELECT 
- 1 AS `month`,
- 1 AS `revenue`*/;
+ 1 AS `Date`,
+ 1 AS `Revenue`*/;
 SET character_set_client = @saved_cs_client;
 
 --
@@ -798,7 +798,7 @@ UNLOCK TABLES;
 /*!50001 SET collation_connection      = utf8mb4_0900_ai_ci */;
 /*!50001 CREATE ALGORITHM=UNDEFINED */
 /*!50013 DEFINER=`root`@`localhost` SQL SECURITY DEFINER */
-/*!50001 VIEW `SHOP_REVENUE` AS select date_format(`PURCHASES`.`Date`,'%Y-%m-%d') AS `date`,sum((`ITEMS`.`Price` * `PURCHASES`.`Quantity`)) AS `revenue` from (((`PURCHASES` join `SHOPS` on((`SHOPS`.`Shop_ID` = `PURCHASES`.`Shop_ID`))) join `CUSTOMERS` on((`CUSTOMERS`.`Customer_ID` = `PURCHASES`.`Customer_ID`))) join `ITEMS` on((`ITEMS`.`Item_ID` = `PURCHASES`.`Item_ID`))) group by `PURCHASES`.`Date` order by `date` */;
+/*!50001 VIEW `SHOP_REVENUE` AS select date_format(`PURCHASES`.`Date`,'%Y-%m-%d') AS `Date`,sum((`ITEMS`.`Price` * `PURCHASES`.`Quantity`)) AS `Revenue` from (((`PURCHASES` join `SHOPS` on((`SHOPS`.`Shop_ID` = `PURCHASES`.`Shop_ID`))) join `CUSTOMERS` on((`CUSTOMERS`.`Customer_ID` = `PURCHASES`.`Customer_ID`))) join `ITEMS` on((`ITEMS`.`Item_ID` = `PURCHASES`.`Item_ID`))) group by `PURCHASES`.`Date` order by `Date` */;
 /*!50001 SET character_set_client      = @saved_cs_client */;
 /*!50001 SET character_set_results     = @saved_cs_results */;
 /*!50001 SET collation_connection      = @saved_col_connection */;
@@ -816,7 +816,7 @@ UNLOCK TABLES;
 /*!50001 SET collation_connection      = utf8mb4_0900_ai_ci */;
 /*!50001 CREATE ALGORITHM=UNDEFINED */
 /*!50013 DEFINER=`root`@`localhost` SQL SECURITY DEFINER */
-/*!50001 VIEW `TICKET_MONTHLY_REVENUE` AS select date_format(`TICKETS`.`Date_Issued`,'%Y-%m') AS `month`,sum(`TICKETS`.`Price`) AS `revenue` from `TICKETS` group by `month` order by `month` */;
+/*!50001 VIEW `TICKET_MONTHLY_REVENUE` AS select date_format(`TICKETS`.`Date_Issued`,'%Y-%m') AS `Date`,sum(`TICKETS`.`Price`) AS `Revenue` from `TICKETS` group by `Date` order by `Date` */;
 /*!50001 SET character_set_client      = @saved_cs_client */;
 /*!50001 SET character_set_results     = @saved_cs_results */;
 /*!50001 SET collation_connection      = @saved_col_connection */;
@@ -830,4 +830,4 @@ UNLOCK TABLES;
 /*!40101 SET COLLATION_CONNECTION=@OLD_COLLATION_CONNECTION */;
 /*!40111 SET SQL_NOTES=@OLD_SQL_NOTES */;
 
--- Dump completed on 2024-04-17 17:38:09
+-- Dump completed on 2024-04-17 22:35:01
