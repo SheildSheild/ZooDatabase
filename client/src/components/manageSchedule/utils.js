@@ -11,7 +11,7 @@ function getForeignKey(ID){
 
 function convertEventForCalendar(event,ID,i,foreignKey){
   return {
-    title:event.Description,
+    title:event.Description+' ID: '+event[foreignKey],
     id:event[ID],
     foreignKey:event[foreignKey],
     from:dayjs(event.Start_Time).toDate(),
@@ -21,18 +21,20 @@ function convertEventForCalendar(event,ID,i,foreignKey){
 }
 
 function convertEventForDataEntry(event,ID,foreignKey,foreignName,map){
+  let idIdx=event.title.indexOf(' ID:');
+  if(idIdx<0)
+    idIdx=undefined;
   return {
     [ID]:event.id,
     [foreignName]:map[foreignKey].IDToName[event.foreignKey],
     Start_Time:toDBTime(event.from),
     End_Time:toDBTime(event.to),
-    Description:event.title||'empty'
+    Description:event.title.substring(0,idIdx)||'empty'
   };
 }
 
 function convertEventForDB(event,ID,foreignKey,foreignName,map){
   return {
-
     [ID]:event[ID],
     [foreignKey]:map[foreignKey].NameToID[event[foreignName]],
     Start_Time:event.Start_Time,
