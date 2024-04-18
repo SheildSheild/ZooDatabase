@@ -62,7 +62,7 @@ function Report({route,title}){
              data: filteredData.map(item => item.Revenue),
              fill: false,
              backgroundColor: 'rgb(75, 192, 192)',
-             borderColor: 'rgba(75, 192, 192, 0.2)',
+             borderColor: 'rgb(75, 192, 192)',
            },
          ]});
      }
@@ -109,8 +109,6 @@ function Report({route,title}){
     <button  onClick={()=>downloadPDFGraph(graphRef)}>Save Graph</button>
     {reportTable}
     <button  onClick={()=>downloadPDFTable(tableRef)}>Save Table</button>
-
-
   </center>;
   };
 
