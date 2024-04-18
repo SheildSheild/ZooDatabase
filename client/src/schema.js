@@ -21,6 +21,7 @@ const schema={
     Password: {type:"text",text:"Employee Password"}
   },
   Animal_Health:{
+    Animal_ID: {type:"number", text:"Animal ID"},
     Primary_Doctor_ID: {type:"number",text:"Primary Doctor:"},
     Date_Of_Examination: {type:"date",text:"Date of Examination:"},
     Description: {type:"text",text:"Description:"},

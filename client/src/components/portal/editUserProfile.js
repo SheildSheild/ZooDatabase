@@ -22,7 +22,7 @@ function UserProfileForm({ userData, onSuccess, onError, onCancel }) {
       .then(response => {
         if (response && response.message && response.message.includes('successfully')) {
           onSuccess('Profile updated successfully!');
-          navigate('/portal'); // Redirect on successful update, if desired
+          navigate('/portal'); // Redirect on successful update
         } else {
           setErrorMessage(`Failed to update profile: ${response.message}`);
           if (onError) onError(`Failed to update profile: ${response.message}`);

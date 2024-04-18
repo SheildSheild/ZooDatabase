@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from 'react';
 import { getData } from '../../communication';
-import UserProfileForm from '../portal/editUserProfile.js'; // Make sure the path is correct
+import UserProfileForm from '../portal/editUserProfile.js';
 import user from './user.png';
 
 const getID = () => localStorage.getItem('userId');
