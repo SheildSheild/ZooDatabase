@@ -1,3 +1,5 @@
+import { Description } from "@mui/icons-material";
+
 const schema={
   Animals:{
     Name: {type:"text",text:"Animal Name:"},
@@ -33,7 +35,8 @@ const schema={
   },
   Habitats:{
     Zone_ID: {type:"number",text:"Zone ID:"},
-    Status: {type:"text",text:"Status:"},
+    Name:{type:"text", text:"Name"},
+    Status: {type:"enum",text:"Select Status:", enum:['Open','Close']},
     Date_Opened: {type:"date",text:"Date Opened:"},
     Capacity: {type:"number",text:"Capacity:"},
   },
@@ -120,8 +123,13 @@ const schema={
     Adult_Count: {type:"number",text:"Adult Count:"},
     Child_Count: {type:"number",text:"Child Count:"},
     Admission_Date: {type:"datetime-local",text:"Admission Date:"}
+  },
+  Alerts:{
+    Alert_ID: {type:"number",text:"Alert ID:"},
+    Description: {type: "text", text:"Description"},
+    Date_Created: {type: "date", text:"Date Created"},
+    Status: {type:"enum",text:"Status", enum:['Active','Resolved']},
   }
-
 }
 
 export default schema;

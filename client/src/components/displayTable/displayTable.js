@@ -7,7 +7,7 @@ import { convertDataForDB,convertDataForDisplay,IDToName,renderCell,handleDialog
 import schema from '../../schema';
 
 let i=0;
-function DisplayTable({route, hasDataEntry, defaultValues={}, columnFilter=()=>true, preloadedData, removeHeader}){
+function DisplayTable({route, hasDataEntry, defaultValues={}, columnFilter=()=>true, preloadedData, removeHeader, pdf}){
   const [data, setData] = useState([]);
   const [dataColumns,setDataColumns] = useState([]);
   const [foreignKeyMap,setForeignKeyMap] =useState({});
@@ -85,7 +85,7 @@ function DisplayTable({route, hasDataEntry, defaultValues={}, columnFilter=()=>t
     <center>
       {(dataColumns.length>0)&&<section>
         <TableContainer component={Paper} sx={{ maxHeight: '60vh', overflowY: 'auto', bgcolor: '#fffafa' }} elevation={2}>
-          <Table stickyHeader sx={{marginTop: "0px"}}>
+          <Table  ref = {pdf} stickyHeader sx={{marginTop: "0px"}}>
             <TableHead sx={{ bgcolor: '#fffafa' }}><TableRow>{
               dataColumns.map(prop=><TableCell sx={{ bgcolor: '#fffafa' }} key={prop}>{prop+' '}</TableCell>)
             }

@@ -108,8 +108,8 @@ function PayStub() {
     </form>
         <div>
         {isFormSubmitted && filteredData.length !== 0 && <>
-            <div ref={pdfRef}>
-                <DisplayTable preloadedData={filteredData} route='/employees' removeHeader/>
+            <div >
+                <DisplayTable preloadedData={filteredData} route='/employees' removeHeader pdf ={pdfRef}/>
             </div>
             <button onClick={downloadPdf}>Download PDF</button>
         </>}

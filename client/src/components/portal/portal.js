@@ -29,7 +29,7 @@ function Portal() {
 
   const NotificationBell=()=><button onClick={() => {
     if(!showNotifications)
-      setMainComponent(<DisplayTable route='\alerts'/>,true);
+      setMainComponent(<DisplayTable route='\alerts' hasDataEntry/>);
     else  
       setMainComponent(<PortalHome />,false);
     reRender();

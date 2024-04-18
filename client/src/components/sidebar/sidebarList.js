@@ -80,6 +80,9 @@ const managerLinks = [
   { group: 'Locations', text: 'Edit Restaurants', onClick: (userData,setMainComponent)=>{
     setMainComponent(<DisplayTable route='\restaurants' hasDataEntry/>)
   } },
+  { group: 'Locations', text: 'Edit Habitats', onClick: (userData,setMainComponent)=>{
+    setMainComponent(<DisplayTable route='\habitats' hasDataEntry/>)
+  } },
   { group: 'Locations', text: 'Edit Shops', onClick: (userData,setMainComponent)=>{
     setMainComponent(<DisplayTable route='\shops' hasDataEntry/>)
   } },
