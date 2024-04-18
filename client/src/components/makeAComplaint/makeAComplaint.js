@@ -5,12 +5,23 @@ import Navbar from '../navBar/navBar';
 
 export default function MakeAComplaint() {
     const [errorMessage, setErrorMessage] = useState(null);
+    const [successMessage, setSuccessMessage] = useState('');
+
+    const handleMessagesTimeout = () => {
+        setTimeout(() => {
+            setErrorMessage('');
+            setSuccessMessage('');
+        }, 4000);
+    };
+
     const token = localStorage.getItem('token');
     const getID=()=>localStorage.getItem('userId'); 
+
     const isLoggedIn = token != null;
     let links = [["homepage", "Home"], ["customerSignUp", "Login"], ["animalPage", "Our Animals"], ["aboutUsPage", "About Us"], ["makeAComplaint", "Any Complaints?"], ["lostAndFoundReport", "Lost somthing?"]];
     if (isLoggedIn) 
         links = [["homepage", "Home"], ["animalPage", "Our Animals"],["portal", "User Portal"],["aboutUsPage", "About Us"], ["makeAComplaint", "Any Complaints?"], ["lostAndFoundReport", "Lost somthing?"]];
+
     const handleSubmit = (ev) => {
         ev.preventDefault();
         const form = ev.target;
@@ -28,11 +39,16 @@ export default function MakeAComplaint() {
             else {
                 console.log('Successfully added complaint');
                 console.log(val);
+                setErrorMessage(null);
+                setSuccessMessage('Complaint added!');
                 form.reset();
             }
         }).catch((error) => {
             setErrorMessage('An error occurred during submission. Please try again.'); // Set error message in case of promise rejection
             console.log('hello');
+        })
+        .finally(() => {
+            handleMessagesTimeout();
         });
         
     }
@@ -52,6 +68,7 @@ export default function MakeAComplaint() {
                 <br/>
                 <button type='submit'><b>Submit</b></button>
                 {errorMessage && <p className="error-message">{errorMessage}</p>}
+                {successMessage && <p className="success-message">{successMessage}</p>}
             </form>
         </div>
         </center>

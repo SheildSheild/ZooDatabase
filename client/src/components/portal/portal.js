@@ -13,14 +13,18 @@ const getID=()=>localStorage.getItem('userId');
 
 function Portal() {
   const userData = useRef(null);
-  const [mainComponent,setComponent]=useState(<></>)
+  const [mainComponent,setMainComponent]=useState(<></>)
   const [showNotifications, setShowNotifications] = useState(false);
+  const [bellCount,setBellCount]=useState('')
   const [renderCnt,render]=useState(1);
   const reRender=()=>render(renderCnt+1);
-  const setMainComponent=(component,notif)=>{
-    setComponent(component);
-    setShowNotifications(notif);
-  };
+ 
+
+  useEffect(()=>{
+    if(getRole() === 'Manager')
+    getData('/alert_active_count').then(data => setBellCount(data))
+  },[])
+
   const navigate=useNavigate();
 
   const PortalHome=()=><>
@@ -29,12 +33,12 @@ function Portal() {
 
   const NotificationBell=()=><button onClick={() => {
     if(!showNotifications)
-      setMainComponent(<DisplayTable route='\alerts'/>,true);
+      setMainComponent(<DisplayTable route='\alerts' hasDataEntry/>);
     else  
       setMainComponent(<PortalHome />,false);
     reRender();
   }} className='notification'>
-     🔔 
+     🔔 {bellCount[0].Count}
   </button>;
 
   useEffect(() => {

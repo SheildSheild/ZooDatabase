@@ -1,4 +1,4 @@
-import { postData } from '../../communication';
+import { postData, getData } from '../../communication';
 import './ticketsPage.css';
 import React, { useState, useEffect } from 'react';
 
@@ -9,6 +9,25 @@ export default function TicketsPage(){
     const [formVisible, setFormVisible] = useState(false);
     const [errorMessage,setErrorMessage]=useState('');
     const [successMessage, setSuccessMessage] = useState('');
+    const [closedHabitats, setClosedHabitats] = useState([]);
+
+    useEffect(() => {
+        getData('/habitats?status=Close')
+            .then(data => {
+                console.log('Habitats data:', data);
+                if (data && data.length > 0) {
+                    const closedHabitatNames = data.map(habitat => habitat.Name);
+                    setClosedHabitats(closedHabitatNames);
+                    console.log('Closed habitats:', closedHabitatNames);
+                } else {
+                    console.log('No closed habitats found or empty data returned');
+                }
+            })
+            .catch(error => {
+                console.error('Error fetching closed habitats:', error);
+            });
+    }, []);
+    
 
     const handleClick = () => {
         setFormVisible(!formVisible);
@@ -20,6 +39,17 @@ export default function TicketsPage(){
             setSuccessMessage('');
         }, 4000);
     };
+    const formatDate = (date) => {
+        const year = date.getFullYear();
+        let month = date.getMonth() + 1;
+        let day = date.getDate();
+    
+        // Pad month and day with leading zeros if needed
+        month = month < 10 ? '0' + month : month;
+        day = day < 10 ? '0' + day : day;
+    
+        return `${year}-${month}-${day}`;
+    };
 
     const HandleSubmit = (ev) => {
         ev.preventDefault();
@@ -29,10 +59,11 @@ export default function TicketsPage(){
         data['Adult_Count'] = form['Adult_Count'].value;
         data['Child_Count'] = form['Child_Count'].value;
         data['Customer_ID'] = getID();
-        data['Date_Issued'] = new Date().toISOString().slice(0, 19).replace('T', ' ');
+        data['Date_Issued'] = formatDate(new Date()); // Format current date
         data['Admission_Date'] = form['Admission_Date'].value;
-        const admissionDate = new Date(data['Admission_Date']);
-        const currentDate = new Date();
+        const admissionDate = data['Admission_Date'];
+        const currentDate = data['Date_Issued'];
+        
         if (admissionDate < currentDate) {
             setErrorMessage('The "Admission Date" must be later than or equal the "Date Issued".');
             return;
@@ -130,6 +161,12 @@ export default function TicketsPage(){
                     </form>
                 )}
                 <p><b>All purchases are non-refundable!</b></p>
+                <br />
+                {closedHabitats.length > 0 && (
+                    <div>
+                        <strong>Disclaimer:</strong> The following habitats are currently closed: {closedHabitats.join(', ')}
+                    </div>
+                )}
             </div>
         </div>
     </>);
