@@ -12,10 +12,10 @@ export default function TicketsPage(){
     const [closedHabitats, setClosedHabitats] = useState([]);
 
     useEffect(() => {
-        getData('/habitats?status=Close')  // Ensure the status matches your database exactly.
+        getData('/habitats?status=Close')
             .then(data => {
-                console.log('Habitats data:', data);  // Log to see what is actually returned
-                if (data && data.length >= 0) {
+                console.log('Habitats data:', data);
+                if (data && data.length > 0) {
                     const closedHabitatNames = data.map(habitat => habitat.Name);
                     setClosedHabitats(closedHabitatNames);
                     console.log('Closed habitats:', closedHabitatNames);
