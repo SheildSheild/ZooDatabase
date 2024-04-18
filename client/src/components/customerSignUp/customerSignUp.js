@@ -10,6 +10,16 @@ import danceDuck from '../imageFiles/duckdance.gif';
 import arrowSignIn from '../imageFiles/arrow2.png';
 import arrowLogin from '../imageFiles/arrow3.png';
 
+const navigateToPortal=(response,navigate)=>{
+    localStorage.setItem('token',response.token);
+    localStorage.setItem('role', response.user.Role);
+    localStorage.setItem('userId',response.userId);
+    localStorage.setItem('expirationDate',dayjs().add(1,'hour').format());
+    console.log('stored token and role',response);
+    navigate('/portal'); // Redirect only on successful login
+};
+
+
 function ToggleForm() {
     const [isLogin, setIsLogin] = useState(true);
     const [userType, setUserType] = useState(null); // null initially, 'customers' or 'employees'
@@ -66,14 +76,8 @@ function LoginForm({link}) {
         getData(`/login_${link}?Email=${email}&Password=${password}`)
         .then((response) => {
             console.log('stored token and role',response);
-            if (response&&response.user&&response.token&&response.userId) {
-                localStorage.setItem('token',response.token);
-                localStorage.setItem('role', response.user.Role);
-                localStorage.setItem('userId',response.userId);
-                localStorage.setItem('expirationDate',dayjs().add(1,'hour').format());
-                console.log('stored token and role',response);
-                navigate('/portal'); // Redirect only on successful login
-            } 
+            if (response&&response.user&&response.token&&response.userId) 
+                navigateToPortal(response,navigate);
             else 
                 setErrorMessage('Incorrect email or password. Please try again.');
         })
@@ -129,7 +133,7 @@ function SignUpForm() {
         })
         .then((data) => {
             if (data&&data.message&&data.message?.endsWith('successfully')) 
-                navigate('/homepage'); // Redirect on success
+                navigate('/');
             else 
                 setErrorMessage('Failed to register. Please try again.');
         })

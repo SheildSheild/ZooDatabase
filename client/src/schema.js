@@ -45,7 +45,6 @@ const schema={
     Address: {type:"text",text:"Address:"},
     Phone: {type:"text",text:"Phone:"},
     Email: {type:"text",text:"Email:"},
-    user_id: {type:"number",text:"User ID:"},
   },
   Attends_To: {
     Employee_ID: {type:"number",text:"Employee ID:"},
