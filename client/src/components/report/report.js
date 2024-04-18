@@ -26,6 +26,7 @@ function Report({route,title}){
   const [toDate, setToDate] = useState('');
   const [isFormSubmitted, setIsFormSubmitted] = useState(false);
   const [graph, setGraph] = useState('');
+  const [stats,setStats]=useState(0);
   const graphRef = useRef();
   const tableRef = useRef();
 
@@ -48,10 +49,13 @@ function Report({route,title}){
     if (toDateObj <= fromDateObj) 
       return setErrorMessage('The "To Date" must be later than the "From Date".');
     
+    let sum=0;
     const filteredData = reportData[0] && reportData.filter(item => {
+      sum+=item.Revenue;
       const itemDate = new Date(item.Date);
       return itemDate >= fromDateObj && itemDate <= toDateObj;
     });
+    setStats(sum);
     if(filteredData){
       setReportTable(<DisplayTable preloadedData={filteredData} route={route} removeHeader pdf={tableRef}/>)
       setGraph({
@@ -89,6 +93,7 @@ function Report({route,title}){
       y: {beginAtZero: true}
     }
   };
+  const statistics=stats?<h2>{`Total Revenue: $${parseInt(stats)}.00`}<br/><br/></h2>:<></>;
   return <center>
     {errorMessage && <h3>{errorMessage}</h3>}
     <form onSubmit={handleSubmit}>
@@ -108,6 +113,7 @@ function Report({route,title}){
     </div>
     <button  onClick={()=>downloadPDFGraph(graphRef)}>Save Graph</button>
     {reportTable}
+    {statistics}
     <button  onClick={()=>downloadPDFTable(tableRef)}>Save Table</button>
   </center>;
   };
