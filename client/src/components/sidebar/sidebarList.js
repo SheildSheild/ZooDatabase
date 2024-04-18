@@ -107,8 +107,14 @@ const managerLinks = [
   { group: 'Reports', text: 'View Shop Revenue Report', onClick: (userData,setMainComponent)=>{
     setMainComponent(<Report route='/shop_revenue' title='Report Revenue From Shop'/>)
   } },
-  { group: 'Reports', text: 'View Monthly Ticket Revenue Report', onClick: (userData,setMainComponent)=>{
+  { group: 'Reports', text: 'View Ticket Revenue Report', onClick: (userData,setMainComponent)=>{
     setMainComponent(<Report route='/ticket_revenue' title='Report Revenue From Tickets'/>)
+  } },
+  { group: 'Reports', text: 'View Zoo Visit Report', onClick: (userData,setMainComponent)=>{
+    setMainComponent(<Report route='/visit_count' title='Report Number Of Visitor'/>)
+  } },
+  { group: 'Reports', text: 'View Profit Report', onClick: (userData,setMainComponent)=>{
+    setMainComponent(<Report route='/profit' title='Report Profit'/>)
   } },
 ];
 
