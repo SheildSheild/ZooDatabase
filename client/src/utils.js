@@ -151,18 +151,22 @@ function Modify(link,val,setDataEntry,reRender,table,idx,convertDataForDisplay=x
 
 function Delete(link,val,setDataEntry,reRender,table,idx) {
   const Name=parseName(link.substring(1));
-  deleteData(link,...getID(Name,val)).then(val=>{
-    if(!val||val.status){
-      setDataEntry(<>Failed to Delete! Error: {val.message}</>);
+  const ID=getID(Name,val);
+  const valName=val.Name?val.Name+' ':'';
+  if(window.confirm("Are you sure you want to delete "+ valName + "ID: " + ID[1] + " From: " + Name)){
+    deleteData(link,...ID).then(val=>{
+      if(!val||val.status){
+        setDataEntry(<>Failed to Delete! Error: {val.message}</>);
+        reRender();
+        return;
+      }
+      setDataEntry(<>Successfully Deleted</>);
+      table.splice(idx,1);
       reRender();
-      return;
-    }
-    setDataEntry(<>Successfully Deleted</>);
-    table.splice(idx,1);
+    });
+    setDataEntry(<>Deleting...</>);
     reRender();
-  });
-  setDataEntry(<>Deleting...</>);
-  reRender();
+  }
 }
 
 function Add(link,setDataEntry,reRender,table,convertDataForDisplay=x=>x,convertDataForDB=x=>x,map,defaultValues){

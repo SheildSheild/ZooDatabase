@@ -2,11 +2,11 @@
 rasjeN-hibdix-1puzka
 
   // access sql
-mysql -u root -p
+mysql -u root -prasjeN-hibdix-1puzka
 
   // dump sql
   // make sure you're in ZooDatabase
-mysqldump -u root -p Cougar_Zoo > Cougar_Zoo.sql
+mysqldump -u root -prasjeN-hibdix-1puzka Cougar_Zoo > Cougar_Zoo.sql
 
   // access process running api server
 screen -r myscreen -d

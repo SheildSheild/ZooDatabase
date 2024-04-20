@@ -86,7 +86,7 @@ label {
 }
 
 input[type="date"],
-select {
+select,input[type="text"],input[type="number"],input[type="datetime-local"],input[type="date"]{
   width: calc(100% - 16px); /* Subtract padding and border width */
   padding: 8px;
   border: 1px solid #ccc;

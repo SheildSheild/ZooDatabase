@@ -33,6 +33,8 @@ function PayStub() {
                 })
                 .catch(err => setErrorMessage(err.message));
         }
+        else
+            setId(localStorage.userId);
         getData(payStubRoute)
             .then(data => {
                 if(data.status)
@@ -56,12 +58,14 @@ function PayStub() {
         event.preventDefault();
         const startDate = new Date(fromDate);
         const endDate = new Date(toDate);
+        
         const result = data.filter(item =>{
             const date = new Date(item.Date);
             return (item.Employee_ID == id && date >= startDate && date <= endDate);
         });
         setFilteredData(result);
         setIsFormSubmitted(true);
+        console.log(result,data,id,startDate,endDate);
     };
     const handleReset = () => {
         setFromDate('');

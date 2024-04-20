@@ -51,8 +51,10 @@ function Report({route,title}){
     
     let sum=0;
     const filteredData = reportData[0] && reportData.filter(item => {
-      sum+=item.Revenue;
       const itemDate = new Date(item.Date);
+      if(itemDate >= fromDateObj && itemDate <= toDateObj){
+      sum+=item.Revenue;
+      }
       return itemDate >= fromDateObj && itemDate <= toDateObj;
     });
     setStats(sum);
@@ -93,7 +95,7 @@ function Report({route,title}){
       y: {beginAtZero: true}
     }
   };
-  const statistics=stats?<h2>{`Total Revenue: $${parseInt(stats)}.00`}<br/><br/></h2>:<></>;
+  const statistics=stats?<h2>{`Total : ${parseInt(stats)}.00`}<br/><br/></h2>:<></>;
   return <center>
     {errorMessage && <h3>{errorMessage}</h3>}
     <form onSubmit={handleSubmit}>

@@ -20,7 +20,8 @@ const schema={
     Birth_Date: {type:"date",text:"Employee Birth Date:"},
     SSN: {type:"number",text:"Employee SSN:"},
     Gender: {type:"enum", text:"Select Gender:", enum:['Male','Female','Other']},
-    Password: {type:"text",text:"Employee Password"}
+    Password: {type:"text",text:"Employee Password"},
+    Hour_Rate: {type:"number",text:"Hour Rate"}
   },
   Animal_Health:{
     Animal_ID: {type:"number", text:"Animal ID"},
@@ -60,6 +61,7 @@ const schema={
     Customer_ID: {type: "number", text:"Customer ID:"},
     Description: {type: "text",text:"Description:"},
     Status: {type: "text",text:"Status:"},
+
   },
   Restaurants:{
     Zone_ID: {type: "number", text:"Zone ID:"},
