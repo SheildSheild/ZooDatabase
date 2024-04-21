@@ -13,7 +13,7 @@ function PayStub() {
     const [empData, setEmpData] = useState('')
     const [id,setId]=useState('')
     const [toDate, setToDate] = useState('');
-    const [data,setData] = useState('');
+    const [data,setData] = useState([]);
     const [isFormSubmitted, setIsFormSubmitted] = useState(false);
     const [filteredData, setFilteredData] = useState([]);
 
