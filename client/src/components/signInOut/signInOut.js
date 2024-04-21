@@ -7,7 +7,16 @@ function SignInOut() {
   const [times, setTimes] = useState([]);
   const [date, setDate] = useState(new Date().toISOString().substr(0, 10));
   const [errorMessage, setErrorMessage] = useState('');
+  const [successMessage, setSuccessMessage] = useState('');
   const emp_id = localStorage.userId;
+
+  const handleMessagesTimeout = () => {
+    setTimeout(() => {
+        setErrorMessage('');
+        setSuccessMessage('');
+    }, 4000);
+  };
+
   useEffect(() => {
     const timesArray = [];
     for (let index = 0; index < (24 - 7) * 2; index++) {
@@ -28,10 +37,25 @@ function SignInOut() {
         End_Time: date+" "+signOutTime,
     };
 
-    postData('/timesheets',data)
-        .catch(err=>setErrorMessage('Error: '+err))
-    }
-  
+    postData('/timesheets',data).then(val=>{
+      if (val['message'] === 'Error adding Timesheets') {
+        console.error('Unable to add timesheet');
+        setErrorMessage('Unable to add timesheet');
+      }
+      else {
+        console.log('Successfully added timesheet');
+        console.log(val);
+        setErrorMessage(null);
+        setSuccessMessage('Timesheet added!');
+      }
+    }).catch((error) => {
+      setErrorMessage('An error occurred during submission. Please try again.'); // Set error message in case of promise rejection
+    })
+    .finally(() => {
+      handleMessagesTimeout();
+    });
+  }
+
   return (
     <div>
       <h1>Sign In / Out Page</h1>
@@ -65,9 +89,11 @@ function SignInOut() {
         </label>
         <button type="submit" onClick={handleSubmit}>Submit</button>
         {errorMessage && <p>{errorMessage}</p>}
+        {successMessage && <p className="success-message">{successMessage}</p>}
       </form>
     </div>
   );
+
 }
 
 export default SignInOut;

@@ -45,7 +45,6 @@ export default function MakeAComplaint() {
             }
         }).catch((error) => {
             setErrorMessage('An error occurred during submission. Please try again.'); // Set error message in case of promise rejection
-            console.log('hello');
         })
         .finally(() => {
             handleMessagesTimeout();
